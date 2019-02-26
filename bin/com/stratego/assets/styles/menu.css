@@ -1,0 +1,27 @@
+/* Start button */
+ #startButton {
+ 	-fx-background-color: #edb870;
+ }
+ 
+ #startButton:hover {
+ 	-fx-background-color: #f2c587;
+ }
+ 
+ /* Load button */
+ #loadButton {
+ 	-fx-background-color: #e86638;
+ }
+ 
+  #loadButton:hover {
+ 	-fx-background-color: #e87c55;
+ }
+ 
+ /* Leave button */
+ #leaveButton {
+ 	-fx-background-color: #0979ff;
+ }
+ 
+  #leaveButton:hover {
+ 	-fx-background-color: #2386fc;
+ }
+ 
