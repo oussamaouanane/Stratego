@@ -1,8 +1,6 @@
 package com.stratego.view;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.net.URL;
 
 import javafx.application.Application;
 import javafx.application.Platform;
