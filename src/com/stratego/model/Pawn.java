@@ -13,23 +13,13 @@ public abstract class Pawn {
 	private String [] arrayRanks = {"Spy", "Scouts", "Miners", "Sergents", "Lieutenants", "Captains", "Commanders", "Colonels", "General", "Mareshal"};
 
 
-
-/*
-* @param id Unique ID given to a Pawn
-* @param rank Rank of the Pawn, goes from 0 to 11 and can be translated into String with arrayRanks[rank]
-* @param player Pawn's owner - 1 for Player I or 2 for Player II
-* @param state Define if the Pawn is known or not by the opponent
-* @param visible Define if Pawn is visible or not by the opponent
-*/
-
 	public Pawn(byte id, byte rank, byte player) {
     /*
-    * Default constructor that takes three parameters -- and sets the id, rank, player of the Pawn.
-    * @param id Unique ID given to a Pawn
-    * @param rank Rank of the Pawn, goes from 0 to 11 and can be translated into String with arrayRanks[rank]
-    * @param player Pawn's owner - 1 for Player I or 2 for Player II.
+    * Default constructor that takes three parameters -- and sets the id, rank, player of the Pawn object.
+    * @param id Unique ID given to the Pawn object.
+    * @param rank Rank of the Pawn object, goes from 0 to 11 (and can be translated into String with arrayRanks[rank]).
+    * @param player Pawn object's owner - 1 for Player I or 2 for Player II.
     */
-
     this.id = id;
     this.rank = rank;
     this.player = player;
@@ -38,21 +28,23 @@ public abstract class Pawn {
     this.state = false;
     this.visible = false;
 
-    // Change the range of the pawn for the: Bombs, Flag and the Scout.
+    // Change the range of the Pawn object for the: Bombs, Flag and the Scout.
     if (rank >= 10)
         this.rangeOfPawn = 0;
     else if(rank == 1)
         this.rangeOfPawn = 9;
-    //else rangeOfPawn will stay default, 1.
+    // else rangeOfPawn will stay default, 1.
 	}
 
-//Some accessors
+	// Some accessors
 	public byte getPlayer() {
 		return player;
+		// @return A byte that represents 1 for Player I or 2 for Player II
 	}
 
 	public byte getRangeOfPawn() {
 		return rangeOfPawn;
+		// @return A byte that represents 1, 2 or 9 (check constructor).
 	}
 
 	public byte getRank() {

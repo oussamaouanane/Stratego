@@ -44,11 +44,11 @@ public class MainMenu extends Application {
         logoView.setPreserveRatio(true);
         
         // Copyright label
-        Label copyright = new Label("Copyright // 2018-2019");
+        Label copyright = new Label("Computer Science Project // 2018-2019");
         copyright.setTextFill(Color.web("#DDDDDD"));
         copyright.setFont(new Font("Lucida Console", 12.0));
         
-        copyright.setTranslateX(642.0);
+        copyright.setTranslateX(602.0);
         copyright.setTranslateY(567.0);
         
         // NewGame button
@@ -61,6 +61,14 @@ public class MainMenu extends Application {
         start.setPrefWidth(189.0);
         
         start.setId("startButton");
+        
+        start.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+			}        	
+		});
         
         // LoadSave button
         Button save = new Button("Load a save!");
@@ -118,7 +126,6 @@ public class MainMenu extends Application {
         //Displaying
         primaryStage.show();
 	}
-	
 	
 	
 	public static void main(String[] args) {
