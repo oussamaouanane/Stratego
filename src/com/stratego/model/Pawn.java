@@ -1,8 +1,8 @@
 package com.stratego.model;
 
-/*
-* Pawn --- Class that defines methods and attributes for a Pawn Object - Will simplify the task in the code.
-* @author 
+/**
+ * Pawn --- Class that defines methods and attributes for a Pawn Object - Will help simplify the task in the code.
+ * @author 
 */
 
 public abstract class Pawn {
@@ -10,16 +10,17 @@ public abstract class Pawn {
 	private byte id, rank, player, rangeOfPawn = 1;
 	private boolean state;
 	private boolean visible;
-	private String [] arrayRanks = {"Spy", "Scouts", "Miners", "Sergents", "Lieutenants", "Captains", "Commanders", "Colonels", "General", "Mareshal"};
+	private String [] arrayRanks = {"Spy", "Scouts", "Miners", "Sergents", "Lieutenants", "Captains", "Commanders", "Colonels", "General", "Mareshal", "Bombs", "Flag"};
 
-
-	public Pawn(byte id, byte rank, byte player) {
-    /*
-    * Default constructor that takes three parameters -- and sets the id, rank, player of the Pawn object.
-    * @param id Unique ID given to the Pawn object.
-    * @param rank Rank of the Pawn object, goes from 0 to 11 (and can be translated into String with arrayRanks[rank]).
-    * @param player Pawn object's owner - 1 for Player I or 2 for Player II.
+    /**
+     * Default constructor that takes three parameters -- and sets the id, rank, player of the Pawn object.
+     * @param id Unique ID given to the Pawn object.
+     * @param rank Rank of the Pawn object, goes from 0 to 11 (and can be translated into String with arrayRanks[rank]).
+     * @param player Pawn object's owner - 1 for Player I or 2 for Player II.
     */
+	
+	public Pawn(byte id, byte rank, byte player) {
+
     this.id = id;
     this.rank = rank;
     this.player = player;
@@ -38,11 +39,13 @@ public abstract class Pawn {
 
 	// Some accessors
 	public byte getPlayer() {
+		
 		return player;
 		// @return A byte that represents 1 for Player I or 2 for Player II
 	}
 
 	public byte getRangeOfPawn() {
+		
 		return rangeOfPawn;
 		// @return A byte that represents 1, 2 or 9 (check constructor).
 	}

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>420</x>
+      <y>440</y>
+      <w>380</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes>Class: 
+Grid
+--
+
+-height: byte
+- - - - - - - - - - - - -  - - - - - -
+-width: byte
+- - - - - - - - - - - - -  - - - - - -
+-gridSize = 10: byte
+- - - - - - - - - - - - -  - - - - - -
+-grid: Square[][]
+
+--
+
+createGrid()
+- - - - - - - - - - - - -  - - - - - -
+clearGrid()
+- - - - - - - - - - - - -  - - - - - -
+getSquare(byte i, byte j)
+  ---- return Square[i][j]
+- - - - - - - - - - - - -  - - - - - -
+movePawnTo(Pawn pawn, byte i, byte j)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>420</x>
+      <y>20</y>
+      <w>380</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>Class:
+Square
+-
+
+-pawn: Pawn
+- - - - - - - - - - - - -  - - - - - -
+-access: boolean
+
+-
+
+getPawn()
+  ---- return pawn
+- - - - - - - - - - - - -  - - - - - -
+isAccessible()
+  ---- return access
+- - - - - - - - - - - - -  - - - - - -
+addPawnToSquare(Pawn x)
+  ---- pawn = x
+- - - - - - - - - - - - -  - - - - - -
+removePawnFromSquare()
+  ---- pawn = null
+- - - - - - - - - - - - -  - - - - - -
+setAccessible()
+- - - - - - - - - - - - -  - - - - - -
+highlightAccessible()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>20</y>
+      <w>380</w>
+      <h>550</h>
+    </coordinates>
+    <panel_attributes>Class: 
+Pawn
+--
+
+-id: byte
+- - - - - - - - - - - - -  - - - - - -
+-rank: byte
+- - - - - - - - - - - - -  - - - - - -
+-player: byte
+- - - - - - - - - - - - -  - - - - - -
+rangeOfPawn: byte
+  ---- 1 default, 9 for spies and 0 for flag, bombs
+- - - - - - - - - - - - -  - - - - - -
+-state: boolean
+- - - - - - - - - - - - -  - - - - - -
+-visible: boolean
+- - - - - - - - - - - - -  - - - - - -
+-arrayRanks: String[]
+
+--
+
+getPlayer()
+  ---- return player
+- - - - - - - - - - - - -  - - - - - -
+getRangeOfPawn()
+  ---- return rangeOfPawn
+- - - - - - - - - - - - -  - - - - - -
+getRank()
+  ---- return rank
+- - - - - - - - - - - - -  - - - - - -
+getRankName()
+  ---- return arrayRanks[rank]
+- - - - - - - - - - - - -  - - - - - -
+canMove()
+  ---- return boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>710</x>
+      <y>60</y>
+      <w>110</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;380.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>820</x>
+      <y>20</y>
+      <w>400</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>Class:
+State
+-
+
+-playerTurn: byte
+  ---- 1 or 2
+- - - - - - - - - - - - -  - - - - - -
+-playerWin: byte
+  ---- 1 or 2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>590</y>
+      <w>380</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>Class:
+PawnInteractions
+-
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

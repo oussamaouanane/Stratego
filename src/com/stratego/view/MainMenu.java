@@ -14,9 +14,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 
+
+
+/**
+ * MainMenu --- Main menu of the game, give access to:
+ * 	Start a new game
+ * 	Loading saves
+ * 	Leaving the app
+ * @author
+ */
 public class MainMenu extends Application {
 
 	
@@ -24,7 +34,7 @@ public class MainMenu extends Application {
 	public void start(Stage primaryStage) throws FileNotFoundException {
 
         // Background image -- Loading and Settings
-		Image background = new Image("/com/stratego/assets/maps/map_main.png");
+		Image background = new Image("/com/stratego/assets/styles/main.png");
         ImageView backgroundView = new ImageView(background);
 
         backgroundView.setX(-67.0);
@@ -44,7 +54,7 @@ public class MainMenu extends Application {
         logoView.setPreserveRatio(true);
         
         // Copyright label
-        Label copyright = new Label("Computer Science Project // 2018-2019");
+        Label copyright = new Label("Projet d'informatique // 2018-2019");
         copyright.setTextFill(Color.web("#DDDDDD"));
         copyright.setFont(new Font("Lucida Console", 12.0));
         
@@ -52,7 +62,7 @@ public class MainMenu extends Application {
         copyright.setTranslateY(567.0);
         
         // NewGame button
-        Button start = new Button("Start a new game!");
+        Button start = new Button("Lancer une nouvelle partie");
         
         start.setTextFill(Color.WHITE);
         start.setTranslateX(632.0);
@@ -66,12 +76,50 @@ public class MainMenu extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
+				Label choose = new Label("Qui veux-tu affronter?");
+		        choose.setTextFill(Color.web("#DDDDDD"));
+		        choose.setFont(new Font("Lucida Console", 14.0));
+		        choose.setTranslateX(130);
+		        choose.setTranslateY(20);
 				
+		        Button me = new Button("Moi");
+				Button he = new Button("Lui");
+				
+		        me.setPrefHeight(40.0);
+		        me.setPrefWidth(189.0);
+		        me.setId("startButton");
+		        me.setTranslateX(25);
+		        me.setTranslateY(50);
+		        
+		        he.setPrefHeight(40.0);
+		        he.setPrefWidth(189.0);
+		        he.setId("loadButton");
+		        he.setTranslateX(235);
+		        he.setTranslateY(50);
+				
+				Group second = new Group(me, he, choose);
+				// Scene
+				Scene secondScene = new Scene(second, 450, 100);
+				// Stage
+				Stage chooseOpponent = new Stage();
+				chooseOpponent.setScene(secondScene);
+				// Title
+				chooseOpponent.setTitle("Choisis ton adversaire!");
+				// Size
+				chooseOpponent.setX(primaryStage.getX() + (primaryStage.getX()/2));
+				chooseOpponent.setY(primaryStage.getY() + (primaryStage.getY()/2));
+				
+				chooseOpponent.initModality(Modality.WINDOW_MODAL);
+				chooseOpponent.initOwner(primaryStage);
+				chooseOpponent.show();
+				// Settings + importing CSS
+				secondScene.getStylesheets().add("/com/stratego/assets/styles/menu.css");
+				chooseOpponent.setResizable(false);
 			}        	
 		});
         
         // LoadSave button
-        Button save = new Button("Load a save!");
+        Button save = new Button("Charger une sauvegarde");
         
         save.setTextFill(Color.WHITE);
         save.setTranslateX(632.0);
@@ -95,7 +143,7 @@ public class MainMenu extends Application {
 		});
         
         // Leave button
-        Button leave = new Button("Leave the game!");
+        Button leave = new Button("Quitter le jeu");
         
         leave.setTextFill(Color.WHITE);
         leave.setTranslateX(632.0);
