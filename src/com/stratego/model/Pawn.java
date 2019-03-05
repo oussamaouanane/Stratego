@@ -5,7 +5,7 @@ package com.stratego.model;
  * @author 
 */
 
-public abstract class Pawn {
+public class Pawn {
 
 	private byte id, rank, player, rangeOfPawn = 1;
 	private boolean state;

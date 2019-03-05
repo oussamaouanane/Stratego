@@ -23,18 +23,15 @@ import com.stratego.model.Square;
 
 public class Grid {
 	
-	public byte height, width;
+	static final byte GRID_SIZE = 10;
 	
-	public byte gridSize = 10;
-	public Square[][] grid;
-	
+	private Square[][] grid = new Square[GRID_SIZE][GRID_SIZE];
 	public enum state {
 		
 		TURN_J1,
 		TURN_J2,
 		WIN_J1,
 		WIN_J2,
-		
 	}
 	
 	
@@ -58,13 +55,14 @@ public class Grid {
 	
 	// Default constructor - Create the grid.
 	public Grid() {
+		
 		createGrid();
 	}
 	
 	public void createGrid() {
 		
-		for(int i = 0; i < gridSize; i++) {
-			for(int j = 0; j < gridSize; j++) {
+		for(int i = 0; i < GRID_SIZE; i++) {
+			for(int j = 0; j < GRID_SIZE; j++) {
 				//Setting up the unaccessible zone
 				if (((i == 4 || i == 5) && j == 2) || ((i == 4 || i == 5) && j == 3) || ((i == 4 || i == 5) && j == 6) || ((i == 4 || i == 5) && j == 7)) {
 					grid[i][j] = new Square(null, false);
