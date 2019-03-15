@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>420</x>
-      <y>440</y>
+      <x>400</x>
+      <y>430</y>
       <w>380</w>
       <h>350</h>
     </coordinates>
@@ -37,8 +37,8 @@ movePawnTo(Pawn pawn, byte i, byte j)
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>420</x>
-      <y>20</y>
+      <x>400</x>
+      <y>10</y>
       <w>380</w>
       <h>400</h>
     </coordinates>
@@ -55,16 +55,16 @@ Square
 getPawn()
   ---- return pawn
 - - - - - - - - - - - - -  - - - - - -
-isAccessible()
+getAccess()
   ---- return access
 - - - - - - - - - - - - -  - - - - - -
-addPawnToSquare(Pawn x)
+setPawn(Pawn x)
   ---- pawn = x
 - - - - - - - - - - - - -  - - - - - -
-removePawnFromSquare()
+removePawn()
   ---- pawn = null
 - - - - - - - - - - - - -  - - - - - -
-setAccessible()
+setAccess(boolean bool)
 - - - - - - - - - - - - -  - - - - - -
 highlightAccessible()</panel_attributes>
     <additional_attributes/>
@@ -72,8 +72,8 @@ highlightAccessible()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>20</y>
+      <x>0</x>
+      <y>10</y>
       <w>380</w>
       <h>550</h>
     </coordinates>
@@ -118,8 +118,8 @@ canMove()
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>60</y>
+      <x>690</x>
+      <y>50</y>
       <w>110</w>
       <h>400</h>
     </coordinates>
@@ -129,8 +129,8 @@ canMove()
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>820</x>
-      <y>20</y>
+      <x>800</x>
+      <y>10</y>
       <w>400</w>
       <h>400</h>
     </coordinates>
@@ -148,8 +148,8 @@ State
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>590</y>
+      <x>0</x>
+      <y>580</y>
       <w>380</w>
       <h>360</h>
     </coordinates>
