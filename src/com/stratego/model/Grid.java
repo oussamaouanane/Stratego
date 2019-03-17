@@ -1,65 +1,61 @@
 package com.stratego.model;
-
 import com.stratego.model.Square;
 
 /**
- * Grid --- Class that defines a Grid object, it contains 100 Square object
+ * <h1>Grid</h1>
+ * 
+ * <p>
+ * Classe permettant de représenter une grille de 100 instances de Square. Elle
+ * possède plusieurs méthodes visant à déplacer les pions, sa représentation
+ * formelle est un tableau à 2 dimensions (matrice carré)
+ * </p>
+ * 
  * REPRESENTATION:
  * 
- * 9 - - - - - - - - - -
+ * 9 - - - - - - - - - - 
  * 8 - - - - - - - - - - 
  * 7 - - - - - - - - - - 
  * 6 - - - - - - - - - - 
- * 5 - - + + - - + + - -
+ * 5 - - + + - - + + - - 
  * 4 - - + + - - + + - - 
  * 3 - - - - - - - - - - 
  * 2 - - - - - - - - - - 
  * 1 - - - - - - - - - - 
  * 0 - - - - - - - - - -
- * 0 1 2 3 4 5 6 7 8 9
+ *   0 1 2 3 4 5 6 7 8 9
  * 
  * @author O.S
  */
 
 public class Grid {
 
-	private final byte GRID_SIZE = 10;
-
+	private final int GRID_SIZE = 10;
 	private Square[][] grid = new Square[GRID_SIZE][GRID_SIZE];
-	
 
 	/**
-	 * Initialize the grid and setting up the unaccessible zone 
-	 * 9 - - - - - - - - - -
-	 * 8 - - - - - - - - - - 
-	 * 7 - - - - - - - - - - 
-	 * 6 - - - - - - - - - - 
-	 * 5 - - + + - - + + - - 
-	 * 4 - - + + - - + + - - 
-	 * 3 - - - - - - - - - - 
-	 * 2 - - - - - - - - - -
-	 * 1 - - - - - - - - - - 
-	 * 0 - - - - - - - - - - 
-	 * 	 0 1 2 3 4 5 6 7 8 9
+	 * Constructeur par défaut permettant d'initialiser la grille avec 100 instances
+	 * de Square vierges et fait une restriction d'accès pour les cases représentant
+	 * le lac.
 	 * 
-	 * (4,2);(4,3);(4,6);(4,7) (5,2);(5,3);(5,6);(5,7)
-	 * 
-	 * Movements:
-	 * 
-	 * UP = j++ DOWN = j-- RIGHT = i++ LEFT = i--
+	 * @see Square
+	 * @see Grid#createGrid()
 	 */
 
-	// Default constructor - Create the grid.
 	public Grid() {
 
 		createGrid();
 	}
 
+	/**
+	 * Méthode permettant d'initialiser la grille avec 100 instances de Square
+	 * vierges et fait une restriction d'accès pour les cases représentant le lac.
+	 */
+
 	public void createGrid() {
 
-		for (byte i = 0; i < GRID_SIZE; i++) {
-			for (byte j = 0; j < GRID_SIZE; j++) {
-				// Setting up the unaccessible zone
+		for (int i = 0; i < GRID_SIZE; i++) {
+			for (int j = 0; j < GRID_SIZE; j++) {
+				// Restriction
 				if (((i == 4 || i == 5) && ((j >= 2 && j <= 3) || (j >= 6 && j <= 7)))) {
 					grid[i][j] = new Square(i, j, null, false);
 				} else {
@@ -69,20 +65,46 @@ public class Grid {
 		}
 	}
 
-	public void movePawn(Square initialDestination, Square finalDestination) {
-		
-		PawnInteractions couple = new PawnInteractions(initialDestination, finalDestination);
-		
-		if (finalDestination.getAccess())
-			finalDestination.setPawn(initialDestination.getPawn());
-		else if (finalDestination.getPawn() != null)
-			couple.doFighting();
+	/**
+	 * Méthode permettant de déplacer un pion d'une instance de Square départ à une
+	 * instance de Square final.
+	 *
+	 * @param initialDestination Instance de Square de départ
+	 * @param finalDestination   Instance de Square final
+	 * @see Square
+	 * @see Pawn
+	 */
 
-			
+	public void movePawn(Square initialDestination, Square finalDestination) {
+
+		PawnInteractions couple = new PawnInteractions(initialDestination, finalDestination);
+
+		if (couple.canMove())
+			if (finalDestination.getAccess())
+				finalDestination.setPawn(initialDestination.getPawn());
+			else if (finalDestination.getPawn() != null)
+				couple.doFighting();
+
 	}
 
-	public Square getSquare(byte i, byte j) {
+	/**
+	 * Méthode permettant de surligner toutes les possibilités de déplacement pour
+	 * un pion dans une instance Square donnée.
+	 * 
+	 * @param initialDestination Instance de Square de départ
+	 * @see Square
+	 * @see Pawn
+	 */
 
+	public void highlightAvailableMove(Square initialDestination) {
+
+	}
+
+	/**
+	 * Quelques accesseurs (getters) et mutateurs (setters)
+	 */
+
+	public Square getSquare(int i, int j) {
 		return grid[i][j];
 	}
 

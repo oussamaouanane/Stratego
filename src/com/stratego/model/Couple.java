@@ -1,39 +1,50 @@
 package com.stratego.model;
 
 /**
- * Couple - Class that represents a Couple object, contains two Pawns elements.
+ * <h1>Couple</h1>
  * 
+ * <p>
+ * Classe permettant en la representation d'un couple de deux objects de manière
+ * formelle. Il y a 2 constructeurs, un qui permet en la création d'un couple de
+ * Integer et un autre qui permet de créer un couple de Square
+ * </p>
+ * 
+ * @see Square
+ * @see Integer
  * @author O.S
  */
 public class Couple {
 
-	private Pawn pawnA;
-	private Pawn pawnB;
+	private int x;
+	private int y;
 
 	private Square squareA;
 	private Square squareB;
 
-	// Pawn constructor
-	public Couple(Pawn pawnA, Pawn pawnB) {
+	// Constructeur de couple d'Integer
+	public Couple(int i, int j) {
 
-		this.pawnA = pawnA;
-		this.pawnB = pawnB;
+		this.x = i;
+		this.y = j;
 	}
 
-	// Square constructor
+	// Constructeur de couple de Square
 	public Couple(Square squareA, Square squareB) {
 
 		this.squareA = squareA;
 		this.squareB = squareB;
 	}
 
-	// Getters
-	public Pawn getPawnA() {
-		return pawnA;
+	/**
+	 * Quelques accesseurs (getters) et mutateurs (setters)
+	 */
+
+	public int getX() {
+		return x;
 	}
 
-	public Pawn getPawnB() {
-		return pawnB;
+	public int getY() {
+		return y;
 	}
 
 	public Square getSquareA() {

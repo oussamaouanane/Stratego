@@ -1,79 +1,77 @@
 package com.stratego.model;
 
 /**
- * Square --- Class that defines a Square object, a Square object contains a
- * UNIQUE Pawn Object - Pawns can only move through Square objects. A Square
- * object is accessible only if no Pawn is contained in it. (empty, Pawn object
- * == null)
+ * <h1>Square</h1>
+ * 
+ * <p>
+ * Classe qui permettant de représenter un carré (une case), chaque carré a la
+ * possiblité de contenir un UNIQUE pion (instance de Pawn) - Les pions se
+ * déplacent UNIQUEMENT à travers les carrés. Un carré est accessible s'il n'est
+ * pas restreint (e.g lac). Son accessiblité est gérée à l'aide d'un attribut
+ * booléen nommé access.
+ * </p>
  * 
  * @author O.S
+ * @see Pawn
  */
 
 public class Square {
 
 	private Pawn pawn;
 	private boolean access;
-	private byte row;
-	private byte column;
+	private int row;
+	private int column;
 
 	/**
-	 * Default constructor
+	 * Constructeur par défaut,
 	 * 
 	 * @param pawn   A Pawn object.
 	 * @param access Says whenever the Square object is accessible
 	 * 
 	 *               pawn =/= null => access = false
 	 */
-	public Square(byte row, byte column, Pawn pawn, boolean access) {
+	public Square(int row, int column, Pawn pawn, boolean access) {
 
 		this.row = row;
 		this.column = column;
 		this.setPawn(pawn);
-		
+
 		if (pawn != null)
 			this.access = access;
 
 	}
 
 	/**
-	 * Couple of getters and setters.
+	 * Quelques accesseurs (getters) et mutateurs (setters)
 	 */
-	
-	// @return row The row of the Square object
-	public byte getRow() {
+
+	public int getRow() {
 		return row;
 	}
-	
-	// @return row The row of the Square object
-	public byte getColumn() {
+
+	public int getColumn() {
 		return column;
 	}
 
-	// @return pawn A Pawn Object.
 	public Pawn getPawn() {
 		return pawn;
 	}
 
-	// @return access A boolean that says whether the Square object is accessible or
-	// not.
 	public boolean getAccess() {
 		return access;
 	}
 
-	// Add a Pawn object in a Square object.
 	public void setPawn(Pawn pawn) {
-		if(this.pawn != null)
+		if (this.pawn != null)
 			removePawn();
 		this.pawn = pawn;
 		// access = false;
 	}
 
-	// Set the access of the Square object
 	public void setAccess(boolean access) {
 		this.access = access;
 	}
 
-	// Remove a Pawn object from a Square object.
 	public void removePawn() {
 		pawn = null;
 		access = true;

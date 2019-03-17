@@ -6,7 +6,7 @@ package com.stratego.model;
  */
 public class State {
 
-	private byte[] PAWNS_COMPOSITION = { 0, 2, 3, 4, 5 };
+	//private byte[] PAWNS_COMPOSITION = { 0, 2, 3, 4, 5 };
 
 	/**
 	 * pawnPlacement Place the pawns at the beginning of the game. Numbers of pawns
@@ -16,9 +16,9 @@ public class State {
 	 */
 
 	public void pawnPlacement() {
-		for (int i = 0; i <= 40; i++)
-			// TO-DO
-			break;
+		//for (int i = 0; i <= 40; i++)
+			// TODO
+		//	break;
 	}
 
 	/**
