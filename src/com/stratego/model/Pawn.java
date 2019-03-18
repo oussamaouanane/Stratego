@@ -1,12 +1,14 @@
 package com.stratego.model;
 
 /**
- * <h1>Pawn</h1> 
+ * <h1>Pawn</h1>
  * 
- * <p>Classe qui permet de définir un objet qui représente avec un
- * pion. Un pion possède plusieurs attributs qui permettent de le définir: - Un
- * ID unique 0 <= ID <= 80 - un rang <i>c.f arrayRanks</i> - un joueur - un
- * état, vivant ou mort - une visibilité - une portée.</p>
+ * <p>
+ * Classe qui permet de définir un objet qui représente avec un pion. Un pion
+ * possède plusieurs attributs qui permettent de le définir: - Un ID unique 0 <=
+ * ID <= 80 - un rang <i>c.f arrayRanks</i> - un joueur - un état, vivant ou
+ * mort - une visibilité - une portée.
+ * </p>
  * 
  * @author O.S
  */
@@ -20,7 +22,8 @@ public class Pawn {
 			"Colonels", "General", "Marshal", "Bombs", "Flag" };
 
 	/**
-	 * Constructeur par défaut qui définit un id, un rang et un joueur au pion
+	 * Constructeur par défaut permettant de définir une instance de Pawn qui est
+	 * composée d'un id, un rang et un joueur au pion
 	 * 
 	 * @param id     ID unique
 	 * @param rank   rang
@@ -47,7 +50,6 @@ public class Pawn {
 	/**
 	 * Quelques accesseurs (getters) et mutateurs (setters)
 	 */
-
 	public int getPlayer() {
 		return player;
 	}

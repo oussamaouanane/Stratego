@@ -115,7 +115,6 @@ public class PawnInteractions extends Couple {
 			return 1;
 		else
 			return 0;
-		
 	}
 
 	/**
@@ -125,7 +124,7 @@ public class PawnInteractions extends Couple {
 	 * @return Une ArrayList permettant de représenter si le pion peut aller (haut,
 	 *         droite, bas, gauche)
 	 */
-
+	
 	public ArrayList<Integer> availableMovement() {
 
 		Couple[] possibleMovements = { new Couple(0, 1), new Couple(1, 0), new Couple(0, -1), new Couple(-1, 0) };
@@ -133,9 +132,8 @@ public class PawnInteractions extends Couple {
 
 		for (Couple c : possibleMovements)
 			evaluation.add(isMovePossible(getSquareA().getRow(), getSquareA().getColumn(), c));
-
+		
 		return evaluation;
-
 	}
 
 	/**
@@ -160,7 +158,7 @@ public class PawnInteractions extends Couple {
 					range.set(i, range.get(i) + 1);
 			}
 		}
-
+		
 		return range;
 	}
 
@@ -179,11 +177,9 @@ public class PawnInteractions extends Couple {
 		int differenceColumn = getSquareB().getColumn() - getSquareA().getColumn();
 
 		// Gestion tentative diagonale et gestion portée (l'un implique l'autre)
-
 		if ((differenceRow == 0 && differenceColumn == 0) || (differenceRow > range) && (differenceColumn <= range))
 			return false;
 		else
 			return true;
-
 	}
 }

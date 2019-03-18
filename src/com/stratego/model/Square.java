@@ -23,28 +23,29 @@ public class Square {
 	private int column;
 
 	/**
-	 * Constructeur par défaut,
+	 * Constructeur par défaut permettant de définir une instance de Square qui est
+	 * composée d'une rangée, une colonne, une instance Pion (ou null), et un accès.
 	 * 
-	 * @param pawn   A Pawn object.
-	 * @param access Says whenever the Square object is accessible
+	 * @param row	 Rangée dans Grid
+	 * @param column Colonne dans Grid
+	 * @param pawn   Une instance de pions ou null.
+	 * @param access Accès
 	 * 
-	 *               pawn =/= null => access = false
+	 * @see Grid
+	 * @see Pawn
+	 * 
 	 */
 	public Square(int row, int column, Pawn pawn, boolean access) {
-
+		
 		this.row = row;
 		this.column = column;
 		this.setPawn(pawn);
-
-		if (pawn != null)
-			this.access = access;
-
+		this.access = access;
 	}
 
 	/**
 	 * Quelques accesseurs (getters) et mutateurs (setters)
 	 */
-
 	public int getRow() {
 		return row;
 	}
@@ -62,10 +63,7 @@ public class Square {
 	}
 
 	public void setPawn(Pawn pawn) {
-		if (this.pawn != null)
-			removePawn();
 		this.pawn = pawn;
-		// access = false;
 	}
 
 	public void setAccess(boolean access) {
