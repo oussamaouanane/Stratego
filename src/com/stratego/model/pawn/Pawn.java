@@ -1,4 +1,4 @@
-package com.stratego.model;
+package com.stratego.model.pawn;
 
 /**
  * <h1>Pawn</h1>
@@ -20,6 +20,9 @@ public class Pawn {
 	private boolean visible;
 	private String[] arrayRanks = { "Spy", "Scouts", "Miners", "Sergents", "Lieutenants", "Captains", "Commanders",
 			"Colonels", "General", "Marshal", "Bombs", "Flag" };
+	
+	public final static int[] PAWNS_COMPOSITION = {0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 7, 7, 8, 9, 10, 11};
+
 
 	/**
 	 * Constructeur par défaut permettant de définir une instance de Pawn qui est
@@ -88,5 +91,12 @@ public class Pawn {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	/**
+	 * Méthode permettant de vérifier si un pion est d'un rang spécifique.
+	 */
+	public boolean isPawnA(int rank) {
+		return this.rank == rank;
 	}
 }

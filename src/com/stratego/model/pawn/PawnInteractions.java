@@ -1,6 +1,10 @@
-package com.stratego.model;
+package com.stratego.model.pawn;
 
 import java.util.ArrayList;
+
+import com.stratego.model.Couple;
+import com.stratego.model.grid.Grid;
+import com.stratego.model.grid.Square;
 
 /**
  * <h1>PawnInteractions</h1>
@@ -19,7 +23,7 @@ import java.util.ArrayList;
 
 public class PawnInteractions extends Couple {
 
-	Grid grid;
+	private Grid grid;
 
 	/**
 	 * Constructeur par défaut
@@ -107,6 +111,9 @@ public class PawnInteractions extends Couple {
 
 	public Integer isMovePossible(int initialRow, int initialCol, Couple coord) {
 
+		// Permet de vérifier si le mouvement est dans grid et si le carré est
+		// accessible.
+
 		int finalRow = (initialRow + coord.getX());
 		int finalCol = (initialCol + coord.getY());
 		boolean stayInBoard = (((finalRow > 0) && (finalRow < 10)) && ((finalCol > 0) && (finalCol < 10)));
@@ -124,7 +131,7 @@ public class PawnInteractions extends Couple {
 	 * @return Une ArrayList permettant de représenter si le pion peut aller (haut,
 	 *         droite, bas, gauche)
 	 */
-	
+
 	public ArrayList<Integer> availableMovement() {
 
 		Couple[] possibleMovements = { new Couple(0, 1), new Couple(1, 0), new Couple(0, -1), new Couple(-1, 0) };
@@ -132,7 +139,7 @@ public class PawnInteractions extends Couple {
 
 		for (Couple c : possibleMovements)
 			evaluation.add(isMovePossible(getSquareA().getRow(), getSquareA().getColumn(), c));
-		
+
 		return evaluation;
 	}
 
@@ -144,6 +151,8 @@ public class PawnInteractions extends Couple {
 	 */
 
 	public ArrayList<Integer> availableMovementScout() {
+		int initialSquareX = getSquareA().getRow();
+		int initialSquareY = getSquareA().getColumn();
 
 		// Initialisation de range.
 		ArrayList<Integer> range = new ArrayList<Integer>();
@@ -154,11 +163,13 @@ public class PawnInteractions extends Couple {
 
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 10; j++) {
-				while (isMovePossible(getSquareA().getRow(), getSquareA().getColumn(), possibleMovements[i]) == 1)
+				while (isMovePossible(getSquareA().getRow(), getSquareA().getColumn(), possibleMovements[i]) == 1
+						&& grid.getSquare(initialSquareX + possibleMovements[i].getX(),
+								initialSquareY + possibleMovements[i].getY()).getPawn() != null)
 					range.set(i, range.get(i) + 1);
 			}
 		}
-		
+
 		return range;
 	}
 
@@ -182,4 +193,5 @@ public class PawnInteractions extends Couple {
 		else
 			return true;
 	}
+
 }

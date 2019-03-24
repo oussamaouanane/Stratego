@@ -1,5 +1,7 @@
-package com.stratego.model;
-import com.stratego.model.Square;
+package com.stratego.model.grid;
+import com.stratego.model.grid.Square;
+import com.stratego.model.pawn.Pawn;
+import com.stratego.model.pawn.PawnInteractions;
 
 /**
  * <h1>Grid</h1>
@@ -55,7 +57,7 @@ public class Grid {
 
 		for (int i = 0; i < GRID_SIZE; i++) {
 			for (int j = 0; j < GRID_SIZE; j++) {
-				// Restriction
+				// Restriction d'accès du lac.
 				if (((i == 4 || i == 5) && ((j >= 2 && j <= 3) || (j >= 6 && j <= 7)))) {
 					grid[i][j] = new Square(i, j, null, false);
 				} else {
@@ -106,6 +108,10 @@ public class Grid {
 
 	public Square getSquare(int i, int j) {
 		return grid[i][j];
+	}
+	
+	public void setPawn(Pawn pawn, int i, int j) {
+		getSquare(i, i).setPawn(pawn);
 	}
 
 }

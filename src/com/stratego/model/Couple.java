@@ -1,5 +1,7 @@
 package com.stratego.model;
 
+import com.stratego.model.grid.Square;
+
 /**
  * <h1>Couple</h1>
  * 

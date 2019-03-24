@@ -1,4 +1,6 @@
-package com.stratego.model;
+package com.stratego.model.grid;
+
+import com.stratego.model.pawn.Pawn;
 
 /**
  * <h1>Square</h1>
@@ -35,12 +37,21 @@ public class Square {
 	 * @see Pawn
 	 * 
 	 */
-	public Square(int row, int column, Pawn pawn, boolean access) {
+	public Square(Pawn pawn, boolean access) {
 		
+		this.setPawn(pawn);
+		this.access = access;
+	}
+	
+	public Square(int row, int column, Pawn pawn, boolean access) {
 		this.row = row;
 		this.column = column;
 		this.setPawn(pawn);
 		this.access = access;
+	}
+	
+	public boolean checkWin() {
+		return false;
 	}
 
 	/**
@@ -68,6 +79,14 @@ public class Square {
 
 	public void setAccess(boolean access) {
 		this.access = access;
+	}
+	
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	public void setColumn(int column) {
+		this.column = column;
 	}
 
 	public void removePawn() {
