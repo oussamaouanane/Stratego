@@ -1,3 +1,4 @@
+
 package com.stratego.view;
 
 import java.io.FileNotFoundException;
@@ -18,18 +19,23 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 
-/**
- * MainMenu --- Main menu of the game, give access to: Start a new game Loading
- * saves Leaving the app
+ /**
+ * <h1>MenuState</h1>
  * 
- * @author
+ * <p>
+ * Main menu of the Stratego game, it gives access to: Start a new game /
+ * Loading saves / Leaving the game.
+ * </p>
+ * 
+ * @author O.S
  */
-public class MainMenu extends Application {
+
+public class MenuState extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws FileNotFoundException {
 
-		// Background image -- Loading and Settings
+		// Image de fond
 		Image background = new Image("/com/stratego/assets/styles/main.png");
 		ImageView backgroundView = new ImageView(background);
 
@@ -38,7 +44,7 @@ public class MainMenu extends Application {
 		backgroundView.setFitWidth(621.0);
 		backgroundView.setPreserveRatio(true);
 
-		// Logo image -- Loading and Settings
+		// Image logo
 		Image logo = new Image("/com/stratego/assets/logo_pixel.png");
 		ImageView logoView = new ImageView(logo);
 
@@ -48,7 +54,7 @@ public class MainMenu extends Application {
 		logoView.setFitWidth(300.0);
 		logoView.setPreserveRatio(true);
 
-		// Copyright label
+		// Label de copyright
 		Label copyright = new Label("Projet d'informatique // 2018-2019");
 		copyright.setTextFill(Color.web("#DDDDDD"));
 		copyright.setFont(new Font("Lucida Console", 12.0));
@@ -56,7 +62,7 @@ public class MainMenu extends Application {
 		copyright.setTranslateX(602.0);
 		copyright.setTranslateY(567.0);
 
-		// NewGame button
+		// Bouton: Nouvelle partie 
 		Button start = new Button("Lancer une nouvelle partie");
 
 		start.setTextFill(Color.WHITE);
@@ -113,7 +119,7 @@ public class MainMenu extends Application {
 			}
 		});
 
-		// LoadSave button
+		// Bouton: Chargement de sauvegarde 
 		Button save = new Button("Charger une sauvegarde");
 
 		save.setTextFill(Color.WHITE);
@@ -135,7 +141,7 @@ public class MainMenu extends Application {
 			}
 		});
 
-		// Leave button
+		// Bouton: Quitter la partie 
 		Button leave = new Button("Quitter le jeu");
 
 		leave.setTextFill(Color.WHITE);
@@ -157,16 +163,21 @@ public class MainMenu extends Application {
 		Group root = new Group(backgroundView, logoView, copyright, start, save, leave);
 		// Scene
 		Scene scene = new Scene(root, 900, 600);
-		// Title
-		primaryStage.setTitle("Stratego - Main Menu");
-		// Setting the scene
+		// Titre
+		primaryStage.setTitle("Stratego - Menu principal");
+		// Réglage de Scene
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 		scene.getStylesheets().add("/com/stratego/assets/styles/menu.css");
 
-		// Displaying
+		// Afficher Scene
 		primaryStage.show();
 	}
-
+	
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
 
 }
+
+

@@ -1,15 +1,15 @@
 package com.stratego.model;
 
 import com.stratego.model.grid.Grid;
-import com.stratego.model.player.Client;
-import com.stratego.model.player.Server;
+import com.stratego.model.player.Player;
+import com.stratego.model.state.GameStateManager;
 
 /**
  * <h1>GameProcess</h1>
  * 
  * <p>
- * Classe permettant de décrire le déroulement d'une partie, elle contient
- * plusieurs méthodes visant à décrire l'état actuelle de la partie en cours,
+ * Classe permettant de modéliser le déroulement d'une partie, elle contient
+ * plusieurs méthodes visant à décrire l'état actuelle de la partie en cours.
  * </p>
  * 
  * @author O.S
@@ -17,10 +17,12 @@ import com.stratego.model.player.Server;
 
 public class GameProcess {
 
-	Client user;
-	Server ai;
-	int[] pawnTurn = { 1, 2 };
-	int index = 0;
+	private Player user;
+	private Player ai;
+	private int[] playerTurn = { 1, 2 };
+	private int index = 0;
+	
+	GameStateManager state = new GameStateManager();
 
 	/**
 	 * Méthode permettant de vérifier la victoire d'un des deux joueurs. Une partie
@@ -38,8 +40,8 @@ public class GameProcess {
 	public GameProcess() {
 
 		Grid grid = new Grid();
-		user = new Client();
-		ai = new Server();
+		user = new Player(false, grid);
+		ai = new Player(true, grid);
 	}
 
 	/**
@@ -48,39 +50,47 @@ public class GameProcess {
 	 * 
 	 * @return Retourne vrai si la partie est terminée, non sinon.
 	 * 
-	 * @see Client#checkWin()
-	 * @see Server#checkWin()
+	 * @see Player#checkWin()
 	 */
 
 	public boolean checkWin() {
-		return user.checkWin() || ai.checkWin();
+		return user.checkWin(ai) || ai.checkWin(user);
 
 	}
-	
+
 	/**
 	 * Méthode permettant de retourner le tour de la personne qui doit jouer
+	 * 
 	 * @return Retourne 1 si c'est au tour du joueur Client, 2 sinon.
 	 */
+	
 
 	public int getTurn() {
-		return pawnTurn[index];
+		return playerTurn[index];
 
 	}
 
 	public void runningGame() {
 
-		pawnPlacement();
-		// Permet de placer les pions du Client en début de partie, création du
-		for (int i = 0; i < 40; i++) {
+		pawnPlacement(ai);
 
-		}
-
-		while (!checkWin()) {
+		while (!(state.getState() == 3)) {
+			// Détermination du joueur qui doit jouer.
 			int turn = getTurn();
+			Player currentPlayer = null;
 			
-			
-			// Change the turn
-			index = pawnTurn.length % pawnTurn[index];
+			switch (index) {
+				case 0:
+					currentPlayer = user;
+					break;
+				case 1:
+					currentPlayer = ai;
+					
+			}
+			currentPlayer.play();
+			index++;
+			// Changement du tour
+			index = playerTurn.length % playerTurn[index];
 
 		}
 
@@ -90,7 +100,8 @@ public class GameProcess {
 	 * Méthode permettant de placer les pions en début de partie
 	 */
 
-	public void pawnPlacement() {
+	public void pawnPlacement(Player p1) {
+		p1.pawnPlacement();
 
 	}
 

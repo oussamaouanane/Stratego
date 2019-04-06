@@ -37,6 +37,10 @@ public class PawnInteractions extends Couple {
 		super(row, column);
 	}
 
+	public PawnInteractions(Couple movement) {
+		super(movement.getX(), movement.getY());
+	}
+
 	private int getRank(Square square) {
 		return square.getPawn().getRank();
 	}
@@ -46,9 +50,9 @@ public class PawnInteractions extends Couple {
 	 * attaque) et pawnB (pion que se fait attaquer) où pawnA et pawnB sont deux
 	 * instances de Pawn.
 	 * 
-	 * @return 1 Dans le cas où pawnA est plus fort que pawnB.
-	 * @return 0 Dans le cas d'un duel nul entre pawnA et pawnB.
-	 * @return -1 Dans le cas où pawnA est plus faible
+	 * @return 1 Dans le cas où pawnA est plus fort que pawnB, 0 Dans le cas d'un
+	 *         duel nul entre pawnA et pawnB ou -1 Dans le cas où pawnA est plus
+	 *         faible
 	 */
 
 	public int evaluateFighting() {
@@ -101,9 +105,12 @@ public class PawnInteractions extends Couple {
 	 * 
 	 * @param initialRow Représente la ligne d'une instance Square.
 	 * @param initialCol Représente la colonne d'une instance Square.
-	 * @param coord      Représente un couple de int.
+	 * @param coord      Représente un couple de int, mouvement que l'on veut
+	 *                   effectuer sur le grille à deux dimensions.
 	 * 
-	 * @return Un booléen qui représente si le mouvement est légal.
+	 * @return Un entier (1 ou 0) qui représente si le mouvement est légal. On
+	 *         aurait pu retourner un booléen mais pour les autres méthodes qui
+	 *         suivent, 1 et 0 seront utiles.
 	 * 
 	 * @see Couple
 	 * @see PawnInteractions#evaluateFighting()
@@ -138,7 +145,7 @@ public class PawnInteractions extends Couple {
 		ArrayList<Integer> evaluation = new ArrayList<Integer>();
 
 		for (Couple c : possibleMovements)
-			evaluation.add(isMovePossible(getSquareA().getRow(), getSquareA().getColumn(), c));
+			evaluation.add(isMovePossible(getX(), getY(), c));
 
 		return evaluation;
 	}

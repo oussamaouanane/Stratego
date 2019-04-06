@@ -1,26 +1,224 @@
 package com.stratego.model.player;
 
+import java.util.ArrayList;
+
+import com.stratego.model.Couple;
+import com.stratego.model.grid.Grid;
+import com.stratego.model.grid.Square;
+import com.stratego.model.pawn.Pawn;
+import com.stratego.model.pawn.PawnInteractions;
+
 /**
  * <h1>Player</h1>
- * 
  * <p>
- * Interface permettant de créer diverses méthodes qui serviront à vérifier
- * l'état du jeu lors de chaque changement de rôles.
+ * Classe permettant de modéliser un joueur, il existe au plus deux joueurs lors
+ * d'une partie. Chaque joueur possède un set de 40 pions.
  * </p>
- * 
- * @see Client
- * @see Server
- * 
- * @author O.S
+ *
  */
-public interface Player {
+
+public class Player {
+
+	/**
+	 * Variables d'instances permettant de vérifier si une partie est terminée.
+	 * Ensemble de booléens. hasFlag: le joueur a un drapeau. flagSurrounded: le
+	 * drapeau du joueur est entouré de bombes. hasMinersLeft: le joueur a encore
+	 * des démineurs.
+	 */
+
+	private int playerId;
+	private int flagX;
+	private int flagY;
+
+	private boolean hasFlag;
+	private boolean flagSurrounded;
+	private boolean hasMinersLeft;
+
+	private int currentNbOfPawns;
+
+	private ArrayList<Pawn> alivePawns;
+	private ArrayList<Pawn> deathPawns;
+
+	private Grid grid;
+
+	public Player(boolean ai, Grid grid) {
+		// Défaut
+		hasFlag = hasMinersLeft = flagSurrounded = true;
+		this.grid = grid;
+
+		initializePawns();
+		if (ai = true) {
+			currentNbOfPawns = 40;
+			playerId = 2;
+		} else
+			currentNbOfPawns = 0;
+		playerId = 1;
+
+		// Configuration si intelligence artificielle
+
+	}
+
+	public void initializePawns() {
+		for (int i = currentNbOfPawns; i <= currentNbOfPawns + 40; i++) {
+			for (int c : Pawn.PAWNS_COMPOSITION)
+				alivePawns.add(new Pawn(i, c, playerId));
+		}
+	}
 	
-	public boolean hasFlag();
-	public boolean hasFlagSurrounded();
-	
-	public boolean hasMinersLeft();
-	public boolean hasMovesLeft();
-	
-	public void pawnInitialization();
+	public void pawnPlacement() {
+		
+	}
+
+	public Couple getMovement() {
+		// Implémenter une méthode pour récupérer le mouvement voulu du joueur qui
+		// retourne un couple (x, y) qui représente une instance Square à la position de
+		// l'instance Grid[x][y].
+		return null;
+	}
+
+	public void play() {
+		PawnInteractions move = new PawnInteractions(getMovement());
+		
+
+	}
+
+	/**
+	 * Méthode permettant de vérifier si le drapeau du joueur n'a pas encore été
+	 * saisi. On parcourt la liste des pions vivants du joueur pour voir si le
+	 * drapeau y est contenu.
+	 * 
+	 * @return Booléen qui indique si le drapeau du joueur a été saisi ou non.
+	 */
+
+	@SuppressWarnings("unlikely-arg-type")
+	public boolean hasFlag() {
+		// Parcourt la liste des pions encore vivants pour voir si elle contient encore
+		// le drapeau.
+		for (Pawn pawn : alivePawns) {
+			boolean pawnAFlag = pawn.isPawnA(11);
+			if (!alivePawns.contains(pawnAFlag)) {
+				hasFlag = false;
+			}
+		}
+		// Retourne vrai ou faux en fonction de si le joueur a encore le drapeau.
+		return hasFlag;
+
+	}
+
+	/**
+	 * Méthode permettant de vérifier si le drapeau du joueur est entouré de bombes
+	 * alliées. Tous les détails sont expliqués dans la fonction.
+	 * 
+	 * @return Booléen qui indique si le drapeau du joueur est entouré de bombes ou
+	 *         non.
+	 */
+
+	public boolean isFlagSurrounded() {
+		// On instancie un Square uniquement dans le but d'obtenir une information
+		// nécessaire au fonctionnement de la méthode
+		// @see Square#
+		Square sq = new Square(playerId);
+
+		// Attribue les coordonnées selon le numéro du joueur
+		flagX = sq.getFlagPosition(playerId)[0];
+		flagY = sq.getFlagPosition(playerId)[1];
+
+		int index = 0;
+
+		// Vérifie que le drapeau n'est pas capturé
+		if (!hasFlag() || !hasMinersLeft())
+			return false;
+		// Gestion des murs à l'aide des méthodes créées dans PawnInteractions
+		// @see PawnInteractions
+		else {
+			// Coordonnées du drapeau sous la forme d'un couple (x, y)
+			// @see PawnInteractions, Couple
+			PawnInteractions flagCoord = new PawnInteractions(flagX, flagY);
+			// Création des différentes positions dont il faut analyser le contenu, e.g. (0,
+			// 1) est un mouvement verticale d'une unité vers le haut. On agit sur la grille
+			// comme un repère cartésien.
+			Couple[] possibleMovements = { new Couple(0, 1), new Couple(1, 0), new Couple(0, -1), new Couple(-1, 0) };
+			// Utilisation de la méthode possibleMovements afin d'obtenir les instances
+			// Square autour du drapeau et vérifier les pions qu'elles contiennent, ici on
+			// cherche à voir si tous les pions sont des bombes
+
+			Couple atIndex = possibleMovements[index];
+			for (int i : flagCoord.availableMovement()) {
+				// Si l'instance Square n'est pas un mur donc est accessible, on regarde si le
+				// pion contenu n'est pas une bombe, dans ce cas le drapeau n'est pas entouré de
+				// bombes
+				if (i == 1 && !grid.getSquare(atIndex.getX(), atIndex.getY()).getPawn().isPawnA(10))
+					flagSurrounded = false;
+			}
+			return flagSurrounded;
+		}
+
+	}
+
+	/**
+	 * Méthode permettant de vérifier si tous les démineurs du joueur n'ont pas
+	 * encore été saisis. On parcourt la liste des pions vivants du joueur pour voir
+	 * si les démineurs y sont contenus.
+	 * 
+	 * @return Booléen qui indique si les démineurs du joueur ont été saisis ou non.
+	 */
+
+	@SuppressWarnings("unlikely-arg-type")
+	public boolean hasMinersLeft() {
+		// Parcourt la liste des pions encore vivants pour voir si elle contient au
+		// moins un démineur.
+		for (Pawn pawn : alivePawns) {
+			boolean pawnAMiner = pawn.isPawnA(2);
+			if (!alivePawns.contains(pawnAMiner)) {
+				hasMinersLeft = false;
+				break;
+			}
+		}
+		// Retourne vrai ou faux en fonction de si le joueur a au moins un démineur.
+		return hasMinersLeft;
+
+	}
+
+	public boolean hasWeakerPawns(Player p2) {
+		PawnInteractions couple;
+		// Parcourt la liste des deux joueurs pour voir si le joueur 1 a des pièces
+		// moins puissantes que ceux du joueur 2.
+		for (Pawn oppPawn : p2.alivePawns) { // oppPawn = ennemi
+			for (Pawn pawn : alivePawns) {
+				couple = new PawnInteractions(pawn.getSquare(grid), oppPawn.getSquare(grid));
+				int fight = couple.evaluateFighting();
+				if (fight >= 0)
+					return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Méthode permettant de vérifier le joueur a gagné la partie. Une partie est
+	 * gagnée si et seulement si l'état du jeu répond à un de ces critères:
+	 * 
+	 * - Le joueur adverse (p2) n'a plus de drapeau. - Le joueur a encerclé son
+	 * drapeau de bombes et le joueur adverse (p2) n'a plus de démineurs. - TODO Le
+	 * joueur adverse (p2) est dans une situation où il ne peut plus bouger. - TODO
+	 * Le joueur adverse (p2) est dans une situation où toutes ses pièces sont
+	 * strictements plus faibles que celles du joueur.
+	 * 
+	 * @return Booléen qui indique si le joueur a gagné ou pas.
+	 */
+
+	public boolean checkWin(Player p2) {
+		return (!p2.hasFlag()) || (isFlagSurrounded() && !p2.hasMinersLeft()) || (p2.hasWeakerPawns(this));
+	}
+
+	// Quelques accesseurs et mutateurs
+
+	public ArrayList<Pawn> getAlivePawns() {
+		return alivePawns;
+	}
+
+	public ArrayList<Pawn> getDeathPawns() {
+		return deathPawns;
+	}
 
 }

@@ -30,6 +30,8 @@ import com.stratego.model.pawn.PawnInteractions;
  */
 
 public class Grid {
+	
+	protected int currentPawns = 0;
 
 	private final int GRID_SIZE = 10;
 	private Square[][] grid = new Square[GRID_SIZE][GRID_SIZE];
@@ -108,6 +110,10 @@ public class Grid {
 
 	public Square getSquare(int i, int j) {
 		return grid[i][j];
+	}
+	
+	public Square[][] getGrid() {
+		return grid;
 	}
 	
 	public void setPawn(Pawn pawn, int i, int j) {

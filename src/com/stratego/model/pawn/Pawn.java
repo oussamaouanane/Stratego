@@ -1,13 +1,16 @@
 package com.stratego.model.pawn;
 
+import com.stratego.model.grid.Grid;
+import com.stratego.model.grid.Square;
+
 /**
  * <h1>Pawn</h1>
  * 
  * <p>
- * Classe qui permet de définir un objet qui représente avec un pion. Un pion
- * possède plusieurs attributs qui permettent de le définir: - Un ID unique 0 <=
- * ID <= 80 - un rang <i>c.f arrayRanks</i> - un joueur - un état, vivant ou
- * mort - une visibilité - une portée.
+ * Classe permettant de modéliser un pion. Un pion possède plusieurs attributs
+ * qui permettent de le définir: - Un ID unique 0 <= ID <= 80 - un rang <i>c.f
+ * arrayRanks</i> - un joueur - un état, vivant ou mort - une visibilité - une
+ * portée.
  * </p>
  * 
  * @author O.S
@@ -20,9 +23,10 @@ public class Pawn {
 	private boolean visible;
 	private String[] arrayRanks = { "Spy", "Scouts", "Miners", "Sergents", "Lieutenants", "Captains", "Commanders",
 			"Colonels", "General", "Marshal", "Bombs", "Flag" };
-	
-	public final static int[] PAWNS_COMPOSITION = {0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 7, 7, 8, 9, 10, 11};
+	private Square square;
 
+	public final static int[] PAWNS_COMPOSITION = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5,
+			5, 5, 5, 6, 6, 6, 7, 7, 8, 9, 10, 11 };
 
 	/**
 	 * Constructeur par défaut permettant de définir une instance de Pawn qui est
@@ -48,6 +52,18 @@ public class Pawn {
 			this.range = 0;
 		else if (rank == 1)
 			this.range = 9;
+	}
+
+	public Square getSquare(Grid grid) {
+		Square sq;
+
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (grid.getSquare(i, j).getPawn().getId() == id)
+					sq = grid.getSquare(i, j);
+			}
+		}
+		return square;
 	}
 
 	/**
@@ -92,7 +108,7 @@ public class Pawn {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	/**
 	 * Méthode permettant de vérifier si un pion est d'un rang spécifique.
 	 */
