@@ -1,7 +1,5 @@
 package com.stratego.model.grid;
 
-import java.util.ArrayList;
-
 import com.stratego.model.pawn.Pawn;
 
 /**
@@ -28,8 +26,8 @@ public class Square {
 
 	// Coordonnées des drapeaux dans la grille
 	// @see Grid
-	public int[] flagA = new int[2];
-	public int[] flagB = new int[2];
+	public static int[] flagA = new int[2];
+	public static int[] flagB = new int[2];
 
 	/**
 	 * Constructeur par défaut permettant de définir une instance de Square qui est
@@ -57,10 +55,6 @@ public class Square {
 		this.access = access;
 	}
 
-	public Square(int player) {
-		int[] list = getFlagPosition(player);
-	}
-
 	public boolean checkWin() {
 		return false;
 	}
@@ -86,28 +80,30 @@ public class Square {
 
 	public void setPawn(Pawn pawn) {
 		this.pawn = pawn;
-		// Fixe les coordonnées du drapeau
+		// Fixe les coordonnées du drapeau.
 		if (pawn.getRank() == 11) {
-			// Le joueur est 1
-			if (pawn.getPlayer() == 1) {
+
+			switch (pawn.getPlayer()) {
+			// Cas où le joueur est 1.
+			case 1:
 				flagA[0] = row;
 				flagA[1] = column;
-			}
-			// Le joueur
-			else {
+				break;
+			// Cas où le joueur est 2.
+			case 2:
 				flagB[0] = row;
 				flagB[1] = column;
+				break;
 			}
+
+			// Fixe l'instance du Carré dans l'instance du pion.
+			pawn.setSquare(this);
 
 		}
 	}
 
 	public void setAccess(boolean access) {
 		this.access = access;
-	}
-
-	public void setRow(int row) {
-		this.row = row;
 	}
 
 	public void setColumn(int column) {
@@ -121,12 +117,12 @@ public class Square {
 
 	public int[] getFlagPosition(int player) {
 		int[] flag = null;
-		
+
 		switch (player) {
-			case 1:
-				flag = flagA;
-			case 2:
-				flag = flagB;
+		case 1:
+			flag = flagA;
+		case 2:
+			flag = flagB;
 		}
 		return flag;
 	}

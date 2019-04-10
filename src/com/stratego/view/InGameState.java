@@ -1,20 +1,38 @@
 package com.stratego.view;
 
+import com.stratego.model.grid.Grid;
+
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class InGameState extends Application {
+	
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
+		Pane grid = new Pane();
+		Button[][] square = new Button[10][10];
+		
+		for(int i = 0; i < 10; i++){
+			for(int j = 0; j < 10; j++){
+				square[i][j] = new Button("Salut");
+				square[i][j].setTranslateX(60);
+				square[i][j].setTranslateY(60);
+				square[i][j].setId("leaveButton");
+				
+				grid.getChildren().add(square[i][j]);
+				
+			}
+		}
+
+	    
 		
 		// Image de fond
 		Image background = new Image("/com/stratego/assets/maps/map_main.png");
@@ -23,6 +41,7 @@ public class InGameState extends Application {
 		backgroundView.setFitHeight(610.0);
 		backgroundView.setFitWidth(610.0);
 		backgroundView.setPreserveRatio(true);
+		grid.getChildren().add(backgroundView);
 		
 		// Bouton: Sauvegarder la partie
 		Button save = new Button("Charger une sauvegarde");
@@ -34,6 +53,7 @@ public class InGameState extends Application {
 		save.setPrefWidth(189.0);
 
 		save.setId("loadButton");
+		grid.getChildren().add(save);
 
 		// Bouton: Quitter la partie 
 		Button leave = new Button("Quitter le jeu");
@@ -45,27 +65,19 @@ public class InGameState extends Application {
 		leave.setPrefWidth(189.0);
 
 		leave.setId("leaveButton");
+	
+		grid.getChildren().add(leave);
 
-		// Panneau pions vivants et morts
-		TabPane tab = new TabPane();
-		Tab alivePawns = new Tab("Pions vivants");
-		tab.getTabs().add(alivePawns);
-		
-		tab.setPrefSize(300, 610);
-		
-		
-		
-		Group root = new Group(backgroundView, save, leave, tab);
+	
 		
 		// Scene
-		Scene scene = new Scene(root, 1000, 600);
+		Scene scene = new Scene(grid, 1000, 600);
 		
 		// Titre
 		primaryStage.setTitle("Stratego - Main Menu");
 		
 		// Réglage de Scene
 		primaryStage.setScene(scene);
-		primaryStage.setResizable(false);
 		scene.getStylesheets().add("/com/stratego/assets/styles/menu.css");
 
 		// Afficher Scene

@@ -76,7 +76,6 @@ public class GameProcess {
 
 		while (!(state.getState() == 3)) {
 			// Détermination du joueur qui doit jouer.
-			int turn = getTurn();
 			Player currentPlayer = null;
 			
 			switch (index) {

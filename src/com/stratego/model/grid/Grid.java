@@ -83,11 +83,13 @@ public class Grid {
 
 		PawnInteractions couple = new PawnInteractions(initialDestination, finalDestination);
 
-		if (couple.canMove())
+		if (couple.isMovePossible())
 			if (finalDestination.getAccess())
 				finalDestination.setPawn(initialDestination.getPawn());
 			else if (finalDestination.getPawn() != null)
 				couple.doFighting();
+		
+			finalDestination.getPawn().setSquare(finalDestination);
 
 	}
 
@@ -100,9 +102,12 @@ public class Grid {
 	 * @see Pawn
 	 */
 
-	public void highlightAvailableMove(Square initialDestination) {
-
+	/** Implémenter cette méthode dans la partie graphique!
+	public int[][] highlightAvailableMove(Square initialDestination) {
+		PawnInteractions couple = new PawnInteractions(initialDestination.getColumn(), initialDestination.getColumn());
+		couple.availableMovement();
 	}
+	*/
 
 	/**
 	 * Quelques accesseurs (getters) et mutateurs (setters)

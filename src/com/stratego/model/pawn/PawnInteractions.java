@@ -50,8 +50,8 @@ public class PawnInteractions extends Couple {
 	 * attaque) et pawnB (pion que se fait attaquer) où pawnA et pawnB sont deux
 	 * instances de Pawn.
 	 * 
-	 * @return 1 Dans le cas où pawnA est plus fort que pawnB, 0 Dans le cas d'un
-	 *         duel nul entre pawnA et pawnB ou -1 Dans le cas où pawnA est plus
+	 * @return 1 Dans le cas où pawnA est plus fort que pawnB, 0 dans le cas d'un
+	 *         duel nul entre pawnA et pawnB ou -1 dans le cas où pawnA est plus
 	 *         faible
 	 */
 
@@ -116,7 +116,7 @@ public class PawnInteractions extends Couple {
 	 * @see PawnInteractions#evaluateFighting()
 	 */
 
-	public Integer isMovePossible(int initialRow, int initialCol, Couple coord) {
+	public Integer stayInBoard(int initialRow, int initialCol, Couple coord) {
 
 		// Permet de vérifier si le mouvement est dans grid et si le carré est
 		// accessible.
@@ -129,6 +129,11 @@ public class PawnInteractions extends Couple {
 			return 1;
 		else
 			return 0;
+	}
+
+	public boolean stayInBoard(int row, int column) {
+
+		return (((row > 0) && (row < 10)) && ((column > 0) && (column < 10)));
 	}
 
 	/**
@@ -145,7 +150,7 @@ public class PawnInteractions extends Couple {
 		ArrayList<Integer> evaluation = new ArrayList<Integer>();
 
 		for (Couple c : possibleMovements)
-			evaluation.add(isMovePossible(getX(), getY(), c));
+			evaluation.add(stayInBoard(getX(), getY(), c));
 
 		return evaluation;
 	}
@@ -161,7 +166,8 @@ public class PawnInteractions extends Couple {
 		int initialSquareX = getSquareA().getRow();
 		int initialSquareY = getSquareA().getColumn();
 
-		// Initialisation de range.
+		// Initialisation de range, permet de donner la portée du pion dans les 4
+		// directions.
 		ArrayList<Integer> range = new ArrayList<Integer>();
 		for (int i = 1; i <= 4; i++)
 			range.add(0);
@@ -170,9 +176,9 @@ public class PawnInteractions extends Couple {
 
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 10; j++) {
-				while (isMovePossible(getSquareA().getRow(), getSquareA().getColumn(), possibleMovements[i]) == 1
-						&& grid.getSquare(initialSquareX + possibleMovements[i].getX(),
-								initialSquareY + possibleMovements[i].getY()).getPawn() != null)
+				while ((stayInBoard(getX(), getY(), possibleMovements[i]) == 1)
+						&& (grid.getSquare(initialSquareX + possibleMovements[i].getX(),
+								initialSquareY + possibleMovements[i].getY()).getPawn() != null))
 					range.set(i, range.get(i) + 1);
 			}
 		}
@@ -188,14 +194,16 @@ public class PawnInteractions extends Couple {
 	 * @return Si le mouvement est possible ou pas.
 	 */
 
-	public boolean canMove() {
+	public boolean isMovePossible() {
 
 		int range = getSquareA().getPawn().getRange();
 		int differenceRow = getSquareB().getRow() - getSquareA().getRow();
 		int differenceColumn = getSquareB().getColumn() - getSquareA().getColumn();
 
-		// Gestion tentative diagonale et gestion portée (l'un implique l'autre)
-		if ((differenceRow == 0 && differenceColumn == 0) || (differenceRow > range) && (differenceColumn <= range))
+		// Gestion tentative diagonale et gestion portée (l'un implique l'autre) et
+		// vérifie si le mouvement reste dans la grille.
+		if ((differenceRow == 0 && differenceColumn == 0) || (differenceRow > range) || (differenceColumn > range)
+				|| (!stayInBoard(getSquareB().getRow(), getSquareB().getColumn())))
 			return false;
 		else
 			return true;

@@ -10,6 +10,7 @@ import com.stratego.model.pawn.PawnInteractions;
 
 /**
  * <h1>Player</h1>
+ * 
  * <p>
  * Classe permettant de modéliser un joueur, il existe au plus deux joueurs lors
  * d'une partie. Chaque joueur possède un set de 40 pions.
@@ -64,9 +65,9 @@ public class Player {
 				alivePawns.add(new Pawn(i, c, playerId));
 		}
 	}
-	
+
 	public void pawnPlacement() {
-		
+
 	}
 
 	public Couple getMovement() {
@@ -77,9 +78,25 @@ public class Player {
 	}
 
 	public void play() {
+		//Utilisation du mouvement récupéré dans getMouvement
 		PawnInteractions move = new PawnInteractions(getMovement());
+		int moveX = move.getX();
+		int moveY = move.getY();
 		
+	}
 
+	public void flagPosition() {
+		switch (playerId) {
+
+		case 1:
+			flagX = Square.flagA[0];
+			flagY = Square.flagA[1];
+			break;
+		case 2:
+			flagX = Square.flagB[0];
+			flagY = Square.flagB[1];
+			break;
+		}
 	}
 
 	/**
@@ -99,6 +116,9 @@ public class Player {
 			if (!alivePawns.contains(pawnAFlag)) {
 				hasFlag = false;
 			}
+
+			// if grid.getSquare(flagX, flagY).getPawn == null
+			// hasFlag = False;
 		}
 		// Retourne vrai ou faux en fonction de si le joueur a encore le drapeau.
 		return hasFlag;
@@ -114,19 +134,11 @@ public class Player {
 	 */
 
 	public boolean isFlagSurrounded() {
-		// On instancie un Square uniquement dans le but d'obtenir une information
-		// nécessaire au fonctionnement de la méthode
-		// @see Square#
-		Square sq = new Square(playerId);
-
-		// Attribue les coordonnées selon le numéro du joueur
-		flagX = sq.getFlagPosition(playerId)[0];
-		flagY = sq.getFlagPosition(playerId)[1];
 
 		int index = 0;
 
 		// Vérifie que le drapeau n'est pas capturé
-		if (!hasFlag() || !hasMinersLeft())
+		if (!hasFlag())
 			return false;
 		// Gestion des murs à l'aide des méthodes créées dans PawnInteractions
 		// @see PawnInteractions
@@ -146,7 +158,10 @@ public class Player {
 			for (int i : flagCoord.availableMovement()) {
 				// Si l'instance Square n'est pas un mur donc est accessible, on regarde si le
 				// pion contenu n'est pas une bombe, dans ce cas le drapeau n'est pas entouré de
-				// bombes
+				// bombes. i == 1 car on avait dit que si le mouvement était possible, on
+				// retournait 1 dans la méthode availableMovement().
+
+				// @see PawnInteractions#availableMovement()
 				if (i == 1 && !grid.getSquare(atIndex.getX(), atIndex.getY()).getPawn().isPawnA(10))
 					flagSurrounded = false;
 			}

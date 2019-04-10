@@ -24,6 +24,7 @@ public class Pawn {
 	private String[] arrayRanks = { "Spy", "Scouts", "Miners", "Sergents", "Lieutenants", "Captains", "Commanders",
 			"Colonels", "General", "Marshal", "Bombs", "Flag" };
 	private Square square;
+	private String icon;
 
 	public final static int[] PAWNS_COMPOSITION = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5,
 			5, 5, 5, 6, 6, 6, 7, 7, 8, 9, 10, 11 };
@@ -52,18 +53,16 @@ public class Pawn {
 			this.range = 0;
 		else if (rank == 1)
 			this.range = 9;
+
+		icon = arrayRanks[rank] + "_J" + player;
 	}
 
 	public Square getSquare(Grid grid) {
-		Square sq;
-
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (grid.getSquare(i, j).getPawn().getId() == id)
-					sq = grid.getSquare(i, j);
-			}
-		}
 		return square;
+	}
+
+	public void setSquare(Square square) {
+		this.square = square;
 	}
 
 	/**
@@ -107,6 +106,10 @@ public class Pawn {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getIcon() {
+		return icon;
 	}
 
 	/**
