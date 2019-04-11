@@ -1,12 +1,11 @@
 package com.stratego.view;
 
-import com.stratego.model.grid.Grid;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -17,17 +16,20 @@ public class InGameState extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		Pane grid = new Pane();
-		Button[][] square = new Button[10][10];
+		Pane ingame = new Pane();
+		GridPane grid = new GridPane();
 		
-		for(int i = 0; i < 10; i++){
+		grid.setPrefHeight(600);
+		grid.setPrefWidth(600);
+		
+		
+		
+		for(int i = 10; i >= 0; i--){
 			for(int j = 0; j < 10; j++){
-				square[i][j] = new Button("Salut");
-				square[i][j].setTranslateX(60);
-				square[i][j].setTranslateY(60);
-				square[i][j].setId("leaveButton");
+				Button square = new Button("(" + i + "," + j + ")");
+				grid.getChildren().add(square);
 				
-				grid.getChildren().add(square[i][j]);
+				
 				
 			}
 		}
@@ -41,7 +43,7 @@ public class InGameState extends Application {
 		backgroundView.setFitHeight(610.0);
 		backgroundView.setFitWidth(610.0);
 		backgroundView.setPreserveRatio(true);
-		grid.getChildren().add(backgroundView);
+		ingame.getChildren().add(backgroundView);
 		
 		// Bouton: Sauvegarder la partie
 		Button save = new Button("Charger une sauvegarde");
@@ -53,7 +55,7 @@ public class InGameState extends Application {
 		save.setPrefWidth(189.0);
 
 		save.setId("loadButton");
-		grid.getChildren().add(save);
+		ingame.getChildren().add(save);
 
 		// Bouton: Quitter la partie 
 		Button leave = new Button("Quitter le jeu");
@@ -66,7 +68,7 @@ public class InGameState extends Application {
 
 		leave.setId("leaveButton");
 	
-		grid.getChildren().add(leave);
+		ingame.getChildren().add(leave);
 
 	
 		

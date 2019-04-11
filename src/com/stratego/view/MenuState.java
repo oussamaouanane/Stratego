@@ -13,13 +13,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 
- /**
+/**
  * <h1>MenuState</h1>
  * 
  * <p>
@@ -32,17 +33,27 @@ import javafx.scene.paint.Color;
 
 public class MenuState extends Application {
 
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
+
 	@Override
 	public void start(Stage primaryStage) throws FileNotFoundException {
+
+		Pane menu = new Pane();
+		menu.setPrefHeight(600);
+		menu.setPrefWidth(900);
 
 		// Image de fond
 		Image background = new Image("/com/stratego/assets/styles/main.png");
 		ImageView backgroundView = new ImageView(background);
 
 		backgroundView.setX(-67.0);
+		backgroundView.setPreserveRatio(true);
 		backgroundView.setFitHeight(614.0);
 		backgroundView.setFitWidth(621.0);
-		backgroundView.setPreserveRatio(true);
+
+		menu.getChildren().add(backgroundView);
 
 		// Image logo
 		Image logo = new Image("/com/stratego/assets/logo_pixel.png");
@@ -54,6 +65,8 @@ public class MenuState extends Application {
 		logoView.setFitWidth(300.0);
 		logoView.setPreserveRatio(true);
 
+		menu.getChildren().add(logoView);
+
 		// Label de copyright
 		Label copyright = new Label("Projet d'informatique // 2018-2019");
 		copyright.setTextFill(Color.web("#DDDDDD"));
@@ -62,7 +75,9 @@ public class MenuState extends Application {
 		copyright.setTranslateX(602.0);
 		copyright.setTranslateY(567.0);
 
-		// Bouton: Nouvelle partie 
+		menu.getChildren().add(copyright);
+
+		// Bouton: Nouvelle partie
 		Button start = new Button("Lancer une nouvelle partie");
 
 		start.setTextFill(Color.WHITE);
@@ -119,7 +134,9 @@ public class MenuState extends Application {
 			}
 		});
 
-		// Bouton: Chargement de sauvegarde 
+		menu.getChildren().add(start);
+
+		// Bouton: Chargement de sauvegarde
 		Button save = new Button("Charger une sauvegarde");
 
 		save.setTextFill(Color.WHITE);
@@ -137,11 +154,14 @@ public class MenuState extends Application {
 				FileChooser saveUpload = new FileChooser();
 				saveUpload.setTitle("Load your save");
 				saveUpload.showOpenDialog(primaryStage);
-				saveUpload.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML", "*.xml"));
+				FileChooser.ExtensionFilter xml = new FileChooser.ExtensionFilter("XML", "*.xml");
+				saveUpload.setSelectedExtensionFilter(xml);
 			}
 		});
 
-		// Bouton: Quitter la partie 
+		menu.getChildren().add(save);
+
+		// Bouton: Quitter la partie
 		Button leave = new Button("Quitter le jeu");
 
 		leave.setTextFill(Color.WHITE);
@@ -152,17 +172,12 @@ public class MenuState extends Application {
 
 		leave.setId("leaveButton");
 
-		leave.setOnAction(new EventHandler<ActionEvent>() {
+		leave.setOnAction(e -> Platform.exit());
 
-			@Override
-			public void handle(ActionEvent event) {
-				Platform.exit();
-			}
-		});
+		menu.getChildren().add(leave);
 
-		Group root = new Group(backgroundView, logoView, copyright, start, save, leave);
 		// Scene
-		Scene scene = new Scene(root, 900, 600);
+		Scene scene = new Scene(menu);
 		// Titre
 		primaryStage.setTitle("Stratego - Menu principal");
 		// Réglage de Scene
@@ -173,11 +188,5 @@ public class MenuState extends Application {
 		// Afficher Scene
 		primaryStage.show();
 	}
-	
-	public static void main(String[] args) {
-		Application.launch(args);
-	}
 
 }
-
-

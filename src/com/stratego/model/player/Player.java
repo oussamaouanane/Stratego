@@ -70,7 +70,7 @@ public class Player {
 
 	}
 
-	public Couple getMovement() {
+	public Couple[] getMovement() {
 		// Implémenter une méthode pour récupérer le mouvement voulu du joueur qui
 		// retourne un couple (x, y) qui représente une instance Square à la position de
 		// l'instance Grid[x][y].
@@ -78,11 +78,13 @@ public class Player {
 	}
 
 	public void play() {
-		//Utilisation du mouvement récupéré dans getMouvement
-		PawnInteractions move = new PawnInteractions(getMovement());
+		// Utilisation du mouvement récupéré dans getMouvement
+		PawnInteractions initial = new PawnInteractions(getMovement()[0]);
+		PawnInteractions move = new PawnInteractions(getMovement()[1]);
 		int moveX = move.getX();
 		int moveY = move.getY();
-		
+
+		grid.movePawn(grid.getSquare(initial.getX(), initial.getY()), grid.getSquare(moveX, moveY));
 	}
 
 	public void flagPosition() {
