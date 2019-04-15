@@ -21,8 +21,8 @@ public class Pawn {
 	private int id, rank, player, range = 1;
 	private boolean state;
 	private boolean visible;
-	private String[] arrayRanks = { "Spy", "Scouts", "Miners", "Sergents", "Lieutenants", "Captains", "Commanders",
-			"Colonels", "General", "Marshal", "Bombs", "Flag" };
+	private String[] arrayRanks = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant", "Capitaine", "Commandant",
+			"Colonel", "General", "Marechal", "Bombe", "Drapeau" };
 	private Square square;
 	private String icon;
 
@@ -54,7 +54,6 @@ public class Pawn {
 		else if (rank == 1)
 			this.range = 9;
 
-		icon = arrayRanks[rank] + "_J" + player;
 	}
 
 	public Square getSquare(Grid grid) {

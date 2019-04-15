@@ -21,7 +21,7 @@ public class GameProcess {
 	private Player ai;
 	private int[] playerTurn = { 1, 2 };
 	private int index = 0;
-	
+
 	GameStateManager state = new GameStateManager();
 
 	/**
@@ -37,11 +37,17 @@ public class GameProcess {
 	 * @return
 	 */
 
-	public GameProcess() {
+	public GameProcess(int ai) {
 
 		Grid grid = new Grid();
 		user = new Player(false, grid);
-		ai = new Player(true, grid);
+		// Configurer ai
+		switch (ai) {
+		case 1: this.ai = new Player(true, grid);
+		case 2: this.ai = new Player(true, grid);
+
+
+		}
 	}
 
 	/**
@@ -63,7 +69,6 @@ public class GameProcess {
 	 * 
 	 * @return Retourne 1 si c'est au tour du joueur Client, 2 sinon.
 	 */
-	
 
 	public int getTurn() {
 		return playerTurn[index];
@@ -77,14 +82,14 @@ public class GameProcess {
 		while (!(state.getState() == 3)) {
 			// Détermination du joueur qui doit jouer.
 			Player currentPlayer = null;
-			
+
 			switch (index) {
-				case 0:
-					currentPlayer = user;
-					break;
-				case 1:
-					currentPlayer = ai;
-					
+			case 0:
+				currentPlayer = user;
+				break;
+			case 1:
+				currentPlayer = ai;
+
 			}
 			currentPlayer.play();
 			index++;

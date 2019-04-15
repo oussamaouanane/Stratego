@@ -1,3 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project name="Stratego">
+
+<target name="build">
+	<mkdir dir="bin"/>
+	<javac srcdir="src" destdir="bin"/>
+</target>
+
+<target name="run" depends="build">
+	<java classname="com.stratego.StrategoApp" classpath="bin"/>
+</target>
+
+<target name="clean">
+	<delete dir="bin"/>
+</target>
+
 </project>

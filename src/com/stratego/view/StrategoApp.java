@@ -1,6 +1,14 @@
 package com.stratego.view;
 
-public class StrategoApp {
+import com.stratego.view.MenuState;
 
+import javafx.application.Application;
+
+public class StrategoApp  {
+
+	
+	public static void main(String[] args) {
+		Application.launch(MenuState.class, args);
+		}
 
 }
