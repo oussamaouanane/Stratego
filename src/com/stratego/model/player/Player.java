@@ -217,7 +217,7 @@ public class Player {
 	 * 
 	 * - Le joueur adverse (p2) n'a plus de drapeau. - Le joueur a encerclé son
 	 * drapeau de bombes et le joueur adverse (p2) n'a plus de démineurs. - TODO Le
-	 * joueur adverse (p2) est dans une situation où il ne peut plus bouger. - TODO
+	 * joueur adverse (p2) est dans une situation où il ne peut plus bouger. -
 	 * Le joueur adverse (p2) est dans une situation où toutes ses pièces sont
 	 * strictements plus faibles que celles du joueur.
 	 * 

@@ -21,12 +21,11 @@ public class Pawn {
 	private int id, rank, player, range = 1;
 	private boolean state;
 	private boolean visible;
-	private String[] arrayRanks = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant", "Capitaine", "Commandant",
+	private final String[] arrayRanks = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant", "Capitaine", "Commandant",
 			"Colonel", "General", "Marechal", "Bombe", "Drapeau" };
 	private Square square;
-	private String icon;
 
-	public final static int[] PAWNS_COMPOSITION = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5,
+	public static int[] PAWNS_COMPOSITION = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5,
 			5, 5, 5, 6, 6, 6, 7, 7, 8, 9, 10, 11 };
 
 	/**
@@ -105,10 +104,6 @@ public class Pawn {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getIcon() {
-		return icon;
 	}
 
 	/**

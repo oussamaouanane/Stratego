@@ -1,28 +1,33 @@
 package com.stratego.view;
 
-import com.stratego.model.Couple;
 import com.stratego.model.GameProcess;
-import com.stratego.model.player.Player;
 
-import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+
 public class InGameState {
 	
+	 private ImageView pawnChosen;
 	 private SquareView[][] square = new SquareView[10][10];
 	 private Pane inGame = new Pane();
 	 private Pane grid = new Pane();
+	 GameProcess game;
+	 
+	 private final String[] arrayRanks = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant", "Capitaine", "Commandant",
+				"Colonel", "General", "Marechal", "Bombe", "Drapeau" };
+	 private int[] PAWNS_COMPOSITION = { 1, 8, 5, 4, 4, 4, 3, 2, 1, 1, 6, 0 };
 	 
 	 public InGameState(int ai) {
-		 	
+		 		 	
 		 	Stage primaryStage = new Stage();
 		 	// Scene
 			Scene scene = new Scene(inGame, 1000, 600);
@@ -42,8 +47,10 @@ public class InGameState {
 			// Permet de créer la grille
 			createGrid();
 			
+			setupPawns();
+			
 			// Permet de créer une instant de GameProcess
-			GameProcess game = new GameProcess(ai);
+			game = new GameProcess(ai);
 
 	}
 
@@ -81,14 +88,33 @@ public class InGameState {
 		Button leave = new Button("Quitter le jeu");
 
 		leave.setTextFill(Color.WHITE);
-		leave.setTranslateX(810.0);
+		leave.setTranslateX(820.0);
 		leave.setTranslateY(540.0);
 		leave.setPrefHeight(40.0);
 		leave.setPrefWidth(160.0);
+		leave.setOnAction(e -> Platform.exit());
 
 		leave.setId("leaveButton");
-	
+			
 		inGame.getChildren().add(leave);
+	}
+	
+	private void setupPawns() {
+		
+		SplitPane setup = new SplitPane();
+		
+		for (int i = 0; i < 12; i++) {
+			int nb = PAWNS_COMPOSITION[i];
+			for (int j = 0; j < nb; j++)
+				createPawn(i);
+			
+		}
+		
+		setup.setPrefSize(400, 510);
+		setup.setTranslateX(610);
+		grid.getChildren().add(setup);
+
+
 	}
 	
 	private void createGrid() {
@@ -101,8 +127,7 @@ public class InGameState {
 				square[i][j].setRow(9-i);
 				square[i][j].setColumn(j);
 				
-				square[i][j].setOnMousePressed(e -> getPawn(e));
-				square[i][j].setOnMouseDragReleased(e -> getFinal(e));
+				square[i][j].setOnMousePressed(e -> SquareEvent(e));
 				
 				grid.getChildren().add(square[i][j]);
 
@@ -110,15 +135,40 @@ public class InGameState {
 		}		
 	}
 	
-	private void getFinal(MouseDragEvent e) {
-		SquareView sq = (SquareView) e.getSource();
-		Couple finalCoord = new Couple(sq.getRow(), sq.getColumn());
-		System.out.println("La rangée finale est: " + sq.getRow() + " et la colonne finale est: " + sq.getColumn());
+	private void createPawn(int rank) {
+		
+		Image pawnTest = new Image("com/stratego/assets/sprites/" + arrayRanks[rank] + "_J1.png");
+		ImageView pawn = new ImageView(pawnTest);
+
+		switch (rank) {
+		case 0:
+		}
+		
+		pawn.setOnMousePressed(e -> PawnEvent(e));
+		inGame.getChildren().add(pawn);
+		
+	}
+	
+	private void PawnEvent(MouseEvent e) {
+		
+		pawnChosen = (ImageView) e.getSource();
+		System.out.println("mdr");
+
 	}
 
-	public void getPawn(MouseEvent e) {
+	public void SquareEvent(MouseEvent e) {
 		SquareView sq = (SquareView) e.getSource();
-		System.out.println("La rangée est: " + sq.getRow() + " et la colonne est: " + sq.getColumn());
+		int sqRow = sq.getRow();
+		int sqColumn = sq.getColumn();
+		
+		System.out.println(game.getGrid().getTest());
+		
+		if (game.getGrid().getSquare(sqRow, sqColumn).getAccess()) {
+			pawnChosen.setX(sq.getX());
+			pawnChosen.setY(sq.getY());
+			pawnChosen = null;
+		}
+		
 	}
 
 	

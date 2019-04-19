@@ -8,9 +8,17 @@ public class SquareView extends Rectangle {
 	private int column;
 	private PawnView pawn;
 	
-	public SquareView(int i, int j, int k, int l) {
-		// TODO Auto-generated constructor stub
-		super(i, j, k, l);
+	/**
+	 * Constructeur hérité de Rectangle.
+	 * 
+	 * @param x Position horizontale
+	 * @param y Position verticale
+	 * @param width Largeur
+	 * @param height Longueur
+	 */
+		
+	public SquareView(int x, int y, int width, int height) {
+		super(x, y, width, height);
 	}
 
 	public int getRow() {

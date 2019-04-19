@@ -21,6 +21,7 @@ public class GameProcess {
 	private Player ai;
 	private int[] playerTurn = { 1, 2 };
 	private int index = 0;
+	private Grid grid;
 
 	GameStateManager state = new GameStateManager();
 
@@ -39,7 +40,7 @@ public class GameProcess {
 
 	public GameProcess(int ai) {
 
-		Grid grid = new Grid();
+		grid = new Grid(2);
 		user = new Player(false, grid);
 		// Configurer ai
 		switch (ai) {
@@ -65,7 +66,7 @@ public class GameProcess {
 	}
 
 	/**
-	 * Méthode permettant de retourner le tour de la personne qui doit jouer
+	 * Méthode permettant de retourner le tour de la personne qui doit jouer.
 	 * 
 	 * @return Retourne 1 si c'est au tour du joueur Client, 2 sinon.
 	 */
@@ -73,6 +74,10 @@ public class GameProcess {
 	public int getTurn() {
 		return playerTurn[index];
 
+	}
+	
+	public Grid getGrid() {
+		return grid;
 	}
 
 	public void runningGame() {

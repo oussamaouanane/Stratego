@@ -35,6 +35,8 @@ public class Grid {
 
 	private final int GRID_SIZE = 10;
 	private Square[][] grid = new Square[GRID_SIZE][GRID_SIZE];
+	
+	private int temporaryTest;
 
 	/**
 	 * Constructeur par défaut permettant d'initialiser la grille avec 100 instances
@@ -45,8 +47,9 @@ public class Grid {
 	 * @see Grid#createGrid()
 	 */
 
-	public Grid() {
+	public Grid(int sal) {
 
+		temporaryTest = sal;
 		createGrid();
 	}
 
@@ -123,6 +126,10 @@ public class Grid {
 	
 	public void setPawn(Pawn pawn, int i, int j) {
 		getSquare(i, i).setPawn(pawn);
+	}
+	
+	public int getTest() {
+		return temporaryTest;
 	}
 
 }

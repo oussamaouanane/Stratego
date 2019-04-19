@@ -35,5 +35,10 @@
  	-fx-fill: rgba(148, 129, 0, 0.5);
  }
  
+#pawn:hover {
+	
+	-fx-stroke: #FFF;
+}
+ 
  
  
