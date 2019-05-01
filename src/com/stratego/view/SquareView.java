@@ -1,12 +1,25 @@
-package com.stratego.view;
+package be.ac.umons.stratego.view;
 
 import javafx.scene.shape.Rectangle;
 
-public class SquareView extends Rectangle {
+/**
+ * <h1>SquareView</h1>
+ * 
+ * <p>
+ * Classe permettant de représenter de manière graphique Square, elle hérite des
+ * composants de sa classe mère Rectangle.
+ * </p>
+ * 
+ * @see Rectangle
+ * 
+ * @author O.S
+ */
 
+public class SquareView extends Rectangle {
+	
 	private int row;
 	private int column;
-	private PawnView pawn;
+	private PawnView pawnView;
 	
 	/**
 	 * Constructeur hérité de Rectangle.
@@ -37,12 +50,13 @@ public class SquareView extends Rectangle {
 		this.column = column;
 	}
 	
-	public PawnView getPawn() {
-		return pawn;
+	public PawnView getPawnView() {
+		return pawnView;
 	}
 	
-	public void setPawn(PawnView pawn) {
-		this.pawn = pawn;
+	public void setPawnView(PawnView pawn) {
+		pawnView = pawn;
+		//pawnView.setSquareView(this);
 	}
 
 }

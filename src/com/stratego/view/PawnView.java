@@ -1,32 +1,94 @@
-package com.stratego.view;
-
-import com.stratego.model.pawn.Pawn;
+package be.ac.umons.stratego.view;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class PawnView extends Pawn {
+/**
+ * Classe permettant de représenter de manière graphique Pawn, elle hérite des
+ * Composants de sa classe mère ImageView.
+ * 
+ * @see Pawn
+ * @see ImageView
+ * 
+ * @author O.S
+ *
+ */
 
-	Image icon;
-	ImageView iconView;
+public class PawnView extends ImageView {
 
-	public PawnView(int id, int rank, int player) {
-		super(id, rank, player);
-		createIcon();
+	// Caractéristiques du pion, à la manière de Pawn
+	private int rank;
+	private int player;
+	private boolean visible;
+	private SquareView square;
+	// true pour vivant, false pour mort.
+	private boolean state;
+	
+	// Liste de tous les pions
+	private final static String[] rankString = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant", "Capitaine",
+			"Commandant", "Colonel", "General", "Marechal", "Bombe", "Drapeau" };
+
+	public PawnView(int rank, int player) {
+
+		super(createImage(rank, player));
+		// Variables d'instances
+		this.rank = rank;
+		this.player = player;
+		
+		if (player == 2)
+			visible = false;
+		else
+			visible = true;
+
+
 	}
 
-	public void createIcon() {
-
-		if (getPlayer() == 2) {
-			if (!getVisible())
-				icon = new Image("/com/Stratego/assets/sprite/Hidden_J2.png");
-			else
-				icon = new Image("/com/Stratego/assets/sprite/" + getRankName() + "_J2.png");
-		}
-
-		else
-			icon = new Image("/com/Stratego/assets/sprite/" + getRankName() + "_J1.png");
-		iconView = new ImageView(icon);
+	public static Image createImage(int rank, int player) {
+		
+		String path = getPathName(rank, player);
+		return new Image(path);
+	}
+	
+	public static String getPathName(int rank, int player) {
+		
+		return "file:assets/sprites/" + rankString[rank] + "_J" + player + ".png";
 		
 	}
+
+	/**
+	 * Quelques accesseurs (getters) et mutateurs (setters)
+	 */
+
+	public int getPlayer() {
+		return player;
+	}
+
+	public int getRank() {
+		return rank;
+	}
+
+	public SquareView getSquare() {
+		return square;
+	}
+
+	public void setSquare(SquareView square) {
+		this.square = square;
+	}
+
+	public boolean getVisible() {
+		return visible;
+	}
+
+	public void setSquare(boolean visible) {
+		this.visible = visible;
+	}
+
+	public boolean isAlive() {
+		return state;
+	}
+
+	public void setState(boolean state) {
+		this.state = state;
+	}
+
 }

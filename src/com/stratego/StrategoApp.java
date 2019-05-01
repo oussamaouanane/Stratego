@@ -1,14 +1,12 @@
-package com.stratego.view;
+package be.ac.umons.stratego;
 
-import com.stratego.view.Menu;
-
+import be.ac.umons.stratego.view.MenuView;
 import javafx.application.Application;
 
 public class StrategoApp {
-
 	
 	public static void main(String[] args) {
-		Application.launch(Menu.class, args);
+		Application.launch(MenuView.class, args);
 	}
 
 }

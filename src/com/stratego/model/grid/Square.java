@@ -1,6 +1,7 @@
-package com.stratego.model.grid;
+package be.ac.umons.stratego.model.grid;
 
-import com.stratego.model.pawn.Pawn;
+import be.ac.umons.stratego.model.grid.Grid;
+import be.ac.umons.stratego.model.pawn.Pawn;
 
 /**
  * <h1>Square</h1>
@@ -19,10 +20,10 @@ import com.stratego.model.pawn.Pawn;
 
 public class Square {
 
-	private Pawn pawn;
+	private Pawn    pawn;
 	private boolean access;
-	private int row;
-	private int column;
+	private int     row;
+	private int     column;
 
 	// Coordonnées des drapeaux dans la grille
 	// @see Grid
@@ -44,14 +45,15 @@ public class Square {
 	 */
 	public Square(Pawn pawn, boolean access) {
 
-		this.setPawn(pawn);
+		setPawn(pawn);
 		this.access = access;
 	}
 
 	public Square(int row, int column, Pawn pawn, boolean access) {
+
 		this.row = row;
 		this.column = column;
-		this.setPawn(pawn);
+		setPawn(pawn);
 		this.access = access;
 	}
 
@@ -79,28 +81,27 @@ public class Square {
 	}
 
 	public void setPawn(Pawn pawn) {
+
 		this.pawn = pawn;
 		// Fixe les coordonnées du drapeau.
-		if (pawn.getRank() == 11) {
+		// if (pawn.getRank() == 11) {
+		// switch (pawn.getPlayer()) {
+		// Cas où le joueur est 1.
+		// case 1:
+		// flagA[0] = row;
+		// flagA[1] = column;
+		// break;
+		// Cas où le joueur est 2.
+		// case 2:
+		// flagB[0] = row;
+		// flagB[1] = column;
+		// break;
 
-			switch (pawn.getPlayer()) {
-			// Cas où le joueur est 1.
-			case 1:
-				flagA[0] = row;
-				flagA[1] = column;
-				break;
-			// Cas où le joueur est 2.
-			case 2:
-				flagB[0] = row;
-				flagB[1] = column;
-				break;
-			}
-
-			// Fixe l'instance du Carré dans l'instance du pion.
-			pawn.setSquare(this);
-
-		}
+		// Fixe l'instance du Carré dans l'instance du pion.
+		// pawn.setSquare(this);
 	}
+	// }
+	// }
 
 	public void setAccess(boolean access) {
 		this.access = access;
@@ -116,8 +117,9 @@ public class Square {
 	}
 
 	public int[] getFlagPosition(int player) {
-		int[] flag = null;
 
+		int[] flag = null;
+		// Retourne la position du drapeau selon le joueur
 		switch (player) {
 		case 1:
 			flag = flagA;
@@ -127,3 +129,4 @@ public class Square {
 		return flag;
 	}
 }
+

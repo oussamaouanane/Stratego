@@ -1,25 +1,20 @@
-package com.stratego.model.state;
+package be.ac.umons.stratego.model.state;
 
 /**
  * <h1>GameState</h1>
  * 
  * <p>
- * Enum permettant de définir les différents états du jeu.
+ * Enum permettant de définir les différents états d'une partie en cours, leurs
+ * présentations figurent ci-dessous.
  * </p>
  * 
- * @see MenuState
- * @see GameState
- * @see PauseState
- * @see EndGameState
+ * @see SettingUpState Représente le positionnement des pions.
+ * @see GameState Représente le déroulement de la partie.
+ * @see EndGameState Représente la fin du déroulement de la partie.
  * 
  * @author O.S
  */
 
 public enum GameState {
-	
-	MENUSTATE,
-	INGAMESTATE,
-	PAUSESTATE,
-	ENDGAMESTATE
-
+	SETTINGUPSTATE(), GAMESTATE(), ENDGAMESTATE();
 }

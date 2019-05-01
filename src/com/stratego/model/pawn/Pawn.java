@@ -1,16 +1,15 @@
-package com.stratego.model.pawn;
+package be.ac.umons.stratego.model.pawn;
 
-import com.stratego.model.grid.Grid;
-import com.stratego.model.grid.Square;
+import be.ac.umons.stratego.model.grid.Square;
 
 /**
  * <h1>Pawn</h1>
  * 
  * <p>
  * Classe permettant de modéliser un pion. Un pion possède plusieurs attributs
- * qui permettent de le définir: - Un ID unique 0 <= ID <= 80 - un rang <i>c.f
- * arrayRanks</i> - un joueur - un état, vivant ou mort - une visibilité - une
- * portée.
+ * qui permettent de le définir: - Un ID unique 0 <= ID <= 80 (Pas sûr de
+ * l'implémenter) - un rang <i>c.f arrayRanks</i> - un joueur - un état, vivant
+ * ou mort - une visibilité - une portée.
  * </p>
  * 
  * @author O.S
@@ -18,15 +17,15 @@ import com.stratego.model.grid.Square;
 
 public class Pawn {
 
-	private int id, rank, player, range = 1;
+	private int rank, player, range = 1;
 	private boolean state;
 	private boolean visible;
-	private final String[] arrayRanks = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant", "Capitaine", "Commandant",
-			"Colonel", "General", "Marechal", "Bombe", "Drapeau" };
 	private Square square;
 
-	public static int[] PAWNS_COMPOSITION = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5,
-			5, 5, 5, 6, 6, 6, 7, 7, 8, 9, 10, 11 };
+	private final String[] arrayRanks = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant", "Capitaine",
+			"Commandant", "Colonel", "General", "Marechal", "Bombe", "Drapeau" };
+	public static int[] PAWNS_COMPOSITION = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5,
+			5, 6, 6, 6, 7, 7, 8, 9, 10, 11 };
 
 	/**
 	 * Constructeur par défaut permettant de définir une instance de Pawn qui est
@@ -37,9 +36,8 @@ public class Pawn {
 	 * @param player Possesseur du pion (1 ou 2)
 	 */
 
-	public Pawn(int id, int rank, int player) {
+	public Pawn(int rank, int player) {
 
-		this.setId(id);
 		this.rank = rank;
 		this.player = player;
 
@@ -55,7 +53,7 @@ public class Pawn {
 
 	}
 
-	public Square getSquare(Grid grid) {
+	public Square getSquare() {
 		return square;
 	}
 
@@ -64,7 +62,8 @@ public class Pawn {
 	}
 
 	/**
-	 * Quelques accesseurs (getters) et mutateurs (setters)
+	 * Quelques accesseurs (getters) et mutateurs (setters), lire la présentation de
+	 * la classe pour en savoir plus sur les variables d'instances.
 	 */
 	public int getPlayer() {
 		return player;
@@ -98,16 +97,11 @@ public class Pawn {
 		this.state = state;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	/**
-	 * Méthode permettant de vérifier si un pion est d'un rang spécifique.
+	 * Méthode permettant de vérifier si un pion est d'un rang spécifique. On
+	 * pourrait utiliser une condition booléen uniquement à l'aide d'une condition
+	 * de ce type: SI pion.getRank() == rank ALORS mais c'est plus concis de cette
+	 * manière.
 	 */
 	public boolean isPawnA(int rank) {
 		return this.rank == rank;

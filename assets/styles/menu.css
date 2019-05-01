@@ -36,8 +36,11 @@
  }
  
 #pawn:hover {
-	
 	-fx-stroke: #FFF;
+}
+
+#highlight {
+	-fx-fill: rgba(148, 129, 0, 0.5);
 }
  
  

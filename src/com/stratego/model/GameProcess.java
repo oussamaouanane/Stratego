@@ -1,8 +1,9 @@
-package com.stratego.model;
+package be.ac.umons.stratego.model;
 
-import com.stratego.model.grid.Grid;
-import com.stratego.model.player.Player;
-import com.stratego.model.state.GameStateManager;
+import be.ac.umons.stratego.model.grid.Grid;
+import be.ac.umons.stratego.model.player.Player;
+import be.ac.umons.stratego.model.state.GameState;
+import be.ac.umons.stratego.model.state.GameStateManager;
 
 /**
  * <h1>GameProcess</h1>
@@ -40,14 +41,16 @@ public class GameProcess {
 
 	public GameProcess(int ai) {
 
-		grid = new Grid(2);
+		grid = new Grid();
 		user = new Player(false, grid);
 		// Configurer ai
 		switch (ai) {
-		case 1: this.ai = new Player(true, grid);
-		case 2: this.ai = new Player(true, grid);
-
-
+		case 1:
+			this.ai = new Player(true, grid);
+			break;
+		case 2:
+			this.ai = new Player(true, grid);
+			break;
 		}
 	}
 
@@ -62,7 +65,11 @@ public class GameProcess {
 
 	public boolean checkWin() {
 		return user.checkWin(ai) || ai.checkWin(user);
+	}
 
+	public void endGame() {
+		if (checkWin())
+			state.setState(GameState.ENDGAMESTATE);
 	}
 
 	/**
@@ -73,35 +80,44 @@ public class GameProcess {
 
 	public int getTurn() {
 		return playerTurn[index];
-
 	}
-	
+
 	public Grid getGrid() {
 		return grid;
+	}
+	
+	public GameStateManager getGameStateManager() {
+		return state;
 	}
 
 	public void runningGame() {
 
-		pawnPlacement(ai);
-
-		while (!(state.getState() == 3)) {
-			// Détermination du joueur qui doit jouer.
-			Player currentPlayer = null;
-
-			switch (index) {
-			case 0:
-				currentPlayer = user;
-				break;
-			case 1:
-				currentPlayer = ai;
-
-			}
-			currentPlayer.play();
-			index++;
-			// Changement du tour
-			index = playerTurn.length % playerTurn[index];
+		while (state.getState() == GameState.SETTINGUPSTATE) {
 
 		}
+
+		// Déterminer le joueur qui doit jouer
+
+//		pawnPlacement(ai);
+//
+//		while (!(state.getState() == GameState.ENDGAMESTATE)) {
+//			// Détermination du joueur qui doit jouer.
+//			Player currentPlayer = null;
+//
+//			switch (index) {
+//			case 0:
+//				currentPlayer = user;
+//				break;
+//			case 1:
+//				currentPlayer = ai;
+//
+//			}
+//			currentPlayer.play();
+//			index++;
+//			// Changement du tour
+//			index = playerTurn.length % playerTurn[index];
+
+		// }
 
 	}
 
@@ -111,7 +127,7 @@ public class GameProcess {
 
 	public void pawnPlacement(Player p1) {
 		p1.pawnPlacement();
-
 	}
 
 }
+

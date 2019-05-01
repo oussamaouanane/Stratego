@@ -1,10 +1,10 @@
-package com.stratego.model.pawn;
+package be.ac.umons.stratego.model.pawn;
 
 import java.util.ArrayList;
 
-import com.stratego.model.Couple;
-import com.stratego.model.grid.Grid;
-import com.stratego.model.grid.Square;
+import be.ac.umons.stratego.model.pawn.Couple;
+import be.ac.umons.stratego.model.grid.Grid;
+import be.ac.umons.stratego.model.grid.Square;
 
 /**
  * <h1>PawnInteractions</h1>
@@ -21,7 +21,7 @@ import com.stratego.model.grid.Square;
  * @author O.S
  */
 
-public class PawnInteractions extends Couple {
+public class PawnInteraction extends Couple {
 
 	private Grid grid;
 
@@ -29,17 +29,17 @@ public class PawnInteractions extends Couple {
 	 * Constructeur par défaut
 	 */
 
-	public PawnInteractions(Square squareA, Square squareB, Grid grid) {
+	public PawnInteraction(Square squareA, Square squareB, Grid grid) {
 		super(squareA, squareB);
 		this.grid = grid;
 	}
 
-	public PawnInteractions(int row, int column, Grid grid) {
+	public PawnInteraction(int row, int column, Grid grid) {
 		super(row, column);
 		this.grid = grid;
 	}
 
-	public PawnInteractions(Couple movement, Grid grid) {
+	public PawnInteraction(Couple movement, Grid grid) {
 		super(movement.getX(), movement.getY());
 		this.grid = grid;
 	}
@@ -188,7 +188,7 @@ public class PawnInteractions extends Couple {
 
 		for (Couple c : possibleMovements) {
 			// evaluation.add(stayInBoard(getX(), getY(), c));
-			if (new PawnInteractions(getSquare(getX(), getY()), getSquare(getX() + c.getX(), getY() + c.getY()), grid)
+			if (new PawnInteraction(getSquare(getX(), getY()), getSquare(getX() + c.getX(), getY() + c.getY()), grid)
 					.isMovePossible())
 				evaluation.add(1);
 			else

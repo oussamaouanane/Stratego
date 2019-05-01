@@ -1,19 +1,22 @@
-package com.stratego.model.player;
+package be.ac.umons.stratego.model.player;
 
 import java.util.ArrayList;
 
-import com.stratego.model.Couple;
-import com.stratego.model.grid.Grid;
-import com.stratego.model.grid.Square;
-import com.stratego.model.pawn.Pawn;
-import com.stratego.model.pawn.PawnInteractions;
+import be.ac.umons.stratego.model.pawn.Couple;
+import be.ac.umons.stratego.model.grid.Grid;
+import be.ac.umons.stratego.model.grid.Square;
+import be.ac.umons.stratego.model.pawn.Pawn;
+import be.ac.umons.stratego.model.pawn.PawnInteraction;
 
 /**
  * <h1>Player</h1>
  * 
  * <p>
  * Classe permettant de modéliser un joueur, il existe au plus deux joueurs lors
- * d'une partie. Chaque joueur possède un set de 40 pions.
+ * d'une partie. Chaque joueur possède un set de 40 pions. La classe possède des
+ * méthodes liées à la gestion d'une partie et de son organisation. On y
+ * retrouvera donc des méthodes qui vérifient l'état actuelle de la partie pour
+ * l'instance du joueur donnée.
  * </p>
  *
  */
@@ -35,8 +38,6 @@ public class Player {
 	private boolean flagSurrounded;
 	private boolean hasMinersLeft;
 
-	private int currentNbOfPawns;
-
 	private ArrayList<Pawn> alivePawns;
 	private ArrayList<Pawn> deathPawns;
 
@@ -47,23 +48,19 @@ public class Player {
 		hasFlag = hasMinersLeft = flagSurrounded = true;
 		this.grid = grid;
 
-		initializePawns();
-		if (ai = true) {
-			currentNbOfPawns = 40;
+		// initializePawns();
+		if (ai = true)
 			playerId = 2;
-		} else
-			currentNbOfPawns = 0;
-		playerId = 1;
+		else
+			playerId = 1;
 
 		// Configuration si intelligence artificielle
 
 	}
 
 	public void initializePawns() {
-		for (int i = currentNbOfPawns; i <= currentNbOfPawns + 40; i++) {
-			for (int c : Pawn.PAWNS_COMPOSITION)
-				alivePawns.add(new Pawn(i, c, playerId));
-		}
+		for (int c : Pawn.PAWNS_COMPOSITION)
+			alivePawns.add(new Pawn(c, playerId));
 	}
 
 	public void pawnPlacement() {
@@ -79,8 +76,8 @@ public class Player {
 
 	public void play() {
 		// Utilisation du mouvement récupéré dans getMouvement
-		PawnInteractions initial = new PawnInteractions(getMovement()[0]);
-		PawnInteractions move = new PawnInteractions(getMovement()[1]);
+		PawnInteraction initial = new PawnInteraction(getMovement()[0], grid);
+		PawnInteraction move = new PawnInteraction(getMovement()[1], grid);
 		int moveX = move.getX();
 		int moveY = move.getY();
 
@@ -142,12 +139,12 @@ public class Player {
 		// Vérifie que le drapeau n'est pas capturé
 		if (!hasFlag())
 			return false;
-		// Gestion des murs à l'aide des méthodes créées dans PawnInteractions
-		// @see PawnInteractions
+		// Gestion des murs à l'aide des méthodes créées dans PawnInteraction
+		// @see PawnInteraction
 		else {
 			// Coordonnées du drapeau sous la forme d'un couple (x, y)
-			// @see PawnInteractions, Couple
-			PawnInteractions flagCoord = new PawnInteractions(flagX, flagY);
+			// @see PawnInteraction, Couple
+			PawnInteraction flagCoord = new PawnInteraction(flagX, flagY, grid);
 			// Création des différentes positions dont il faut analyser le contenu, e.g. (0,
 			// 1) est un mouvement verticale d'une unité vers le haut. On agit sur la grille
 			// comme un repère cartésien.
@@ -163,7 +160,7 @@ public class Player {
 				// bombes. i == 1 car on avait dit que si le mouvement était possible, on
 				// retournait 1 dans la méthode availableMovement().
 
-				// @see PawnInteractions#availableMovement()
+				// @see PawnInteraction#availableMovement()
 				if (i == 1 && !grid.getSquare(atIndex.getX(), atIndex.getY()).getPawn().isPawnA(10))
 					flagSurrounded = false;
 			}
@@ -197,12 +194,12 @@ public class Player {
 	}
 
 	public boolean hasWeakerPawns(Player p2) {
-		PawnInteractions couple;
+		PawnInteraction couple;
 		// Parcourt la liste des deux joueurs pour voir si le joueur 1 a des pièces
 		// moins puissantes que ceux du joueur 2.
 		for (Pawn oppPawn : p2.alivePawns) { // oppPawn = ennemi
 			for (Pawn pawn : alivePawns) {
-				couple = new PawnInteractions(pawn.getSquare(grid), oppPawn.getSquare(grid));
+				couple = new PawnInteraction(pawn.getSquare(), oppPawn.getSquare(), grid);
 				int fight = couple.evaluateFighting();
 				if (fight >= 0)
 					return false;
@@ -217,8 +214,8 @@ public class Player {
 	 * 
 	 * - Le joueur adverse (p2) n'a plus de drapeau. - Le joueur a encerclé son
 	 * drapeau de bombes et le joueur adverse (p2) n'a plus de démineurs. - TODO Le
-	 * joueur adverse (p2) est dans une situation où il ne peut plus bouger. -
-	 * Le joueur adverse (p2) est dans une situation où toutes ses pièces sont
+	 * joueur adverse (p2) est dans une situation où il ne peut plus bouger. - Le
+	 * joueur adverse (p2) est dans une situation où toutes ses pièces sont
 	 * strictements plus faibles que celles du joueur.
 	 * 
 	 * @return Booléen qui indique si le joueur a gagné ou pas.
@@ -239,3 +236,4 @@ public class Player {
 	}
 
 }
+

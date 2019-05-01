@@ -27,7 +27,7 @@ import javafx.scene.paint.Color;
  * @author O.S
  */
 
-public class MenuState extends Application {
+public class Menu extends Application {
 
 	Pane menu = new Pane();
 	
@@ -145,10 +145,6 @@ public class MenuState extends Application {
 		he.setTranslateX(235);
 		he.setTranslateY(50);
 		
-		//Actions
-		me.setOnAction(e -> new InGameState(1));
-		he.setOnAction(e -> new InGameState(2));
-
 		Group second = new Group(me, he, choose);
 		// Scene
 		Scene secondScene = new Scene(second, 450, 100);
@@ -167,6 +163,19 @@ public class MenuState extends Application {
 		// Settings + importing CSS
 		secondScene.getStylesheets().add("/com/stratego/assets/styles/menu.css");
 		chooseOpponent.setResizable(false);
+		
+		//Actions
+		
+		me.setOnAction(e -> chooseOpponent(1, chooseOpponent));
+		he.setOnAction(e -> chooseOpponent(2, chooseOpponent));
+
+		
+	}
+	
+	public void chooseOpponent(int i, Stage stage) {
+		
+		new Game(i);
+		stage.close();
 	}
 
 	@Override
@@ -181,7 +190,7 @@ public class MenuState extends Application {
 		// Réglage de Scene
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
-		scene.getStylesheets().add("/com/stratego/assets/styles/menu.css");
+		scene.getStylesheets().add("assets/styles/menu.css");
 
 		// Afficher Scene
 		primaryStage.show();
