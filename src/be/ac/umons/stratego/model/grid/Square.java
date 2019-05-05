@@ -14,16 +14,15 @@ import be.ac.umons.stratego.model.pawn.Pawn;
  * booléen nommé access.
  * </p>
  * 
- * @author O.S
  * @see Pawn
  */
 
 public class Square {
 
-	private Pawn    pawn;
+	private Pawn pawn;
 	private boolean access;
-	private int     row;
-	private int     column;
+	private int row;
+	private int column;
 
 	// Coordonnées des drapeaux dans la grille
 	// @see Grid
@@ -81,27 +80,8 @@ public class Square {
 	}
 
 	public void setPawn(Pawn pawn) {
-
 		this.pawn = pawn;
-		// Fixe les coordonnées du drapeau.
-		// if (pawn.getRank() == 11) {
-		// switch (pawn.getPlayer()) {
-		// Cas où le joueur est 1.
-		// case 1:
-		// flagA[0] = row;
-		// flagA[1] = column;
-		// break;
-		// Cas où le joueur est 2.
-		// case 2:
-		// flagB[0] = row;
-		// flagB[1] = column;
-		// break;
-
-		// Fixe l'instance du Carré dans l'instance du pion.
-		// pawn.setSquare(this);
 	}
-	// }
-	// }
 
 	public void setAccess(boolean access) {
 		this.access = access;
@@ -129,4 +109,3 @@ public class Square {
 		return flag;
 	}
 }
-

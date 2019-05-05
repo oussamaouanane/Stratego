@@ -33,7 +33,7 @@ public class Player {
 	private int playerId;
 	private int flagX;
 	private int flagY;
-
+	
 	private boolean hasFlag;
 	private boolean flagSurrounded;
 	private boolean hasMinersLeft;
@@ -43,45 +43,21 @@ public class Player {
 
 	private Grid grid;
 
-	public Player(boolean ai, Grid grid) {
-		// Défaut
-		hasFlag = hasMinersLeft = flagSurrounded = true;
+	/**
+	 * Constructeur permettant de créer le joueur humain.
+	 * 
+	 * @param grid La grille où la partie se déroule.
+	 */
+
+	public Player(Grid grid) {
+		initializeVariable();
 		this.grid = grid;
-
-		// initializePawns();
-		if (ai = true)
-			playerId = 2;
-		else
-			playerId = 1;
-
-		// Configuration si intelligence artificielle
-
+		
+		playerId = 1;
 	}
 
-	public void initializePawns() {
-		for (int c : Pawn.PAWNS_COMPOSITION)
-			alivePawns.add(new Pawn(c, playerId));
-	}
-
-	public void pawnPlacement() {
-
-	}
-
-	public Couple[] getMovement() {
-		// Implémenter une méthode pour récupérer le mouvement voulu du joueur qui
-		// retourne un couple (x, y) qui représente une instance Square à la position de
-		// l'instance Grid[x][y].
-		return null;
-	}
-
-	public void play() {
-		// Utilisation du mouvement récupéré dans getMouvement
-		PawnInteraction initial = new PawnInteraction(getMovement()[0], grid);
-		PawnInteraction move = new PawnInteraction(getMovement()[1], grid);
-		int moveX = move.getX();
-		int moveY = move.getY();
-
-		grid.movePawn(grid.getSquare(initial.getX(), initial.getY()), grid.getSquare(moveX, moveY));
+	public void initializeVariable() {
+		hasFlag = hasMinersLeft = flagSurrounded = true;
 	}
 
 	public void flagPosition() {
@@ -154,20 +130,21 @@ public class Player {
 			// cherche à voir si tous les pions sont des bombes
 
 			Couple atIndex = possibleMovements[index];
-			for (int i : flagCoord.availableMovement()) {
-				// Si l'instance Square n'est pas un mur donc est accessible, on regarde si le
-				// pion contenu n'est pas une bombe, dans ce cas le drapeau n'est pas entouré de
-				// bombes. i == 1 car on avait dit que si le mouvement était possible, on
-				// retournait 1 dans la méthode availableMovement().
+			// for (int i : flagCoord.availableMovement()) {
+			// Si l'instance Square n'est pas un mur donc est accessible, on regarde si le
+			// pion contenu n'est pas une bombe, dans ce cas le drapeau n'est pas entouré de
+			// bombes. i == 1 car on avait dit que si le mouvement était possible, on
+			// retournait 1 dans la méthode availableMovement().
 
-				// @see PawnInteraction#availableMovement()
-				if (i == 1 && !grid.getSquare(atIndex.getX(), atIndex.getY()).getPawn().isPawnA(10))
-					flagSurrounded = false;
-			}
-			return flagSurrounded;
+			// @see PawnInteraction#availableMovement()
+			// if (i == 1 && !grid.getSquare(atIndex.getX(),
+			// atIndex.getY()).getPawn().isPawnA(10))
+			flagSurrounded = false;
 		}
-
+		return flagSurrounded;
 	}
+
+	// }
 
 	/**
 	 * Méthode permettant de vérifier si tous les démineurs du joueur n'ont pas
@@ -236,4 +213,3 @@ public class Player {
 	}
 
 }
-

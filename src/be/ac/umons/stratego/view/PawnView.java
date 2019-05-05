@@ -23,10 +23,10 @@ public class PawnView extends ImageView {
 	private SquareView square;
 	// true pour vivant, false pour mort.
 	private boolean state;
-	
+
 	// Liste de tous les pions
-	private final static String[] rankString = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant", "Capitaine",
-			"Commandant", "Colonel", "General", "Marechal", "Bombe", "Drapeau" };
+	private final static String[] rankString = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant",
+			"Capitaine", "Commandant", "Colonel", "General", "Marechal", "Bombe", "Drapeau" };
 
 	public PawnView(int rank, int player) {
 
@@ -34,25 +34,24 @@ public class PawnView extends ImageView {
 		// Variables d'instances
 		this.rank = rank;
 		this.player = player;
-		
+
 		if (player == 2)
 			visible = false;
 		else
 			visible = true;
 
-
 	}
 
 	public static Image createImage(int rank, int player) {
-		
+
 		String path = getPathName(rank, player);
 		return new Image(path);
 	}
-	
+
 	public static String getPathName(int rank, int player) {
-		
+
 		return "file:assets/sprites/" + rankString[rank] + "_J" + player + ".png";
-		
+
 	}
 
 	/**

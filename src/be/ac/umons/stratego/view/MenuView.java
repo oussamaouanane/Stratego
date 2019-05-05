@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
@@ -22,7 +21,6 @@ import javafx.scene.paint.Color;
  * Classe permettant de représenter graphiquement le menu principal du jeu.
  * </p>
  * 
- * @author O.S
  */
 
 public class MenuView extends Application {
@@ -112,11 +110,14 @@ public class MenuView extends Application {
 
 	public void savePopup(Stage primaryStage) {
 
-		FileChooser saveUpload = new FileChooser();
-		saveUpload.setTitle("Load your save");
-		saveUpload.showOpenDialog(primaryStage);
-		FileChooser.ExtensionFilter xml = new FileChooser.ExtensionFilter("XML", "*.xml");
-		saveUpload.setSelectedExtensionFilter(xml);
+		/*
+		 * FileChooser saveUpload = new FileChooser();
+		 * saveUpload.setTitle("Load your save");
+		 * saveUpload.showOpenDialog(primaryStage); FileChooser.ExtensionFilter xml =
+		 * new FileChooser.ExtensionFilter("XML", "*.xml");
+		 * saveUpload.setSelectedExtensionFilter(xml);
+		 */
+
 	}
 
 	public void chooseOpponentWindow(Stage primaryStage) {

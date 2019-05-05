@@ -16,20 +16,20 @@ import javafx.scene.shape.Rectangle;
  */
 
 public class SquareView extends Rectangle {
-	
+
 	private int row;
 	private int column;
 	private PawnView pawnView;
-	
+
 	/**
 	 * Constructeur hérité de Rectangle.
 	 * 
-	 * @param x Position horizontale
-	 * @param y Position verticale
-	 * @param width Largeur
+	 * @param x      Position horizontale
+	 * @param y      Position verticale
+	 * @param width  Largeur
 	 * @param height Longueur
 	 */
-		
+
 	public SquareView(int x, int y, int width, int height) {
 		super(x, y, width, height);
 	}
@@ -49,14 +49,14 @@ public class SquareView extends Rectangle {
 	public void setColumn(int column) {
 		this.column = column;
 	}
-	
+
 	public PawnView getPawnView() {
 		return pawnView;
 	}
-	
+
 	public void setPawnView(PawnView pawn) {
 		pawnView = pawn;
-		//pawnView.setSquareView(this);
+		// pawnView.setSquareView(this);
 	}
 
 }

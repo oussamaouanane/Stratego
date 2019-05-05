@@ -18,7 +18,6 @@ import be.ac.umons.stratego.model.grid.Square;
  * </p>
  * 
  * @see Couple
- * @author O.S
  */
 
 public class PawnInteraction extends Couple {
@@ -181,18 +180,17 @@ public class PawnInteraction extends Couple {
 	 *         droite, bas, gauche)
 	 */
 
-	public ArrayList<Integer> availableMovement() {
+	public ArrayList<Couple> availableMovement() {
 
 		Couple[] possibleMovements = { new Couple(0, 1), new Couple(1, 0), new Couple(0, -1), new Couple(-1, 0) };
-		ArrayList<Integer> evaluation = new ArrayList<Integer>();
+		ArrayList<Couple> evaluation = new ArrayList<Couple>();
 
 		for (Couple c : possibleMovements) {
 			// evaluation.add(stayInBoard(getX(), getY(), c));
 			if (new PawnInteraction(getSquare(getX(), getY()), getSquare(getX() + c.getX(), getY() + c.getY()), grid)
 					.isMovePossible())
-				evaluation.add(1);
-			else
-				evaluation.add(0);
+				evaluation.add(new Couple(getX() + c.getX(), getY() + c.getY()));
+
 		}
 
 		return evaluation;
@@ -206,8 +204,8 @@ public class PawnInteraction extends Couple {
 	 */
 
 	public ArrayList<Integer> availableMovementScout() {
-		int initialSquareX = getSquareA().getRow();
-		int initialSquareY = getSquareA().getColumn();
+		int initialSquareX = getX();
+		int initialSquareY = getY();
 
 		// Initialisation de range, permet de donner la portée du pion dans les 4
 		// directions.
@@ -247,11 +245,14 @@ public class PawnInteraction extends Couple {
 		// Gestion tentative diagonale et gestion portée (l'un implique l'autre),
 		// vérifie si le mouvement reste dans la grille et si la destination est
 		// accessible.
-		if ((differenceRow == 0 && differenceColumn == 0) || (differenceRow > range) || (differenceColumn > range)
-				|| (!stayInBoard(getSquareB().getRow(), getSquareB().getColumn())) || (!getSquareB().getAccess()))
+		if (!(differenceRow == 0 || differenceColumn == 0) || (Math.abs(differenceRow) > range)
+				|| (Math.abs(differenceColumn) > range)
+				|| (!stayInBoard(getSquareB().getRow(), getSquareB().getColumn())) || (!getSquareB().getAccess())
+		 || (getSquareB().getPawn() != null && getSquareB().getPawn().getPlayer() == getSquareA().getPawn().getPlayer()))
+	
 			return false;
-		else
-			return true;
+
+		return true;
 	}
 
 }

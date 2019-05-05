@@ -1,7 +1,9 @@
 package be.ac.umons.stratego.model;
 
 import be.ac.umons.stratego.model.grid.Grid;
+import be.ac.umons.stratego.model.player.FirstAI;
 import be.ac.umons.stratego.model.player.Player;
+import be.ac.umons.stratego.model.player.SecondAI;
 import be.ac.umons.stratego.model.state.GameState;
 import be.ac.umons.stratego.model.state.GameStateManager;
 
@@ -23,6 +25,7 @@ public class GameProcess {
 	private int[] playerTurn = { 1, 2 };
 	private int index = 0;
 	private Grid grid;
+	
 
 	GameStateManager state = new GameStateManager();
 
@@ -42,16 +45,16 @@ public class GameProcess {
 	public GameProcess(int ai) {
 
 		grid = new Grid();
-		user = new Player(false, grid);
+		user = new Player(grid);
 		// Configurer ai
-		switch (ai) {
-		case 1:
-			this.ai = new Player(true, grid);
-			break;
-		case 2:
-			this.ai = new Player(true, grid);
-			break;
+		switch(ai) {
+		case 1: this.ai = new FirstAI(grid);
+		case 2: this.ai = new SecondAI(grid);
 		}
+	}
+	
+	public void endSettingUp() {
+		state.setState(GameState.GAMESTATE);
 	}
 
 	/**
@@ -71,6 +74,8 @@ public class GameProcess {
 		if (checkWin())
 			state.setState(GameState.ENDGAMESTATE);
 	}
+	
+	
 
 	/**
 	 * Méthode permettant de retourner le tour de la personne qui doit jouer.
@@ -85,7 +90,15 @@ public class GameProcess {
 	public Grid getGrid() {
 		return grid;
 	}
-	
+
+	public Player getUser() {
+		return user;
+	}
+
+	public Player getAI() {
+		return ai;
+	}
+
 	public GameStateManager getGameStateManager() {
 		return state;
 	}
@@ -121,13 +134,4 @@ public class GameProcess {
 
 	}
 
-	/**
-	 * Méthode permettant de placer les pions en début de partie
-	 */
-
-	public void pawnPlacement(Player p1) {
-		p1.pawnPlacement();
-	}
-
 }
-

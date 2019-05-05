@@ -1,6 +1,6 @@
-package com.stratego.model;
+package be.ac.umons.stratego.model.pawn;
 
-import com.stratego.model.grid.Square;
+import be.ac.umons.stratego.model.grid.Square;
 
 /**
  * <h1>Couple</h1>
