@@ -40,11 +40,17 @@ public class GridController {
 		PawnInteraction couple = new PawnInteraction(squareRow, squareColumn, game.getGrid());
 		ArrayList<Couple> squareCouple = new ArrayList<Couple>();
 
-		for (Couple c : couple.availableMovement()) {
-			Couple squareCoupleAdd = new Couple(c.getX(), c.getY());
-			squareCouple.add(squareCoupleAdd);
+		//for (Couple c : couple.availableMovement()) {
+			//Couple squareCoupleAdd = new Couple(c.getX(), c.getY());
+			//squareCouple.add(squareCoupleAdd);
+		int cnt = 0;
+		for (int i: couple.availableMovementScout()) {
+			if (cnt == 0 || cnt == 2)
+				squareCouple.add(new Couple(i, 0));
+			else if (cnt == 1 || cnt == 3)
+				squareCouple.add(new Couple(0, i));
+			cnt++;
 		}
-
 		return squareCouple;
 	}
 

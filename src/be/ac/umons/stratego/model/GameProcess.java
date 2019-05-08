@@ -102,36 +102,14 @@ public class GameProcess {
 	public GameStateManager getGameStateManager() {
 		return state;
 	}
-
-	public void runningGame() {
-
-		while (state.getState() == GameState.SETTINGUPSTATE) {
-
+	
+	public void play() {
+		
+		if (state.getState() == GameState.GAMESTATE) {
+			// Changement de tour, changement de joueur
+			index = (index++) % 2 ;
+			
 		}
-
-		// Déterminer le joueur qui doit jouer
-
-//		pawnPlacement(ai);
-//
-//		while (!(state.getState() == GameState.ENDGAMESTATE)) {
-//			// Détermination du joueur qui doit jouer.
-//			Player currentPlayer = null;
-//
-//			switch (index) {
-//			case 0:
-//				currentPlayer = user;
-//				break;
-//			case 1:
-//				currentPlayer = ai;
-//
-//			}
-//			currentPlayer.play();
-//			index++;
-//			// Changement du tour
-//			index = playerTurn.length % playerTurn[index];
-
-		// }
-
 	}
 
 }

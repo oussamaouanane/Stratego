@@ -39,7 +39,6 @@ public class Player {
 	private boolean hasMinersLeft;
 
 	private ArrayList<Pawn> alivePawns;
-	private ArrayList<Pawn> deathPawns;
 
 	private Grid grid;
 
@@ -54,6 +53,13 @@ public class Player {
 		this.grid = grid;
 		
 		playerId = 1;
+	}
+	
+	public void initializePawns() {
+		for (int i = 0; i < 40; i++) {
+			for (int c : Pawn.PAWNS_COMPOSITION)
+				alivePawns.add(new Pawn(c, playerId));
+		}
 	}
 
 	public void initializeVariable() {
@@ -207,9 +213,8 @@ public class Player {
 	public ArrayList<Pawn> getAlivePawns() {
 		return alivePawns;
 	}
-
-	public ArrayList<Pawn> getDeathPawns() {
-		return deathPawns;
+	
+	public Grid getGrid() {
+		return grid;
 	}
-
 }

@@ -5,6 +5,7 @@ import be.ac.umons.stratego.model.pawn.Pawn;
 import be.ac.umons.stratego.model.pawn.PawnInteraction;
 
 public class Grid {
+	
 	/**
 	 * <h1>Grid</h1>
 	 * 
@@ -16,15 +17,21 @@ public class Grid {
 	 * 
 	 * REPRESENTATION:
 	 * 
-	 * 9 - - - - - - - - - - 8 - - - - - - - - - - 7 - - - - - - - - - - 6 - - - - -
-	 * - - - - - 5 - - + + - - + + - - 4 - - + + - - + + - - 3 - - - - - - - - - - 2
-	 * - - - - - - - - - - 1 - - - - - - - - - - 0 - - - - - - - - - - 0 1 2 3 4 5 6
-	 * 7 8 9
+	 * 9 - - - - - - - - - - 
+	 * 8 - - - - - - - - - - 
+	 * 7 - - - - - - - - - - 
+	 * 6 - - - - - - - - - - 
+	 * 5 - - + + - - + + - - 
+	 * 4 - - + + - - + + - - 
+	 * 3 - - - - - - - - - - 
+	 * 2 - - - - - - - - - - 
+	 * 1 - - - - - - - - - - 
+	 * 0 - - - - - - - - - - 
+	 * 	 0 1 2 3 4 5 6 7 8 9
 	 * 
-	 * @author O.S
 	 */
 
-	protected int currentPawns = 0;
+	private int currentPawns = 0;
 
 	private final int GRID_SIZE = 10;
 	private Square[][] grid = new Square[GRID_SIZE][GRID_SIZE];
@@ -84,28 +91,6 @@ public class Grid {
 		finalDestination.getPawn().setSquare(finalDestination);
 
 	}
-
-	// Inutile, à placer dans GridController
-
-	/**
-	 * Méthode permettant de surligner toutes les possibilités de déplacement pour
-	 * un pion dans une instance Square donnée.
-	 * 
-	 * @param initialDestination Instance de Square de départ
-	 * @see Square
-	 * @see Pawn
-	 */
-
-	/**
-	 * Implémenter cette méthode dans la partie graphique! public int[][]
-	 * highlightAvailableMove(Square initialDestination) { PawnInteractions couple =
-	 * new PawnInteractions(initialDestination.getColumn(),
-	 * initialDestination.getColumn()); couple.availableMovement(); }
-	 */
-
-	/**
-	 * Quelques accesseurs (getters) et mutateurs (setters)
-	 */
 
 	public Square getSquare(int i, int j) {
 		return grid[i][j];

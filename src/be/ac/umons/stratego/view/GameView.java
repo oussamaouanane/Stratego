@@ -123,7 +123,7 @@ public class GameView {
 
 				square[i][j] = new SquareView(61 * j, 61 * i, 61, 61);
 				square[i][j].setId("square");
-				square[i][j].setRow(9-i);
+				square[i][j].setRow(9 - i);
 				square[i][j].setColumn(j);
 
 				square[i][j].setOnMousePressed(e -> SquareEvent(e));
@@ -354,6 +354,53 @@ public class GameView {
 
 		setup.getChildren().addAll(title, userScoreDisplay, dash, aiScoreDisplay);
 	}
+	
+	/**
+	 * Méthode permettant de surligner les SquareView où les mouvements sont légaux
+	 * autour du pion.
+	 * 
+	 * @param square est l'instance Square où le pion est stocké.
+	 */
+
+	public void setHighlight(Square square) {
+		ArrayList<Couple> couple = gridController.SquareToHighlight(square);
+		for (Couple c : couple) {
+			SquareView sq = getSquareView(c.getX(), c.getY());
+			sq.setId("highlight");
+			highlightSquareView.add(sq);
+		}
+	}
+
+	/**
+	 * Méthode permettant d'enlever tout surlignement de la grille.
+	 */
+
+	public void resetHighlight() {
+		if (highlightSquareView.size() > 0) {
+			for (SquareView c: highlightSquareView) {
+				c.setId("square");
+			}
+			
+			highlightSquareView.clear();
+		}
+	}
+	
+	public void turnPlayed() {
+		game.play();
+	}
+	
+	public void AIturn() {
+		turnPlayed();
+	}
+	
+	public void handleMovement(SquareView sq, Pawn pawn) {
+		// Permet d'enlever le pion de son Square initial.
+		pawn.getSquare().setPawn(null);
+		// Permet d'insérer le pion
+		pawn.setSquare(getSquare(sq));
+		getSquare(sq).setPawn(pawn);
+	}
+
 
 	/**
 	 * Ensemble de méthodes qui permettent de gérer les événements liés au clics de
@@ -377,33 +424,6 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de surligner les SquareView où les mouvements sont légaux
-	 * autour du pion.
-	 * 
-	 * @param square est l'instance Square où le pion est stocké.
-	 */
-
-	public void setHighlight(Square square) {
-		ArrayList<Couple> couple = gridController.SquareToHighlight(square);
-		for (Couple c : couple) {
-			SquareView sq = getSquareView(c.getX(), c.getY());
-			sq.setId("highlight");
-			highlightSquareView.add(sq);
-		}
-	}
-
-	/**
-	 * Méthode permettant d'enlever tout surlignement de la grille.
-	 */
-
-	public void resetHighlight() {
-		for (SquareView c : highlightSquareView) {
-			c.setId("square");
-			highlightSquareView.remove(c);
-		}
-	}
-
-	/**
 	 * Méthode permettant de gérer les clics qui se font sur les pions. Il existe
 	 * plusieurs cas: - checkSettingUpFinish n'est pas terminé donc il s'agit d'un
 	 * remplacement entre deux pions - Aucun pion n'est stocké dans pawnChosen donc
@@ -417,7 +437,7 @@ public class GameView {
 
 		PawnView pawn = (PawnView) e.getSource();
 		// Condition pour qu'un pion soit manipulable.
-		boolean rightPlayerCondition = (pawn.getPlayer() == 1) && (game.getTurn() == 1)
+		boolean rightPlayerCondition = (pawn.getPlayer() == 1) && (game.getTurn() == 2)
 				&& ((pawn.getRank() != 11) && pawn.getRank() != 10);
 		// Gestion pendant le placement des pions, ne servira que pour remplacer un
 		// pion.
@@ -438,9 +458,9 @@ public class GameView {
 		}
 
 		// Gestion lorsqu'on a déjà cliqué sur un pion et qu'on change de pion
-		if ((pawnChosen != null) && (rightPlayerCondition)) {
-			System.out.print(highlightSquareView.size());
-			// resetHighlight();
+		else if ((pawnChosen != null) && (rightPlayerCondition)) {
+			resetHighlight();
+			setHighlight(getSquare(pawn.getSquare()));
 			pawnChosen = pawn;
 		}
 
@@ -464,7 +484,6 @@ public class GameView {
 
 		// Récupère la source du pion
 		SquareView sq = (SquareView) e.getSource();
-		System.out.println(("rangée: " + sq.getRow()));
 		// Pendant le placement des pions
 		if (pawnChosenSettingUp != null)
 			// Dans le cas où le placement des pions est toujours en cours.
@@ -482,11 +501,12 @@ public class GameView {
 			pawnChosen.setX(sq.getX());
 			pawnChosen.setY(sq.getY());
 			pawnChosen.setSquare(sq);
-			getSquare(sq).setPawn(pawn);
+			handleMovement(sq, pawn);
+			resetHighlight();
+			pawnChosen.setVisible(false);
+			PawnView.createImage(pawnChosen.getRank(), pawnChosen.getPlayer());
 			pawnChosen = null;
-			//resetHighlight();
-			// + changer le tour ce qui
-
+			AIturn();
 		}
 	}
 
@@ -519,7 +539,7 @@ public class GameView {
 	 */
 
 	public Square getSquare(SquareView square) {
-		return game.getGrid().getSquare((9-square.getRow()), square.getColumn());
+		return game.getGrid().getSquare((9 - square.getRow()), square.getColumn());
 	}
 
 	public SquareView getSquareView(int row, int column) {

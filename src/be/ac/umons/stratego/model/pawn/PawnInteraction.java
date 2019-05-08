@@ -112,6 +112,7 @@ public class PawnInteraction extends Couple {
 		case 1:
 			// pawnA > PawnB
 			getSquareB().setPawn(getSquareA().getPawn());
+			getSquareA().removePawn();
 			break;
 		case 0:
 			// pawnA = PawnB
@@ -126,6 +127,7 @@ public class PawnInteraction extends Couple {
 	}
 
 	/**
+	 * Méthode permettant de vérifier si le mp
 	 * 
 	 * @param initialRow Représente la rangée d'une instance Square.
 	 * @param initialCol Représente la colonne d'une instance Square.
@@ -170,6 +172,47 @@ public class PawnInteraction extends Couple {
 	public boolean stayInBoard(int row, int column) {
 
 		return (((row >= 0) && (row < 10)) && ((column >= 0) && (column < 10)));
+	}
+
+	public ArrayList<Couple> availableMovementTest() {
+		int[] counter = { 0, 0, 0, 0 };
+		ArrayList<Couple> evaluation = new ArrayList<Couple>();
+
+		// Vérifie les mouvements
+		for (int i = 0; i < 4; i++) {
+			while (counter[i] <= getRank(getSquare(getX(), getY()))) {
+				switch (i) {
+				case 0:
+					if (new PawnInteraction(getSquare(getX(), getY()), getSquare(getX() + counter[i], getY()), grid)
+							.isMovePossible()) {
+						evaluation.add(new Couple(getX(), getY() + counter[i]));
+						counter[i]++;
+					}
+				case 1:
+					if (new PawnInteraction(getSquare(getX(), getY()), getSquare(getX() + counter[i], getY()), grid)
+							.isMovePossible()) {
+						evaluation.add(new Couple(getX() + counter[i], getY()));
+						counter[i]++;
+					}
+				case 2:
+					if (new PawnInteraction(getSquare(getX(), getY()), getSquare(getX() + counter[i], getY()), grid)
+							.isMovePossible()) {
+						evaluation.add(new Couple(getX(), getY() + counter[i]));
+						counter[i]--;
+					}
+				case 3:
+					if (new PawnInteraction(getSquare(getX(), getY()), getSquare(getX() + counter[i], getY()), grid)
+							.isMovePossible()) {
+						evaluation.add(new Couple(getX() + counter[i], getY()));
+						counter[i]--;
+					}
+
+				}
+			}
+		}
+
+		return evaluation;
+
 	}
 
 	/**
@@ -230,7 +273,8 @@ public class PawnInteraction extends Couple {
 	/**
 	 * Méthode permettant de calculer la possiblité d'un mouvement selon plusieurs
 	 * conditions, rappelons qu'un mouvement est possible ssi: Le mouvement est
-	 * horizontal ou vertical et le mouvement donné rentre dans la portée du pion.
+	 * horizontal ou vertical, le mouvement donné rentre dans la portée du pion et
+	 * qu'il n'y ai aucun pion du même joueur dans la destination.
 	 * 
 	 * 
 	 * @return Si le mouvement est possible ou pas.
@@ -245,11 +289,12 @@ public class PawnInteraction extends Couple {
 		// Gestion tentative diagonale et gestion portée (l'un implique l'autre),
 		// vérifie si le mouvement reste dans la grille et si la destination est
 		// accessible.
-		if (!(differenceRow == 0 || differenceColumn == 0) || (Math.abs(differenceRow) > range)
+		if ((differenceRow != 0 && differenceColumn != 0) || (Math.abs(differenceRow) > range)
 				|| (Math.abs(differenceColumn) > range)
 				|| (!stayInBoard(getSquareB().getRow(), getSquareB().getColumn())) || (!getSquareB().getAccess())
-		 || (getSquareB().getPawn() != null && getSquareB().getPawn().getPlayer() == getSquareA().getPawn().getPlayer()))
-	
+				|| (getSquareB().getPawn() != null
+						&& getSquareB().getPawn().getPlayer() == getSquareA().getPawn().getPlayer()))
+
 			return false;
 
 		return true;

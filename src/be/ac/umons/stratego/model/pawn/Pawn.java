@@ -22,9 +22,9 @@ public class Pawn {
 	private boolean visible;
 	private Square square;
 
-	private final String[] arrayRanks = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant", "Capitaine",
+	private static final String[] rankString = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant", "Capitaine",
 			"Commandant", "Colonel", "General", "Marechal", "Bombe", "Drapeau" };
-	public static int[] PAWNS_COMPOSITION = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5,
+	public static final int[] PAWNS_COMPOSITION = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5,
 			5, 6, 6, 6, 7, 7, 8, 9, 10, 11 };
 
 	/**
@@ -78,7 +78,7 @@ public class Pawn {
 	}
 
 	public String getRankName() {
-		return arrayRanks[rank];
+		return rankString[rank];
 	}
 
 	public boolean getVisible() {
