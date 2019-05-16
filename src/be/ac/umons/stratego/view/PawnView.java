@@ -28,6 +28,13 @@ public class PawnView extends ImageView {
 	private final static String[] rankString = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant",
 			"Capitaine", "Commandant", "Colonel", "General", "Marechal", "Bombe", "Drapeau" };
 
+	/**
+	 * Constructeur permettant de représenter un pion
+	 * @param rank rang du pion
+	 * @param player joueur à qui il appartient
+	 * 
+	 * @see Player
+	 */
 	public PawnView(int rank, int player) {
 
 		super(createImage(rank, player));
@@ -50,13 +57,21 @@ public class PawnView extends ImageView {
 
 	public static String getPathName(int rank, int player) {
 
-		return "file:assets/sprites/" + rankString[rank] + "_J" + player + ".png";
-
+		if (player == 1)
+			return "file:assets/sprites/" + rankString[rank] + "_J1.png";
+		else
+			return "file:assets/sprites/Hidden_J2.png";
+	}
+	
+	public void setVisible() {
+		this.setImage(new Image("file:assets/sprites/" + rankString[rank] + "_J2.png"));
+	}
+	
+	public void setHidden() {
+		this.setImage(new Image("file:assets/sprites/Hidden_J2.png"));
 	}
 
-	/**
-	 * Quelques accesseurs (getters) et mutateurs (setters)
-	 */
+	// Quelques accesseurs (getters) et mutateurs (setters)
 
 	public int getPlayer() {
 		return player;
@@ -78,7 +93,7 @@ public class PawnView extends ImageView {
 		return visible;
 	}
 
-	public void setSquare(boolean visible) {
+	public void setVisiblePawn(boolean visible) {
 		this.visible = visible;
 	}
 

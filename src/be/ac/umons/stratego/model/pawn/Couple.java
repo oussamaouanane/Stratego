@@ -19,15 +19,16 @@ public class Couple {
 
 	private int x;
 	private int y;
+	private int direction;
 
 	private Square squareA;
 	private Square squareB;
 
 	// Constructeur de couple d'Integer
-	public Couple(int i, int j) {
+	public Couple(int x, int y) {
 
-		this.x = i;
-		this.y = j;
+		this.x = x;
+		this.y = y;
 	}
 
 	// Constructeur de couple de Square
@@ -35,6 +36,15 @@ public class Couple {
 
 		this.squareA = squareA;
 		this.squareB = squareB;
+	}
+	
+	// Constructeur pour couple d'Integer + direction
+	// la direction va de 0 à 3 et suit la direction horaire. 
+	public Couple(int x, int y, int direction) {
+		
+		this.x = x;
+		this.y = y;
+		this.direction = direction;
 	}
 
 	/**
@@ -47,6 +57,10 @@ public class Couple {
 
 	public int getY() {
 		return y;
+	}
+	
+	public int getDirection() {
+		return direction;
 	}
 
 	public Square getSquareA() {

@@ -11,7 +11,7 @@ import be.ac.umons.stratego.view.GameView;
 
 public class SaveLoad {
 
-	public void save(GameView game) throws IOException {
+	public void save(GameProcess game) throws IOException {
 		try {
 			FileOutputStream fos = new FileOutputStream("data.txt");
 			ObjectOutputStream os = new ObjectOutputStream(fos);

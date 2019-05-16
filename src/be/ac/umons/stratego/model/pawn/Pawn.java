@@ -1,5 +1,7 @@
 package be.ac.umons.stratego.model.pawn;
 
+import java.io.Serializable;
+
 import be.ac.umons.stratego.model.grid.Square;
 
 /**
@@ -18,14 +20,12 @@ import be.ac.umons.stratego.model.grid.Square;
 public class Pawn {
 
 	private int rank, player, range = 1;
-	private boolean state;
-	private boolean visible;
 	private Square square;
 
 	private static final String[] rankString = { "Espion", "Eclaireur", "Demineur", "Sergent", "Lieutenant", "Capitaine",
 			"Commandant", "Colonel", "General", "Marechal", "Bombe", "Drapeau" };
 	public static final int[] PAWNS_COMPOSITION = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5,
-			5, 6, 6, 6, 7, 7, 8, 9, 10, 11 };
+			5, 6, 6, 6, 7, 7, 8, 9, 10, 10, 10, 10, 10, 10, 11 };
 
 	/**
 	 * Constructeur par défaut permettant de définir une instance de Pawn qui est
@@ -40,10 +40,6 @@ public class Pawn {
 
 		this.rank = rank;
 		this.player = player;
-
-		// Défaut
-		this.setState(false);
-		this.visible = false;
 
 		// Change la portée si le pion est un éclaireur (9), drapeau ou bombes (0)
 		if (rank >= 10)
@@ -79,22 +75,6 @@ public class Pawn {
 
 	public String getRankName() {
 		return rankString[rank];
-	}
-
-	public boolean getVisible() {
-		return visible;
-	}
-
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
-	public boolean getState() {
-		return state;
-	}
-
-	public void setState(boolean state) {
-		this.state = state;
 	}
 
 	/**

@@ -25,7 +25,7 @@ public class PawnInteraction extends Couple {
 	private Grid grid;
 
 	/**
-	 * Constructeur par défaut
+	 * Constructeur par défaut permettant de manipuler deux instances de Square.
 	 */
 
 	public PawnInteraction(Square squareA, Square squareB, Grid grid) {
@@ -79,15 +79,21 @@ public class PawnInteraction extends Couple {
 
 	public int evaluateFighting() {
 
-		if ((getRank(getSquareA()) == 0 && getRank(getSquareB()) == 9) // Espion plus fort que le Maréchal
-				|| (getRank(getSquareA()) == 2 && getRank(getSquareB()) == 10) // Mineur plus fort que la bombe
-				|| (getRank(getSquareB()) == 11) // pawnB est un drapeau
-				|| (getRank(getSquareA()) > getRank(getSquareB()))) // PawnA > PawnB
-			return 1;
-		else if (getRank(getSquareA()) == getRank(getSquareB())) // PawnA == PawnB
-			return 0;
-		else // PawnA < PawnB
-			return -1;
+		if (getSquareB().getPawn() != null) {
+			if ((getRank(getSquareA()) == 0 && getRank(getSquareB()) == 9) // Espion plus fort que le Maréchal
+					|| (getRank(getSquareA()) == 2 && getRank(getSquareB()) == 10) // Mineur plus fort que la bombe
+					|| (getRank(getSquareB()) == 11) // pawnB est un drapeau
+					|| (getRank(getSquareA()) > getRank(getSquareB()))) // PawnA > PawnB
+				return 1;
+			else if (getRank(getSquareA()) == getRank(getSquareB())) // PawnA == PawnB
+				return 0;
+			else // PawnA < PawnB
+				return -1;
+		}
+
+		else
+			// Jamais le cas, sert surtout à mieux contrôler les erreurs JUnit.
+			return -2;
 	}
 
 	/**
@@ -104,65 +110,39 @@ public class PawnInteraction extends Couple {
 
 	public void doFighting() {
 
-		int evaluation = evaluateFighting();
-		getSquareB().getPawn().setVisible(true);
+		if (getSquareB().getPawn() != null) {
+			int evaluation = evaluateFighting();
 
-		switch (evaluation) {
+			switch (evaluation) {
 
-		case 1:
-			// pawnA > PawnB
-			getSquareB().setPawn(getSquareA().getPawn());
-			getSquareA().removePawn();
-			break;
-		case 0:
-			// pawnA = PawnB
-			getSquareA().removePawn();
-			getSquareB().removePawn();
-			break;
-		case -1:
-			// pawnA < pawnB
-			getSquareA().removePawn();
-			break;
+			case 1:
+				// pawnA > PawnB
+				getSquareB().setPawn(getSquareA().getPawn());
+				getSquareB().getPawn().setSquare(getSquareB());
+				getSquareA().removePawn();
+				break;
+			case 0:
+				// pawnA = PawnB
+				getSquareA().getPawn().setSquare(null);
+				getSquareA().removePawn();
+				getSquareB().getPawn().setSquare(null);
+				getSquareB().removePawn();
+				break;
+			case -1:
+				// pawnA < pawnB
+				getSquareA().getPawn().setSquare(null);
+				getSquareA().removePawn();
+				break;
+			}
 		}
-	}
-
-	/**
-	 * Méthode permettant de vérifier si le mp
-	 * 
-	 * @param initialRow Représente la rangée d'une instance Square.
-	 * @param initialCol Représente la colonne d'une instance Square.
-	 * @param coord      Représente un couple de int, mouvement que l'on veut
-	 *                   effectuer sur le grille à deux dimensions.
-	 * 
-	 * @return Un entier (1 ou 0) qui représente si le mouvement est légal. On
-	 *         aurait pu retourner un booléen mais pour les autres méthodes qui
-	 *         suivent, 1 et 0 seront utiles.
-	 * 
-	 * @see Couple
-	 * @see PawnInteractions#evaluateFighting()
-	 */
-
-	public Integer stayInBoard(int initialRow, int initialCol, Couple coord) {
-
-		// Permet de vérifier si le mouvement est dans grid et si le carré est
-		// accessible.
-
-		int finalRow = (initialRow + coord.getX());
-		int finalCol = (initialCol + coord.getY());
-		boolean stayInBoard = (((finalRow > 0) && (finalRow < 10)) && ((finalCol > 0) && (finalCol < 10)));
-
-		if (stayInBoard && getSquare(finalRow, finalCol).getAccess())
-			return 1;
-		else
-			return 0;
 	}
 
 	/**
 	 * Méthode permettant de vérifier si des coordonnées représentées par les
 	 * paramètres (row, column) sont dans la matrice carrée 10x10 (Grid).
 	 * 
-	 * @param row    Représente la rangée.
-	 * @param column Représente la colonne.
+	 * @param row    Représente la rangée d'une instance Square.
+	 * @param column Représente la colonne d'une instance Square.
 	 * 
 	 * @return Un booléen qui vérifie la condition énoncée ci-dessus.
 	 * 
@@ -174,100 +154,85 @@ public class PawnInteraction extends Couple {
 		return (((row >= 0) && (row < 10)) && ((column >= 0) && (column < 10)));
 	}
 
-	public ArrayList<Couple> availableMovementTest() {
-		int[] counter = { 0, 0, 0, 0 };
+	/**
+	 * Méthode permettant de créer une liste dynamique représentant les différents
+	 * mouvements légaux qu'un pion (à partir d'une instance Square) peut effectuer
+	 * 
+	 * @return Une ArrayList permettant de représenter les cases dans lesquelles le
+	 *         pion peut aller.
+	 */
+
+	public ArrayList<Couple> availableMovement() {
+
 		ArrayList<Couple> evaluation = new ArrayList<Couple>();
+		boolean lastSquareOpponentPawn = false;
 
-		// Vérifie les mouvements
-		for (int i = 0; i < 4; i++) {
-			while (counter[i] <= getRank(getSquare(getX(), getY()))) {
-				switch (i) {
-				case 0:
-					if (new PawnInteraction(getSquare(getX(), getY()), getSquare(getX() + counter[i], getY()), grid)
-							.isMovePossible()) {
-						evaluation.add(new Couple(getX(), getY() + counter[i]));
-						counter[i]++;
-					}
-				case 1:
-					if (new PawnInteraction(getSquare(getX(), getY()), getSquare(getX() + counter[i], getY()), grid)
-							.isMovePossible()) {
-						evaluation.add(new Couple(getX() + counter[i], getY()));
-						counter[i]++;
-					}
-				case 2:
-					if (new PawnInteraction(getSquare(getX(), getY()), getSquare(getX() + counter[i], getY()), grid)
-							.isMovePossible()) {
-						evaluation.add(new Couple(getX(), getY() + counter[i]));
-						counter[i]--;
-					}
-				case 3:
-					if (new PawnInteraction(getSquare(getX(), getY()), getSquare(getX() + counter[i], getY()), grid)
-							.isMovePossible()) {
-						evaluation.add(new Couple(getX() + counter[i], getY()));
-						counter[i]--;
+		// Dans ce cas on agit sur un pion de portée 1.
+		if (getSquare(getX(), getY()).getPawn().getRange() == 1) {
+			Couple[] possibleMovements = { new Couple(0, 1), new Couple(1, 0), new Couple(0, -1), new Couple(-1, 0) };
+			for (Couple c : possibleMovements) {
+				Square initialSquare = getSquare(getX(), getY());
+				Square finalSquare = getSquare(getX() + c.getX(), getY() + c.getY());
+				if (new PawnInteraction(initialSquare, finalSquare, grid).isMovePossible())
+					evaluation.add(new Couple(getX() + c.getX(), getY() + c.getY()));
+
+			}
+		}
+		// Dans ce cas on agit sur le pion éclaireur qui a une portée illimitée tant
+		// qu'il ne saute pas de pion.
+		else {
+
+			boolean finished = false;
+			boolean[] state = { false, false, false, false };
+
+			Couple[] possibleMovements = { new Couple(0, 1, 0), new Couple(1, 0, 1), new Couple(0, -1, 2),
+					new Couple(-1, 0, 3) };
+
+			int cnt = 0;
+			while (finished == false) {
+				for (Couple c : possibleMovements) {
+					Square initialSquare = getSquare(getX(), getY());
+					Square finalSquare = getSquare(getX() + c.getX(), getY() + c.getY());
+					if (new PawnInteraction(initialSquare, finalSquare, grid).isMovePossible()
+							&& (lastSquareOpponentPawn == false)) {
+						evaluation.add(c);
+						int direction = possibleMovements[cnt].getDirection();
+
+						switch (direction) {
+						case 0:
+							possibleMovements[cnt] = new Couple(possibleMovements[cnt].getX() + 1, 0);
+							break;
+						case 1:
+							possibleMovements[cnt] = new Couple(0, possibleMovements[cnt].getY() + 1);
+							break;
+						case 2:
+							possibleMovements[cnt] = new Couple(possibleMovements[cnt].getX() - 1, 0);
+							break;
+						case 3:
+							possibleMovements[cnt] = new Couple(0, possibleMovements[cnt].getY() - 1);
+							break;
+						}
+
+						if (finalSquare.getPawn() != null)
+							state[cnt] = true;
+
 					}
 
+					else {
+						state[cnt] = true;
+						int i = 0;
+						for (boolean b : state)
+							if (b == true)
+								i++;
+						if (i == 4)
+							finished = true;
+					}
+					cnt++;
 				}
 			}
 		}
 
 		return evaluation;
-
-	}
-
-	/**
-	 * Méthode permettant de créer une liste dynamique représentant les différents
-	 * mouvements légaux qu'un pion (à partir d'une instance Square) peut effectuer
-	 * 
-	 * @return Une ArrayList permettant de représenter si le pion peut aller (haut,
-	 *         droite, bas, gauche)
-	 */
-
-	public ArrayList<Couple> availableMovement() {
-
-		Couple[] possibleMovements = { new Couple(0, 1), new Couple(1, 0), new Couple(0, -1), new Couple(-1, 0) };
-		ArrayList<Couple> evaluation = new ArrayList<Couple>();
-
-		for (Couple c : possibleMovements) {
-			// evaluation.add(stayInBoard(getX(), getY(), c));
-			if (new PawnInteraction(getSquare(getX(), getY()), getSquare(getX() + c.getX(), getY() + c.getY()), grid)
-					.isMovePossible())
-				evaluation.add(new Couple(getX() + c.getX(), getY() + c.getY()));
-
-		}
-
-		return evaluation;
-	}
-
-	/**
-	 * Même chose que availableMovement() mais pour l'éclaireur car sa portée est
-	 * plus grande.
-	 * 
-	 * @see PawnInteractions#availableMovement()
-	 */
-
-	public ArrayList<Integer> availableMovementScout() {
-		int initialSquareX = getX();
-		int initialSquareY = getY();
-
-		// Initialisation de range, permet de donner la portée du pion dans les 4
-		// directions.
-		ArrayList<Integer> range = new ArrayList<Integer>();
-		for (int i = 1; i <= 4; i++)
-			range.add(0);
-
-		Couple[] possibleMovements = { new Couple(0, 1), new Couple(1, 0), new Couple(0, -1), new Couple(-1, 0) };
-
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 10; j++) {
-				while ((stayInBoard(getX(), getY(), possibleMovements[i]) == 1)
-						&& (grid.getSquare(initialSquareX + possibleMovements[i].getX(),
-								initialSquareY + possibleMovements[i].getY()).getPawn() != null))
-					range.set(i, range.get(i) + 1);
-			}
-		}
-
-		return range;
 	}
 
 	/**

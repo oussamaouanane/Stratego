@@ -40,6 +40,7 @@ public class Player {
 
 	private ArrayList<Pawn> alivePawns;
 
+	private int score = 0;
 	private Grid grid;
 
 	/**
@@ -207,6 +208,14 @@ public class Player {
 	public boolean checkWin(Player p2) {
 		return (!p2.hasFlag()) || (isFlagSurrounded() && !p2.hasMinersLeft()) || (p2.hasWeakerPawns(this));
 	}
+	
+	/**
+	 * Permet de mettre à jour le score du joueur.
+	 */
+	
+	public void updateScore() {
+		score++;
+	}
 
 	// Quelques accesseurs et mutateurs
 
@@ -217,4 +226,9 @@ public class Player {
 	public Grid getGrid() {
 		return grid;
 	}
+	
+	public int getScore() {
+		return score;
+	}
+	
 }

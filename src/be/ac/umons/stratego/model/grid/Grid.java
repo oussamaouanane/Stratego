@@ -31,8 +31,6 @@ public class Grid {
 	 * 
 	 */
 
-	private int currentPawns = 0;
-
 	private final int GRID_SIZE = 10;
 	private Square[][] grid = new Square[GRID_SIZE][GRID_SIZE];
 
@@ -56,7 +54,7 @@ public class Grid {
 
 	public void createGrid() {
 
-		for (int i = 0; i < GRID_SIZE; i++) {
+		for (int i = 9; i > 0; i--) {
 			for (int j = 0; j < GRID_SIZE; j++) {
 				// Restriction d'accès du lac.
 				if (((i == 4 || i == 5) && ((j >= 2 && j <= 3) || (j >= 6 && j <= 7)))) {
@@ -85,7 +83,7 @@ public class Grid {
 		if (couple.isMovePossible())
 			if (finalDestination.getAccess())
 				finalDestination.setPawn(initialDestination.getPawn());
-			else if (finalDestination.getPawn() != null)
+			else if ((finalDestination.getPawn() != null) && (finalDestination.getPawn().getPlayer() == 2))
 				couple.doFighting();
 
 		finalDestination.getPawn().setSquare(finalDestination);

@@ -1,9 +1,11 @@
 package be.ac.umons.stratego.model;
 
+import java.beans.ConstructorProperties;
+import java.io.Serializable;
+
 import be.ac.umons.stratego.model.grid.Grid;
-import be.ac.umons.stratego.model.player.FirstAI;
 import be.ac.umons.stratego.model.player.Player;
-import be.ac.umons.stratego.model.player.SecondAI;
+import be.ac.umons.stratego.model.player.PlayerAI;
 import be.ac.umons.stratego.model.state.GameState;
 import be.ac.umons.stratego.model.state.GameStateManager;
 
@@ -18,14 +20,16 @@ import be.ac.umons.stratego.model.state.GameStateManager;
  * @author O.S
  */
 
-public class GameProcess {
+public class GameProcess implements Serializable {
 
 	private Player user;
-	private Player ai;
+	private PlayerAI ai;
 	private int[] playerTurn = { 1, 2 };
 	private int index = 0;
 	private Grid grid;
-	
+
+	private int userScore;
+	private int aiScore;
 
 	GameStateManager state = new GameStateManager();
 
@@ -41,18 +45,21 @@ public class GameProcess {
 	 * 
 	 * @return
 	 */
-
+	
+    @ConstructorProperties(value={"ai"})
 	public GameProcess(int ai) {
 
 		grid = new Grid();
 		user = new Player(grid);
 		// Configurer ai
-		switch(ai) {
-		case 1: this.ai = new FirstAI(grid);
-		case 2: this.ai = new SecondAI(grid);
-		}
+		this.ai = new PlayerAI(grid, ai, this);
+
 	}
-	
+    
+    public GameProcess() {
+    	
+    }
+
 	public void endSettingUp() {
 		state.setState(GameState.GAMESTATE);
 	}
@@ -70,22 +77,57 @@ public class GameProcess {
 		return user.checkWin(ai) || ai.checkWin(user);
 	}
 
+	/**
+	 * Méthode permettant de mettre fin à la partie en changeant le GameState à
+	 * ENDGAMESTATE.
+	 * 
+	 * @see GameState
+	 * @see GameState#ENDGAMESTATE
+	 */
+
 	public void endGame() {
 		if (checkWin())
 			state.setState(GameState.ENDGAMESTATE);
 	}
-	
-	
 
+	/**
+	 * Méthode permettant de représenter une manche, elle sert uniquement à changer
+	 * de tour et non sa gestion.
+	 */
+
+	public void play() {
+		if (state.getState() == GameState.GAMESTATE) {
+			// Changement de tour, changement de joueur
+			index = (index++) % 2;
+		}
+	}
+	
 	/**
 	 * Méthode permettant de retourner le tour de la personne qui doit jouer.
 	 * 
-	 * @return Retourne 1 si c'est au tour du joueur Client, 2 sinon.
+	 * @return Retourne 1 si c'est au tour du joueur non-AI, 2 sinon.
 	 */
 
 	public int getTurn() {
 		return playerTurn[index];
 	}
+	
+	public int getScore(int player) {
+		
+		if (player == 1)
+			return user.getScore();
+		else
+			return ai.getScore();
+	}
+	
+	public void setScore(int player) {
+		if (player == 1)
+			user.updateScore();
+		else
+			ai.updateScore();
+	}
+	
+	// Quelques accesseurs (getters) et mutateurs (setters)
 
 	public Grid getGrid() {
 		return grid;
@@ -95,21 +137,12 @@ public class GameProcess {
 		return user;
 	}
 
-	public Player getAI() {
+	public PlayerAI getAI() {
 		return ai;
 	}
 
 	public GameStateManager getGameStateManager() {
 		return state;
-	}
-	
-	public void play() {
-		
-		if (state.getState() == GameState.GAMESTATE) {
-			// Changement de tour, changement de joueur
-			index = (index++) % 2 ;
-			
-		}
 	}
 
 }

@@ -81,10 +81,15 @@ public class Square {
 
 	public void setPawn(Pawn pawn) {
 		this.pawn = pawn;
+	
 	}
 
 	public void setAccess(boolean access) {
 		this.access = access;
+	}
+	
+	public void setRow(int row) {
+		this.row = row;
 	}
 
 	public void setColumn(int column) {
@@ -96,7 +101,7 @@ public class Square {
 		access = true;
 	}
 
-	public int[] getFlagPosition(int player) {
+	public static int[] getFlagPosition(int player) {
 
 		int[] flag = null;
 		// Retourne la position du drapeau selon le joueur
