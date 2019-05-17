@@ -1,3 +1,0 @@
-\babel@toc {french}{}
-\contentsline {part}{I\hspace {1em}Avant-jeu}{2}% 
-\contentsline {chapter}{\numberline {1}Pr\IeC {\'e}sentation du jeu}{3}% 
