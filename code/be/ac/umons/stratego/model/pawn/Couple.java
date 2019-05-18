@@ -8,15 +8,16 @@ import be.ac.umons.stratego.model.grid.Square;
  * <h1>Couple</h1>
  * 
  * <p>
- * Classe permettant en la representation d'un couple de deux objects de manière
- * formelle. Il y a 2 constructeurs, un qui permet en la création d'un couple de
- * Integer et un autre qui permet de créer un couple de Square
+ * Classe permettant en la representation d'un couple de deux objects de maniere
+ * formelle. Il y a 2 constructeurs, un qui permet en la creation d'un couple de
+ * Integer et un autre qui permet de creer un couple de Square
  * </p>
  * 
  * @see Square
  * @see Integer
- * @author O.S
+ * 
  */
+
 public class Couple implements Serializable {
 
 	private static final long serialVersionUID = 7825296176658063388L;
@@ -51,7 +52,7 @@ public class Couple implements Serializable {
 	}
 
 	/**
-	 * Quelques accesseurs (getters) et mutateurs (setters)
+	 * Quelques accessesurs (getters) et mutateurs (setters)
 	 */
 
 	public int getX() {

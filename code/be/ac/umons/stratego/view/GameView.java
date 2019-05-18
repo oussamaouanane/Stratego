@@ -1,12 +1,11 @@
 package be.ac.umons.stratego.view;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import be.ac.umons.stratego.controller.GridController;
 import be.ac.umons.stratego.model.GameProcess;
-import be.ac.umons.stratego.model.SaveLoad;
+//import be.ac.umons.stratego.model.SaveLoad;
 import be.ac.umons.stratego.model.grid.Square;
 import be.ac.umons.stratego.model.pawn.Couple;
 import be.ac.umons.stratego.model.pawn.Pawn;
@@ -27,7 +26,7 @@ import javafx.stage.Stage;
  * <h1>GameView</h1>
  * 
  * <p>
- * Classe permettant de représenter graphiquement une partie.
+ * Classe permettant de representer graphiquement une partie.
  * </p>
  *
  */
@@ -57,19 +56,19 @@ public class GameView {
 		Scene scene = new Scene(inGame, 1000, 600);
 		// Titre
 		primaryStage.setTitle("Stratego");
-		// Réglage de Scene
+		// Reglage de Scene
 		primaryStage.setScene(scene);
 		primaryStage.setAlwaysOnTop(true);
 		scene.getStylesheets().add("file:assets/styles/menu.css");
 		// Afficher Scene
 		primaryStage.show();
 		primaryStage.setResizable(false);
-		// Permet de créer tous les éléments graphiques
+		// Permet de creer tous les elements graphiques
 		draw(primaryStage);
 		setupPawns();
-		// Permet de créer une instance de GameProcess
+		// Permet de creer une instance de GameProcess
 		game = new GameProcess(ai);
-		// Permet de créer une instance de GridController
+		// Permet de creer une instance de GridController
 		gridController = new GridController(this, game);
 
 	}
@@ -77,7 +76,7 @@ public class GameView {
 	/**
 	 * Constructeur à utiliser en cas de chargement de sauvegarde.
 	 * 
-	 * @param game Instance GameProcess de la partie sauvegardée.
+	 * @param game Instance GameProcess de la partie sauvegardee.
 	 */
 
 	public GameView(GameProcess game) {
@@ -87,21 +86,20 @@ public class GameView {
 		Scene scene = new Scene(inGame, 1000, 600);
 		// Titre
 		primaryStage.setTitle("Stratego");
-		// Réglage de Scene
+		// Reglage de Scene
 		primaryStage.setScene(scene);
 		primaryStage.setAlwaysOnTop(true);
 		scene.getStylesheets().add("file:assets/styles/menu.css");
 		// Afficher Scene
 		primaryStage.show();
 		primaryStage.setResizable(false);
-		// Permet de créer tous les éléments graphiques
+		// Permet de creer tous les elements graphiques
 		draw(primaryStage);
-		// Permet de créer la grille
-		// showingScore();
-		loadData();
-		// Permet de créer une instance de GameProcess
+		// Affiche le score
+		showingScore();
+		// Permet de creer une instance de GameProcess
 		this.game = game;
-		// Permet de créer une instance de GridController
+		// Permet de creer une instance de GridController
 		gridController = new GridController(this, game);
 	}
 
@@ -121,17 +119,13 @@ public class GameView {
 		backgroundView.setPreserveRatio(true);
 		grid.getChildren().add(backgroundView);
 
-		// Création de la grille
+		// Creation de la grille
 		createGrid();
 
 		// Bouton: Sauvegarder la partie
 		Button save = new Button("Sauvegarder");
 		save.setOnAction(e -> {
-			try {
-				SaveLoad.save(game);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			//SaveLoad.save(game);
 		});
 
 		save.setTextFill(Color.WHITE);
@@ -158,6 +152,10 @@ public class GameView {
 		inGame.getChildren().add(leave);
 	}
 
+	/**
+	 * Methode permettant de creer la grille de SquareView.
+	 */
+
 	private void createGrid() {
 
 		for (int i = 9; i >= 0; i--) {
@@ -175,8 +173,10 @@ public class GameView {
 		}
 	}
 
+	// XXX On est encore dans le placement des pions.
+
 	/**
-	 * Méthode permettant de mettre en place le placement des pions, création des
+	 * Methode permettant de mettre en place le placement des pions, creation des
 	 * icônes de pions.
 	 */
 
@@ -228,14 +228,14 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de générer la liste des pions à placer pour l'intelligence
-	 * artificielle et créer les pions nécessaires.
+	 * Methode permettant de generer la liste des pions à placer pour l'intelligence
+	 * artificielle et creer les pions necessaires.
 	 */
 
 	public ArrayList<Integer> settingUpAI() {
 
 		ArrayList<Integer> compo = new ArrayList<Integer>();
-		// Générer une composition de pions (ranks)
+		// Generer une composition de pions (ranks)
 		for (int i : Pawn.PAWNS_COMPOSITION)
 			compo.add(i);
 
@@ -246,7 +246,7 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de mettre en place le placement des pions pour
+	 * Methode permettant de mettre en place le placement des pions pour
 	 * l'intelligence artificielle.
 	 */
 
@@ -274,48 +274,11 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de gérer le chargement de données et de reprendre la
-	 * partie.
-	 */
-
-	public void loadData() {
-
-		// for (int i = 9; i >= 0; i--) {
-		// for (int j = 0; j < 10; j++) {
-		// Pawn pawn = getSquare(getSquareView(i, j)).getPawn();
-		// PawnView pawn = createPawn(getSquareView(i, j).getPawnView().getRank(),
-		// getSquareView(i, j).getPawnView().getPlayer());
-		// handleMovementGUI(pawn, getSquareView(i, j));
-		// }
-		// }
-	}
-
-	/**
-	 * Méthode permettant de créer un pion sous forme visuelle.
+	 * Meme chose que createPawn mais pour les pions de placement.
 	 * 
 	 * @param rank   Rang du pion.
 	 * @param player Joueur à qui appartient le pion.
-	 * @return PawnView Un pion sous la forme d'une illustration.
-	 */
-
-	public PawnView createPawn(int rank, int player) {
-
-		// Création du PawnView
-		PawnView pawn = new PawnView(rank, player);
-		// @see #PawnEvent
-		pawn.setOnMousePressed(e -> PawnEvent(e));
-		// Permet de gérer la transparence
-		pawn.setPickOnBounds(true);
-		inGame.getChildren().add(pawn);
-		return pawn;
-	}
-
-	/**
-	 * Même chose que createPawn mais pour les pions de placement.
-	 * 
-	 * @param rank   Rang du pion.
-	 * @param player Joueur à qui appartient le pion.
-	 * @return ImageView Une image qui représente le pion.
+	 * @return ImageView Une image qui represente le pion.
 	 * 
 	 * @see GridController#createPawn(int, int)
 	 */
@@ -325,7 +288,7 @@ public class GameView {
 		PawnView pawn = new PawnView(rank, player);
 		// @see #PawnEventSettingUp
 		pawn.setOnMousePressed(e -> PawnEventSettingUp(e));
-		// Permet de gérer la transparence
+		// Permet de gerer la transparence
 		pawn.setPickOnBounds(true);
 		setup.getChildren().add(pawn);
 
@@ -333,17 +296,17 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de créer un pion lorsqu'on place une image de pion dans
+	 * Methode permettant de creer un pion lorsqu'on place une image de pion dans
 	 * une case SquareView, ne fonctionne que pendant la phase de placement de
 	 * pions.
 	 * 
 	 * @param sq           La case où on veut placer pawnToCreate
-	 * @param pawnToCreate Le pion qu'il faut créer dans sq
+	 * @param pawnToCreate Le pion qu'il faut creer dans sq
 	 */
 
 	public void movePawnSettingUp(SquareView sq) {
 
-		// Création d'un pion
+		// Creation d'un pion
 		PawnView pawn = createPawn(pawnChosenSettingUp.getRank(), pawnChosenSettingUp.getPlayer());
 		handleMovementGUI(pawn, sq);
 		Pawn newPawn = new Pawn(pawn.getRank(), pawn.getPlayer());
@@ -360,7 +323,7 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de définir le processus de remplacement d'un pion lors de
+	 * Methode permettant de definir le processus de remplacement d'un pion lors de
 	 * la phase d'installation des pions.
 	 * 
 	 * @param source Pion qui doit se faire remplacer
@@ -368,13 +331,13 @@ public class GameView {
 
 	public void switchPawnSettingUp(PawnView source) {
 
-		// Permet d'incrémenter de un le compteur du pion
+		// Permet d'incrementer de un le compteur du pion
 		PAWNS_COMPOSITION[source.getRank()]++;
-		// Récupération du carré du pion
+		// Recuperation du carre du pion
 		SquareView square = source.getSquare();
-		// Création du pion
+		// Creation du pion
 		PawnView pawn = createPawn(pawnChosenSettingUp.getRank(), pawnChosenSettingUp.getPlayer());
-		// Coordonnées du pion
+		// Coordonnees du pion
 		handleMovementGUI(pawn, square);
 		Pawn pawnModel = new Pawn(pawn.getRank(), pawn.getPlayer());
 		getSquare(square).setPawn(pawnModel);
@@ -388,10 +351,10 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de vérifier si le placement des pions est terminé.
-	 * Traverse la liste des pions restants à placer et vérifie si il y en a encore.
+	 * Methode permettant de verifier si le placement des pions est termine.
+	 * Traverse la liste des pions restants à placer et verifie si il y en a encore.
 	 * 
-	 * @return Booléen qui indique si le placement est terminé ou pas.
+	 * @return Booleen qui indique si le placement est termine ou pas.
 	 */
 
 	public boolean checkSettingUpFinish() {
@@ -408,8 +371,8 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de mettre fin au placement des pions et met en place un
-	 * système de score.
+	 * Methode permettant de mettre fin au placement des pions et met en place un
+	 * systeme de score.
 	 */
 
 	public void endSettingUp() {
@@ -419,14 +382,16 @@ public class GameView {
 		showingScore();
 		game.endSettingUp();
 	}
-
+	
+	// XXX On est plus dans le placement des pions.
+	
 	/**
-	 * Méthode permettant d'afficher le score une fois le placement de pions
-	 * terminé.
+	 * Methode permettant d'afficher le score une fois le placement de pions
+	 * termine.
 	 * 
 	 * @see GameView#endSettingUp
 	 */
-
+	
 	public void showingScore() {
 
 		int userScore = game.getScore(1);
@@ -459,11 +424,33 @@ public class GameView {
 		setup.getChildren().addAll(title, userScoreDisplay, dash, aiScoreDisplay);
 	}
 
+	// XXX Methodes liees aux pions.
+	
 	/**
-	 * Méthode permettant de surligner les SquareView où les mouvements sont légaux
+	 * Methode permettant de creer un pion sous forme visuelle.
+	 * 
+	 * @param rank   Rang du pion.
+	 * @param player Joueur à qui appartient le pion.
+	 * @return PawnView Un pion sous la forme d'une illustration.
+	 */
+
+	public PawnView createPawn(int rank, int player) {
+
+		// Creation du PawnView
+		PawnView pawn = new PawnView(rank, player);
+		// @see #PawnEvent
+		pawn.setOnMousePressed(e -> PawnEvent(e));
+		// Permet de gerer la transparence
+		pawn.setPickOnBounds(true);
+		inGame.getChildren().add(pawn);
+		return pawn;
+	}
+	
+	/**
+	 * Methode permettant de surligner les SquareView où les mouvements sont legaux
 	 * autour du pion.
 	 * 
-	 * @param square est l'instance Square où le pion est stocké.
+	 * @param square est l'instance Square où le pion est stocke.
 	 */
 
 	public void setHighlight(Square square) {
@@ -478,7 +465,7 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant d'enlever tout surlignement de la grille.
+	 * Methode permettant d'enlever tout surlignement de la grille.
 	 */
 
 	public void resetHighlight() {
@@ -490,11 +477,49 @@ public class GameView {
 			highlightSquareView.clear();
 		}
 	}
+	
+	/**
+	 * Methode pour appliquer un deplacement d'un Pawn vers un Square.
+	 * 
+	 * @param pawn   Pion qu'on veut deplacer.
+	 * @param square Case où on veut deplacer pawn.
+	 */
+
+	public void handleMovement(Pawn pawn, Square square) {
+
+		// Reinitialisation
+		if (pawn.getSquare() != null)
+			pawn.getSquare().setPawn(null);
+
+		square.setPawn(pawn);
+		pawn.setSquare(square);
+	}
 
 	/**
-	 * Méthode permettant de réveler un pion.
+	 * Methode pour appliquer un deplacement d'un PawnView vers un SquareView.
 	 * 
-	 * @param pawn Pion qu'on veut réveler.
+	 * @param pawn   Pion qu'on veut deplacer.
+	 * @param square Case où on veut deplacer pawn.
+	 */
+
+	public void handleMovementGUI(PawnView pawn, SquareView square) {
+
+		// Reinitialisation
+		if (pawn.getSquare() != null)
+			pawn.getSquare().setPawnView(null);
+
+		square.setPawnView(pawn);
+		pawn.setSquare(square);
+		pawn.setX(square.getX());
+		pawn.setY(square.getY());
+	}
+
+	
+	// XXX Methodes liees aux IA
+	
+	/**
+	 * Methode permettant de reveler un pion.
+	 * @param pawn Pion qu'on veut reveler.
 	 */
 
 	public void setAiPawnVisible(PawnView pawn) {
@@ -502,25 +527,16 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de masquer un pion.
-	 * 
+	 * Methode permettant de masquer un pion.
 	 * @param pawn Pion qu'on veut masquer.
 	 */
 
 	public void setAiPawnHidden(PawnView pawn) {
 		pawn.setHidden();
 	}
-
+	
 	/**
-	 * @see GameProcess#play()
-	 */
-
-	public void turnPlayed() {
-		game.play();
-	}
-
-	/**
-	 * Méthode permettant de gérer le tour de l'intelligence artificielle. On y gère
+	 * Methode permettant de gerer le tour de l'intelligence artificielle. On y gere
 	 * le mouvement et les combats.
 	 * 
 	 * @see GridController#AITurn()
@@ -536,22 +552,45 @@ public class GameView {
 		Square initialSquare = couple.getSquareA();
 		Square destinationSquare = couple.getSquareB();
 
-		// On suppose que notre méthode a déjà vérifié qu'il n'y a pas de pion allié à
-		// cette position, donc qu'il s'agit forcément d'un pion ennemi.
-		if (destinationSquare.getPawn() != null) 
+		// On suppose que notre methode a dejà verifie qu'il n'y a pas de pion allie à
+		// cette position, donc qu'il s'agit forcement d'un pion ennemi.
+		if (destinationSquare.getPawn() != null)
 			gridController.doFighting(initialSquare, destinationSquare);
 		else {
-			handleMovementGUI(getSquareView(initialSquare).getPawnView(),
-			getSquareView(destinationSquare));
+			handleMovementGUI(getSquareView(initialSquare).getPawnView(), getSquareView(destinationSquare));
 			handleMovement(initialSquare.getPawn(), destinationSquare);
 		}
 
-			turnPlayed();
+		turnPlayed();
 	}
-
+	
+	// XXX Methodes liees au GameProcess
+	
 	/**
-	 * Ensemble de méthodes qui permettent de gérer les événements liés au clics de
-	 * souris. Vérifier la documentation de MouseEvent pour avoir plus
+	 * Methode permettant d'indiquer qu'un tour a ete joue.
+	 * 
+	 * @see GameProcess#play()
+	 */
+
+	public void turnPlayed() {
+		game.play();
+	}
+	
+	/**
+	 * Methode permettant de retourner l'etat actuel de la partie en cours.
+	 * 
+	 * @return L'etat de la partie
+	 */
+
+	public GameState getState() {
+		return game.getGameStateManager().getState();
+	}
+	
+	// XXX evenements souris
+	
+	/**
+	 * Ensemble de methodes qui permettent de gerer les evenements lies au clics de
+	 * souris. Verifier la documentation de MouseEvent pour avoir plus
 	 * d'informations sur le fonctionnement.
 	 * 
 	 * @param e Clic gauche souris
@@ -559,7 +598,7 @@ public class GameView {
 	 */
 
 	/**
-	 * Méthode permettant de gérer les clics qui se font sur les images des pions
+	 * Methode permettant de gerer les clics qui se font sur les images des pions
 	 * pendant le placement des pions.
 	 */
 
@@ -571,12 +610,12 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de gérer les clics qui se font sur les pions. Il existe
-	 * plusieurs cas: - checkSettingUpFinish n'est pas terminé donc il s'agit d'un
-	 * remplacement entre deux pions - Aucun pion n'est stocké dans pawnChosen donc
-	 * cela signifie qu'aucun mouvement est en cours - Un pion est stocké et on
-	 * désire seulement de sélectionner un autre pion, le pion stocké sera donc
-	 * écrasé - Un pion est stocké et on clique sur un pion adverse (ici un combat
+	 * Methode permettant de gerer les clics qui se font sur les pions. Il existe
+	 * plusieurs cas: - checkSettingUpFinish n'est pas termine donc il s'agit d'un
+	 * remplacement entre deux pions - Aucun pion n'est stocke dans pawnChosen donc
+	 * cela signifie qu'aucun mouvement est en cours - Un pion est stocke et on
+	 * desire seulement de selectionner un autre pion, le pion stocke sera donc
+	 * ecrase - Un pion est stocke et on clique sur un pion adverse (ici un combat
 	 * s'ensuit).
 	 */
 
@@ -603,20 +642,20 @@ public class GameView {
 		 */
 
 		// Met pawnChosen seulement si il n'y a pas de pawnChosen. S'il y en a un alors
-		// on est dans un déplacement en cours ou alors on s'apprête à changer de pion!
+		// on est dans un deplacement en cours ou alors on s'apprete à changer de pion!
 		else if ((pawnChosen == null) && (rightPlayerCondition) && (game.getTurn() == 1)) {
 			pawnChosen = pawn;
 			setHighlight(getSquare(pawnChosen.getSquare()));
 		}
 
-		// Gestion lorsqu'on a déjà cliqué sur un pion et qu'on change de pion
+		// Gestion lorsqu'on a dejà clique sur un pion et qu'on change de pion
 		else if ((pawnChosen != null && pawnChosen.getPlayer() == 1) && (rightPlayerCondition)) {
 			resetHighlight();
 			setHighlight(getSquare(pawn.getSquare()));
 			pawnChosen = pawn;
 		}
 
-		// Gestion lorsqu'on a déjà cliqué sur un pion et qu'on clique sur un pion
+		// Gestion lorsqu'on a dejà clique sur un pion et qu'on clique sur un pion
 		// adverse, ici un combat!
 		else if ((pawnChosen != null) && (pawn.getPlayer() == 2) && (game.getTurn() == 1)
 				&& (new PawnInteraction(getSquare(pawnChosen.getSquare()), getSquare(pawn.getSquare()), game.getGrid())
@@ -632,11 +671,11 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de déplacer le pion stocké dans l'instance SquareView
-	 * sélectionnée. Il existe plusieurs cas: - checkSettingUp n'est pas terminé,
-	 * dans ce cas on place seulement le pion stocké dans pawnChosenSettingUp dans
-	 * l'instance SquareView - pawnChosen n'est pas vide, dans ce cas on vérifie que
-	 * le mouvement est légal et dans ce cas, on place le pion dans l'instance
+	 * Methode permettant de deplacer le pion stocke dans l'instance SquareView
+	 * selectionnee. Il existe plusieurs cas: - checkSettingUp n'est pas termine,
+	 * dans ce cas on place seulement le pion stocke dans pawnChosenSettingUp dans
+	 * l'instance SquareView - pawnChosen n'est pas vide, dans ce cas on verifie que
+	 * le mouvement est legal et dans ce cas, on place le pion dans l'instance
 	 * SquareView.
 	 */
 
@@ -646,7 +685,7 @@ public class GameView {
 			setAiPawnHidden(opponentPawnChosen);
 		}
 
-		// Récupère la source du pion
+		// Recupere la source du pion
 		SquareView sq = (SquareView) e.getSource(); // Pendant le placement des pions
 		if (pawnChosenSettingUp != null)
 			// Dans le cas où le placement des pions est toujours en cours.
@@ -659,7 +698,7 @@ public class GameView {
 		 */
 
 		if (pawnChosen != null && gridController.isMovePossible(getSquare(pawnChosen.getSquare()), getSquare(sq))) {
-			// Fixe les coordonnées de la case au pion.
+			// Fixe les coordonnees de la case au pion.
 			Pawn pawn = getSquare(pawnChosen.getSquare()).getPawn();
 			handleMovementGUI(pawnChosen, sq);
 			handleMovement(pawn, getSquare(sq));
@@ -669,59 +708,11 @@ public class GameView {
 			AIturn();
 		}
 	}
-
+	
+	// XXX Methodes pour acceder aux cases logiques et graphiques
+	
 	/**
-	 * ICI ON TRAITE DE METHODES LIEES AU MOUVEMENT + QUELQUES ACCESSEURS/MUTATEURS
-	 */
-
-	/**
-	 * Méthode pour appliquer un déplacement d'un Pawn vers un Square.
-	 * 
-	 * @param pawn   Pion qu'on veut déplacer.
-	 * @param square Case où on veut déplacer pawn.
-	 */
-
-	public void handleMovement(Pawn pawn, Square square) {
-
-		// Réinitialisation
-		if (pawn.getSquare() != null)
-			pawn.getSquare().setPawn(null);
-
-		square.setPawn(pawn);
-		pawn.setSquare(square);
-	}
-
-	/**
-	 * Méthode pour appliquer un déplacement d'un PawnView vers un SquareView.
-	 * 
-	 * @param pawn   Pion qu'on veut déplacer.
-	 * @param square Case où on veut déplacer pawn.
-	 */
-
-	public void handleMovementGUI(PawnView pawn, SquareView square) {
-
-		// Réinitialisation
-		if (pawn.getSquare() != null)
-			pawn.getSquare().setPawnView(null);
-
-		square.setPawnView(pawn);
-		pawn.setSquare(square);
-		pawn.setX(square.getX());
-		pawn.setY(square.getY());
-	}
-
-	/**
-	 * Méthode permettant de retourner l'état actuel de la partie en cours.
-	 * 
-	 * @return L'état de la partie
-	 */
-
-	public GameState getState() {
-		return game.getGameStateManager().getState();
-	}
-
-	/**
-	 * Méthode permettant de retourner une instance de Square.
+	 * Methode permettant de retourner une instance de Square.
 	 * 
 	 * @param square SquareView qu'on doit convertir en Square
 	 * @return Square L'instance square convertie.
@@ -732,11 +723,11 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de retourner l'instance SquareView à l'aide de
-	 * coordonnées.
+	 * Methode permettant de retourner l'instance SquareView à l'aide de
+	 * coordonnees.
 	 * 
-	 * @param row    Représente la rangée
-	 * @param column Représente la colonne
+	 * @param row    Represente la rangee
+	 * @param column Represente la colonne
 	 * @return SquareView L'instance voulue.
 	 */
 
@@ -751,9 +742,4 @@ public class GameView {
 	public GameProcess getGameProcess() {
 		return game;
 	}
-
-	public Pane getInGame() {
-		return inGame;
-	}
-
 }

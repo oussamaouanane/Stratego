@@ -1,6 +1,5 @@
 package be.ac.umons.stratego.model;
 
-import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
 import be.ac.umons.stratego.model.grid.Grid;
@@ -13,8 +12,8 @@ import be.ac.umons.stratego.model.state.GameStateManager;
  * <h1>GameProcess</h1>
  * 
  * <p>
- * Classe permettant de modéliser le déroulement d'une partie, elle contient
- * plusieurs méthodes visant à décrire l'état actuelle de la partie en cours.
+ * Classe permettant de modeliser le deroulement d'une partie, elle contient
+ * plusieurs methodes visant à decrire l'etat actuelle de la partie en cours.
  * </p>
  * 
  * @author O.S
@@ -29,19 +28,16 @@ public class GameProcess implements Serializable {
 	private int index = 0;
 	private Grid grid;
 
-	private int userScore;
-	private int aiScore;
-
 	GameStateManager state = new GameStateManager();
 
 	/**
-	 * Méthode permettant de vérifier la victoire d'un des deux joueurs. Une partie
-	 * est gagnée si et seulement si l'état du jeu répond à un de ces critères:
+	 * Methode permettant de verifier la victoire d'un des deux joueurs. Une partie
+	 * est gagnee si et seulement si l'etat du jeu repond à un de ces criteres:
 	 * 
-	 * - Le joueur perdant n'a plus de drapeau. - Le joueur gagnant a encerclé son
-	 * drapeau de bombes et le joueur perdant n'a plus de démineurs. - Le joueur
+	 * - Le joueur perdant n'a plus de drapeau. - Le joueur gagnant a encercle son
+	 * drapeau de bombes et le joueur perdant n'a plus de demineurs. - Le joueur
 	 * perdant est dans une situation où il ne peut plus bouger. - Le joueur perdant
-	 * est dans une situation où toutes ses pièces sont strictements plus faibles
+	 * est dans une situation où toutes ses pieces sont strictements plus faibles
 	 * que celles du joueur gagnant
 	 * 
 	 * @return
@@ -61,10 +57,10 @@ public class GameProcess implements Serializable {
 	}
 
 	/**
-	 * Méthode permettant de vérifier si la partie est terminée, utilisée lors de
-	 * chaque début de tour.
+	 * Methode permettant de verifier si la partie est terminee, utilisee lors de
+	 * chaque debut de tour.
 	 * 
-	 * @return Retourne vrai si la partie est terminée, non sinon.
+	 * @return Retourne vrai si la partie est terminee, non sinon.
 	 * 
 	 * @see Player#checkWin()
 	 */
@@ -74,7 +70,7 @@ public class GameProcess implements Serializable {
 	}
 
 	/**
-	 * Méthode permettant de mettre fin à la partie en changeant le GameState à
+	 * Methode permettant de mettre fin à la partie en changeant le GameState à
 	 * ENDGAMESTATE.
 	 * 
 	 * @see GameState
@@ -87,7 +83,7 @@ public class GameProcess implements Serializable {
 	}
 
 	/**
-	 * Méthode permettant de représenter une manche, elle sert uniquement à changer
+	 * Methode permettant de representer une manche, elle sert uniquement à changer
 	 * de tour et non sa gestion.
 	 */
 
@@ -100,7 +96,7 @@ public class GameProcess implements Serializable {
 	}
 	
 	/**
-	 * Méthode permettant de retourner le tour de la personne qui doit jouer.
+	 * Methode permettant de retourner le tour de la personne qui doit jouer.
 	 * 
 	 * @return Retourne 1 si c'est au tour du joueur non-AI, 2 sinon.
 	 */
@@ -143,3 +139,4 @@ public class GameProcess implements Serializable {
 	}
 
 }
+

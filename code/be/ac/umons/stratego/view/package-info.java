@@ -1,6 +1,6 @@
 /**
- * Package contenant toutes les classes nécessaires au fonctionnement de la
- * Graphical User Interface (GUI).
+ * Package contenant toutes les classes necessaires au fonctionnement de la
+ * partie graphique.
  */
 
 package be.ac.umons.stratego.view;

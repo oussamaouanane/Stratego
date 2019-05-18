@@ -9,11 +9,11 @@ import be.ac.umons.stratego.model.pawn.Pawn;
  * <h1>Square</h1>
  * 
  * <p>
- * Classe permettant de modéliser un carré (une case de la grille), chaque carré
- * a la possiblité de contenir un UNIQUE pion (instance de Pawn) - Les pions se
- * déplacent UNIQUEMENT à travers les carrés. Un carré est accessible s'il n'est
- * pas restreint (e.g lac). Son accessiblité est gérée à l'aide d'un attribut
- * booléen nommé access.
+ * Classe permettant de modeliser un carre (une case de la grille), chaque carre
+ * a la possiblite de contenir un UNIQUE pion (instance de Pawn) - Les pions se
+ * deplacent UNIQUEMENT à travers les carres. Un carre est accessible s'il n'est
+ * pas restreint (e.g lac). Son accessiblite est geree à l'aide d'un attribut
+ * booleen nomme access.
  * </p>
  * 
  * @see Pawn
@@ -27,19 +27,19 @@ public class Square implements Serializable {
 	private int row;
 	private int column;
 
-	// Coordonnées des drapeaux dans la grille
+	// Coordonnees des drapeaux dans la grille
 	// @see Grid
 	public static int[] flagA = new int[2];
 	public static int[] flagB = new int[2];
 
 	/**
-	 * Constructeur par défaut permettant de définir une instance de Square qui est
-	 * composée d'une rangée, une colonne, une instance Pion (ou null), et un accès.
+	 * Constructeur par defaut permettant de definir une instance de Square qui est
+	 * composee d'une rangee, une colonne, une instance Pion (ou null), et un acces.
 	 * 
-	 * @param row    Rangée dans Grid
+	 * @param row    Rangee dans Grid
 	 * @param column Colonne dans Grid
 	 * @param pawn   Une instance de pions ou null.
-	 * @param access Accès
+	 * @param access Acces
 	 * 
 	 * @see Grid
 	 * @see Pawn

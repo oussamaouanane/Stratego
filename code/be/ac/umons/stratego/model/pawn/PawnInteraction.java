@@ -10,10 +10,10 @@ import be.ac.umons.stratego.model.grid.Square;
  * <h1>PawnInteractions</h1>
  * 
  * <p>
- * Classe permettant de définir les interactions possibles entre une instance
- * Pawn et Grid/Pawn. Elle possède divers méthodes dont des méthodes de
- * déplacements, de contact entre deux instances de Pawn. Cette classe hérite de
- * la classe Couple qui permet de représenter deux objets (int ou Square) sous
+ * Classe permettant de definir les interactions possibles entre une instance
+ * Pawn et Grid/Pawn. Elle possede divers methodes dont des methodes de
+ * deplacements, de contact entre deux instances de Pawn. Cette classe herite de
+ * la classe Couple qui permet de representer deux objets (int ou Square) sous
  * forme d'un couple. - <i>cf. Couple.java</i>
  * </p>
  * 
@@ -26,7 +26,7 @@ public class PawnInteraction extends Couple {
 	private Grid grid;
 
 	/**
-	 * Constructeur par défaut permettant de manipuler deux instances de Square.
+	 * Constructeur par defaut permettant de manipuler deux instances de Square.
 	 */
 
 	public PawnInteraction(Square squareA, Square squareB, Grid grid) {
@@ -45,11 +45,11 @@ public class PawnInteraction extends Couple {
 	}
 
 	/**
-	 * Méthode permettant de simplifier la récupération du rang d'un pion dans une
+	 * Methode permettant de simplifier la recuperation du rang d'un pion dans une
 	 * instance Square.
 	 * 
-	 * @param square Instance Square dont on veut récupérer le rang du pion contenu
-	 * @return Le rang du pion contenu dans le paramètre square.
+	 * @param square Instance Square dont on veut recuperer le rang du pion contenu
+	 * @return Le rang du pion contenu dans le parametre square.
 	 */
 
 	public int getRank(Square square) {
@@ -57,9 +57,9 @@ public class PawnInteraction extends Couple {
 	}
 
 	/**
-	 * Méthode permettant de simplifier la récupération d'une instance Square.
+	 * Methode permettant de simplifier la recuperation d'une instance Square.
 	 * 
-	 * @param Coordonnées (x,y)
+	 * @param Coordonnees (x,y)
 	 */
 
 	public Square getSquare(int x, int y) {
@@ -67,9 +67,9 @@ public class PawnInteraction extends Couple {
 	}
 
 	/**
-	 * Méthode qui permet d'évaluer le vainqueur d'un duel entre pawnA (pion qui
+	 * Methode qui permet d'evaluer le vainqueur d'un duel entre pawnA (pion qui
 	 * attaque) et pawnB (pion que se fait attaquer) où pawnA et pawnB sont deux
-	 * instances de Pawn. Cette méthode sera appelée dans doFighting().
+	 * instances de Pawn. Cette methode sera appelee dans doFighting().
 	 * 
 	 * @return 1 Dans le cas où pawnA est plus fort que pawnB sinon 0 dans le cas
 	 *         d'un duel nul entre pawnA et pawnB sinon -1 dans le cas où pawnA est
@@ -81,7 +81,7 @@ public class PawnInteraction extends Couple {
 	public int evaluateFighting() {
 
 		if (getSquareB().getPawn() != null) {
-			if ((getRank(getSquareA()) == 0 && getRank(getSquareB()) == 9) // Espion plus fort que le Maréchal
+			if ((getRank(getSquareA()) == 0 && getRank(getSquareB()) == 9) // Espion plus fort que le Marechal
 					|| (getRank(getSquareA()) == 2 && getRank(getSquareB()) == 10) // Mineur plus fort que la bombe
 					|| (getRank(getSquareB()) == 11) // pawnB est un drapeau
 					|| (getRank(getSquareA()) > getRank(getSquareB()))) // PawnA > PawnB
@@ -98,8 +98,8 @@ public class PawnInteraction extends Couple {
 	}
 
 	/**
-	 * Méthode qui permet d'effectuer les actions qui découlent du duel, afin
-	 * d'évaluer le résultat du duel, on fait appel à evaluateFighting(). Il existe
+	 * Methode qui permet d'effectuer les actions qui decoulent du duel, afin
+	 * d'evaluer le resultat du duel, on fait appel à evaluateFighting(). Il existe
 	 * trois cas possibles:
 	 * 
 	 * evaluateFighting() = 1 - pawnA prend la place de pawnB cf. Square.java
@@ -139,13 +139,13 @@ public class PawnInteraction extends Couple {
 	}
 
 	/**
-	 * Méthode permettant de vérifier si des coordonnées représentées par les
-	 * paramètres (row, column) sont dans la matrice carrée 10x10 (Grid).
+	 * Methode permettant de verifier si des coordonnees representees par les
+	 * parametres (row, column) sont dans la matrice carree 10x10 (Grid).
 	 * 
-	 * @param row    Représente la rangée d'une instance Square.
-	 * @param column Représente la colonne d'une instance Square.
+	 * @param row    Represente la rangee d'une instance Square.
+	 * @param column Represente la colonne d'une instance Square.
 	 * 
-	 * @return Un booléen qui vérifie la condition énoncée ci-dessus.
+	 * @return Un booleen qui verifie la condition enoncee ci-dessus.
 	 * 
 	 * @see Grid
 	 */
@@ -156,10 +156,10 @@ public class PawnInteraction extends Couple {
 	}
 
 	/**
-	 * Méthode permettant de créer une liste dynamique représentant les différents
-	 * mouvements légaux qu'un pion (à partir d'une instance Square) peut effectuer
+	 * Methode permettant de creer une liste dynamique representant les differents
+	 * mouvements legaux qu'un pion (à partir d'une instance Square) peut effectuer
 	 * 
-	 * @return Une ArrayList permettant de représenter les cases dans lesquelles le
+	 * @return Une ArrayList permettant de representer les cases dans lesquelles le
 	 *         pion peut aller.
 	 */
 
@@ -167,7 +167,7 @@ public class PawnInteraction extends Couple {
 
 		ArrayList<Couple> evaluation = new ArrayList<Couple>();
 
-		// Dans ce cas on agit sur un pion de portée 1.
+		// Dans ce cas on agit sur un pion de portee 1.
 		if (getSquare(getX(), getY()).getPawn().getRange() == 1) {
 			Couple[] availableMovement = { new Couple(1, 0), new Couple(0, 1), new Couple(-1, 0), new Couple(0, -1) };
 			for (Couple c : availableMovement) {
@@ -180,7 +180,7 @@ public class PawnInteraction extends Couple {
 
 			}
 		}
-		// Dans ce cas on agit sur le pion éclaireur qui a une portée illimitée tant
+		// Dans ce cas on agit sur le pion eclaireur qui a une portee illimitee tant
 		// qu'il ne saute pas de pion.
 		else {
 
@@ -232,10 +232,10 @@ public class PawnInteraction extends Couple {
 	}
 
 	/**
-	 * Méthode permettant de calculer la possiblité d'un mouvement selon plusieurs
+	 * Methode permettant de calculer la possiblite d'un mouvement selon plusieurs
 	 * conditions, rappelons qu'un mouvement est possible ssi: Le mouvement est
-	 * horizontal ou vertical, le mouvement donné rentre dans la portée du pion et
-	 * qu'il n'y ai aucun pion du même joueur dans la destination.
+	 * horizontal ou vertical, le mouvement donne rentre dans la portee du pion et
+	 * qu'il n'y ai aucun pion du meme joueur dans la destination.
 	 * 
 	 * 
 	 * @return Si le mouvement est possible ou pas.
@@ -247,8 +247,8 @@ public class PawnInteraction extends Couple {
 		int differenceRow = getSquareB().getRow() - getSquareA().getRow();
 		int differenceColumn = getSquareB().getColumn() - getSquareA().getColumn();
 
-		// Gestion tentative diagonale et gestion portée (l'un implique l'autre),
-		// vérifie si le mouvement reste dans la grille et si la destination est
+		// Gestion tentative diagonale et gestion portee (l'un implique l'autre),
+		// verifie si le mouvement reste dans la grille et si la destination est
 		// accessible.
 
 		if ((differenceRow != 0 && differenceColumn != 0) || (Math.abs(differenceRow) > range)

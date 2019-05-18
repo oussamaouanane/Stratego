@@ -1,5 +1,5 @@
 /**
- * Package contenant toutes les classes nécessaires au fonctionnement de la
+ * Package contenant toutes les classes necessaires au fonctionnement de la
  * partie logique.
  */
 

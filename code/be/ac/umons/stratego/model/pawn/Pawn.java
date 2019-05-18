@@ -8,13 +8,12 @@ import be.ac.umons.stratego.model.grid.Square;
  * <h1>Pawn</h1>
  * 
  * <p>
- * Classe permettant de modéliser un pion. Un pion possède plusieurs attributs
- * qui permettent de le définir: - Un ID unique 0 <= ID <= 80 (Pas sûr de
- * l'implémenter) - un rang <i>c.f arrayRanks</i> - un joueur - un état, vivant
- * ou mort - une visibilité - une portée.
+ * Classe permettant de modeliser un pion. Un pion possede plusieurs attributs
+ * qui permettent de le definir: - Un ID unique 0 <= ID <= 80 (Pas sûr de
+ * l'implementer) - un rang <i>c.f arrayRanks</i> - un joueur - un etat, vivant
+ * ou mort - une visibilite - une portee.
  * </p>
  * 
- * @author O.S
  */
 
 public class Pawn implements Serializable {
@@ -29,8 +28,8 @@ public class Pawn implements Serializable {
 			5, 6, 6, 6, 7, 7, 8, 9, 10, 10, 10, 10, 10, 10, 11 };
 
 	/**
-	 * Constructeur par défaut permettant de définir une instance de Pawn qui est
-	 * composée d'un id, un rang et un joueur au pion
+	 * Constructeur par defaut permettant de definir une instance de Pawn qui est
+	 * composee d'un id, un rang et un joueur au pion
 	 * 
 	 * @param id     ID unique
 	 * @param rank   rang
@@ -42,7 +41,7 @@ public class Pawn implements Serializable {
 		this.rank = rank;
 		this.player = player;
 
-		// Change la portée si le pion est un éclaireur (9), drapeau ou bombes (0)
+		// Change la portee si le pion est un eclaireur (9), drapeau ou bombes (0)
 		if (rank >= 10)
 			this.range = 0;
 		else if (rank == 1)
@@ -59,7 +58,7 @@ public class Pawn implements Serializable {
 	}
 
 	/**
-	 * Quelques accesseurs (getters) et mutateurs (setters), lire la présentation de
+	 * Quelques accesseurs (getters) et mutateurs (setters), lire la presentation de
 	 * la classe pour en savoir plus sur les variables d'instances.
 	 */
 	public int getPlayer() {
@@ -79,10 +78,10 @@ public class Pawn implements Serializable {
 	}
 
 	/**
-	 * Méthode permettant de vérifier si un pion est d'un rang spécifique. On
-	 * pourrait utiliser une condition booléen uniquement à l'aide d'une condition
+	 * Methode permettant de verifier si un pion est d'un rang specifique. On
+	 * pourrait utiliser une condition booleen uniquement à l'aide d'une condition
 	 * de ce type: SI pion.getRank() == rank ALORS mais c'est plus concis de cette
-	 * manière.
+	 * maniere.
 	 */
 	public boolean isPawnA(int rank) {
 		return this.rank == rank;

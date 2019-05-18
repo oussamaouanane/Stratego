@@ -6,13 +6,11 @@ import javafx.scene.shape.Rectangle;
  * <h1>SquareView</h1>
  * 
  * <p>
- * Classe permettant de représenter de manière graphique Square, elle hérite des
- * composants de sa classe mère Rectangle.
+ * Classe permettant de representer de maniere graphique Square, elle herite des
+ * composants de sa classe mere Rectangle.
  * </p>
  * 
  * @see Rectangle
- * 
- * @author O.S
  */
 
 public class SquareView extends Rectangle {
@@ -22,7 +20,7 @@ public class SquareView extends Rectangle {
 	private PawnView pawnView;
 
 	/**
-	 * Constructeur hérité de Rectangle.
+	 * Constructeur herite de Rectangle.
 	 * 
 	 * @param x      Position horizontale
 	 * @param y      Position verticale

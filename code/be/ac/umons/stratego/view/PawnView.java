@@ -4,19 +4,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- * Classe permettant de représenter de manière graphique Pawn, elle hérite des
- * Composants de sa classe mère ImageView.
+ * Classe permettant de representer de maniere graphique Pawn, elle herite des
+ * Composants de sa classe mere ImageView.
  * 
  * @see Pawn
  * @see ImageView
  * 
- * @author O.S
- *
  */
 
 public class PawnView extends ImageView {
 
-	// Caractéristiques du pion, à la manière de Pawn
+	// Caracteristiques du pion, à la maniere de Pawn
 	private int rank;
 	private int player;
 	private boolean visible;
@@ -29,7 +27,7 @@ public class PawnView extends ImageView {
 			"Capitaine", "Commandant", "Colonel", "General", "Marechal", "Bombe", "Drapeau" };
 
 	/**
-	 * Constructeur permettant de représenter un pion
+	 * Constructeur permettant de representer un pion
 	 * @param rank rang du pion
 	 * @param player joueur à qui il appartient
 	 * 

@@ -13,11 +13,11 @@ import be.ac.umons.stratego.model.pawn.PawnInteraction;
  * <h1>Player</h1>
  * 
  * <p>
- * Classe permettant de modéliser un joueur, il existe au plus deux joueurs lors
- * d'une partie. Chaque joueur possède un set de 40 pions. La classe possède des
- * méthodes liées à la gestion d'une partie et de son organisation. On y
- * retrouvera donc des méthodes qui vérifient l'état actuelle de la partie pour
- * l'instance du joueur donnée.
+ * Classe permettant de modeliser un joueur, il existe au plus deux joueurs lors
+ * d'une partie. Chaque joueur possede un set de 40 pions. La classe possede des
+ * methodes liees à la gestion d'une partie et de son organisation. On y
+ * retrouvera donc des methodes qui verifient l'etat actuelle de la partie pour
+ * l'instance du joueur donnee.
  * </p>
  *
  */
@@ -27,10 +27,10 @@ public class Player implements Serializable {
 	private static final long serialVersionUID = 5843168112852480170L;
 	
 	/**
-	 * Variables d'instances permettant de vérifier si une partie est terminée.
-	 * Ensemble de booléens. hasFlag: le joueur a un drapeau. flagSurrounded: le
-	 * drapeau du joueur est entouré de bombes. hasMinersLeft: le joueur a encore
-	 * des démineurs.
+	 * Variables d'instances permettant de verifier si une partie est terminee.
+	 * Ensemble de booleens. hasFlag: le joueur a un drapeau. flagSurrounded: le
+	 * drapeau du joueur est entoure de bombes. hasMinersLeft: le joueur a encore
+	 * des demineurs.
 	 */
 
 	private int playerId;
@@ -47,9 +47,9 @@ public class Player implements Serializable {
 	private Grid grid;
 
 	/**
-	 * Constructeur permettant de créer le joueur humain.
+	 * Constructeur permettant de creer le joueur humain.
 	 * 
-	 * @param grid La grille où la partie se déroule.
+	 * @param grid La grille où la partie se deroule.
 	 */
 
 	public Player(Grid grid) {
@@ -85,11 +85,11 @@ public class Player implements Serializable {
 	}
 
 	/**
-	 * Méthode permettant de vérifier si le drapeau du joueur n'a pas encore été
+	 * Methode permettant de verifier si le drapeau du joueur n'a pas encore ete
 	 * saisi. On parcourt la liste des pions vivants du joueur pour voir si le
 	 * drapeau y est contenu.
 	 * 
-	 * @return Booléen qui indique si le drapeau du joueur a été saisi ou non.
+	 * @return Booleen qui indique si le drapeau du joueur a ete saisi ou non.
 	 */
 
 	@SuppressWarnings("unlikely-arg-type")
@@ -111,40 +111,42 @@ public class Player implements Serializable {
 	}
 
 	/**
-	 * Méthode permettant de vérifier si le drapeau du joueur est entouré de bombes
-	 * alliées. Tous les détails sont expliqués dans la fonction.
+	 * Methode permettant de verifier si le drapeau du joueur est entoure de bombes
+	 * alliees. Tous les details sont expliques dans la fonction.
 	 * 
-	 * @return Booléen qui indique si le drapeau du joueur est entouré de bombes ou
+	 * @return Booleen qui indique si le drapeau du joueur est entoure de bombes ou
 	 *         non.
 	 */
+	
+	// TODO FIXER CETTE METHODE.
 
 	public boolean isFlagSurrounded() {
 
 		int index = 0;
 
-		// Vérifie que le drapeau n'est pas capturé
+		// Verifie que le drapeau n'est pas capture
 		if (!hasFlag())
 			return false;
-		// Gestion des murs à l'aide des méthodes créées dans PawnInteraction
+		// Gestion des murs à l'aide des methodes creees dans PawnInteraction
 		// @see PawnInteraction
 		else {
-			// Coordonnées du drapeau sous la forme d'un couple (x, y)
+			// Coordonnees du drapeau sous la forme d'un couple (x, y)
 			// @see PawnInteraction, Couple
 			PawnInteraction flagCoord = new PawnInteraction(flagX, flagY, grid);
-			// Création des différentes positions dont il faut analyser le contenu, e.g. (0,
-			// 1) est un mouvement verticale d'une unité vers le haut. On agit sur la grille
-			// comme un repère cartésien.
+			// Creation des differentes positions dont il faut analyser le contenu, e.g. (0,
+			// 1) est un mouvement verticale d'une unite vers le haut. On agit sur la grille
+			// comme un repere cartesien.
 			Couple[] possibleMovements = { new Couple(0, 1), new Couple(1, 0), new Couple(0, -1), new Couple(-1, 0) };
-			// Utilisation de la méthode possibleMovements afin d'obtenir les instances
-			// Square autour du drapeau et vérifier les pions qu'elles contiennent, ici on
+			// Utilisation de la methode possibleMovements afin d'obtenir les instances
+			// Square autour du drapeau et verifier les pions qu'elles contiennent, ici on
 			// cherche à voir si tous les pions sont des bombes
 
 			Couple atIndex = possibleMovements[index];
 			// for (int i : flagCoord.availableMovement()) {
 			// Si l'instance Square n'est pas un mur donc est accessible, on regarde si le
-			// pion contenu n'est pas une bombe, dans ce cas le drapeau n'est pas entouré de
-			// bombes. i == 1 car on avait dit que si le mouvement était possible, on
-			// retournait 1 dans la méthode availableMovement().
+			// pion contenu n'est pas une bombe, dans ce cas le drapeau n'est pas entoure de
+			// bombes. i == 1 car on avait dit que si le mouvement etait possible, on
+			// retournait 1 dans la methode availableMovement().
 
 			// @see PawnInteraction#availableMovement()
 			// if (i == 1 && !grid.getSquare(atIndex.getX(),
@@ -157,17 +159,17 @@ public class Player implements Serializable {
 	// }
 
 	/**
-	 * Méthode permettant de vérifier si tous les démineurs du joueur n'ont pas
-	 * encore été saisis. On parcourt la liste des pions vivants du joueur pour voir
-	 * si les démineurs y sont contenus.
+	 * Methode permettant de verifier si tous les demineurs du joueur n'ont pas
+	 * encore ete saisis. On parcourt la liste des pions vivants du joueur pour voir
+	 * si les demineurs y sont contenus.
 	 * 
-	 * @return Booléen qui indique si les démineurs du joueur ont été saisis ou non.
+	 * @return Booleen qui indique si les demineurs du joueur ont ete saisis ou non.
 	 */
 
 	@SuppressWarnings("unlikely-arg-type")
 	public boolean hasMinersLeft() {
 		// Parcourt la liste des pions encore vivants pour voir si elle contient au
-		// moins un démineur.
+		// moins un demineur.
 		for (Pawn pawn : alivePawns) {
 			boolean pawnAMiner = pawn.isPawnA(2);
 			if (!alivePawns.contains(pawnAMiner)) {
@@ -175,14 +177,14 @@ public class Player implements Serializable {
 				break;
 			}
 		}
-		// Retourne vrai ou faux en fonction de si le joueur a au moins un démineur.
+		// Retourne vrai ou faux en fonction de si le joueur a au moins un demineur.
 		return hasMinersLeft;
 
 	}
 
 	public boolean hasWeakerPawns(Player p2) {
 		PawnInteraction couple;
-		// Parcourt la liste des deux joueurs pour voir si le joueur 1 a des pièces
+		// Parcourt la liste des deux joueurs pour voir si le joueur 1 a des pieces
 		// moins puissantes que ceux du joueur 2.
 		for (Pawn oppPawn : p2.alivePawns) { // oppPawn = ennemi
 			for (Pawn pawn : alivePawns) {
@@ -196,16 +198,16 @@ public class Player implements Serializable {
 	}
 
 	/**
-	 * Méthode permettant de vérifier le joueur a gagné la partie. Une partie est
-	 * gagnée si et seulement si l'état du jeu répond à un de ces critères:
+	 * Methode permettant de verifier le joueur a gagne la partie. Une partie est
+	 * gagnee si et seulement si l'etat du jeu repond à un de ces criteres:
 	 * 
-	 * - Le joueur adverse (p2) n'a plus de drapeau. - Le joueur a encerclé son
-	 * drapeau de bombes et le joueur adverse (p2) n'a plus de démineurs. - TODO Le
+	 * - Le joueur adverse (p2) n'a plus de drapeau. - Le joueur a encercle son
+	 * drapeau de bombes et le joueur adverse (p2) n'a plus de demineurs. - TODO Le
 	 * joueur adverse (p2) est dans une situation où il ne peut plus bouger. - Le
-	 * joueur adverse (p2) est dans une situation où toutes ses pièces sont
+	 * joueur adverse (p2) est dans une situation où toutes ses pieces sont
 	 * strictements plus faibles que celles du joueur.
 	 * 
-	 * @return Booléen qui indique si le joueur a gagné ou pas.
+	 * @return Booleen qui indique si le joueur a gagne ou pas.
 	 */
 
 	public boolean checkWin(Player p2) {
@@ -239,3 +241,4 @@ public class Player implements Serializable {
 	}
 	
 }
+

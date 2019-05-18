@@ -32,7 +32,7 @@ public class GridController {
 	}
 
 	/**
-	 * @param initialSquare     Instance Square de départ
+	 * @param initialSquare     Instance Square de depart
 	 * @param destinationSquare Instance Square finale
 	 * @see PawnInteraction#isMovePossible()
 	 */
@@ -46,12 +46,12 @@ public class GridController {
 	}
 
 	/**
-	 * Méthode permettant de retourner une ArrayList de Couple représentant
-	 * l'ensemble des cases accessibles depuis le pion dans le Square en paramètre.
+	 * Methode permettant de retourner une ArrayList de Couple representant
+	 * l'ensemble des cases accessibles depuis le pion dans le Square en parametre.
 	 * 
 	 * @param square Instance Square donc il faut surligner les mouvements possibles
 	 *               du pion le contenant.
-	 * @return Représentation sous forme de couple de coordonnées l'ensemble des
+	 * @return Representation sous forme de couple de coordonnees l'ensemble des
 	 *         cases à surligner.
 	 */
 
@@ -72,8 +72,8 @@ public class GridController {
 	}
 
 	/**
-	 * Méthode permettant de gérer le combat entre deux pions situés respectivement
-	 * dans les deux Square en paramètre.
+	 * Methode permettant de gerer le combat entre deux pions situes respectivement
+	 * dans les deux Square en parametre.
 	 * 
 	 * @param initialDestination
 	 * @param finalDestination
@@ -114,7 +114,7 @@ public class GridController {
 	}
 
 	public void removePawnView(Square square) {
-		gameView.getInGame().getChildren().remove(gameView.getSquareView(square).getPawnView());
+		//gameView.getInGame().getChildren().remove(gameView.getSquareView(square).getPawnView());
 	}
 
 }

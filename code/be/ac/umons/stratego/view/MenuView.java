@@ -1,8 +1,5 @@
 package be.ac.umons.stratego.view;
 
-import java.io.IOException;
-
-import be.ac.umons.stratego.model.SaveLoad;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -21,7 +18,7 @@ import javafx.scene.paint.Color;
  * <h1>MenuState</h1>
  * 
  * <p>
- * Classe permettant de représenter graphiquement le menu principal du jeu.
+ * Classe permettant de representer graphiquement le menu principal du jeu.
  * </p>
  * 
  */
@@ -113,24 +110,6 @@ public class MenuView extends Application {
 
 	public void savePopup(Stage primaryStage) {
 		
-		try {
-			new GameView(SaveLoad.load());
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		/*
-		 * FileChooser saveUpload = new FileChooser();
-		 * saveUpload.setTitle("Load your save");
-		 * saveUpload.showOpenDialog(primaryStage); FileChooser.ExtensionFilter xml =
-		 * new FileChooser.ExtensionFilter("XML", "*.xml");
-		 * saveUpload.setSelectedExtensionFilter(xml);
-		 */
-
 	}
 
 	public void chooseOpponentWindow(Stage primaryStage) {
@@ -141,7 +120,7 @@ public class MenuView extends Application {
 		choose.setTranslateX(130);
 		choose.setTranslateY(20);
 
-		Button me = new Button("Aléatoire");
+		Button me = new Button("Aleatoire");
 		Button he = new Button("Difficile");
 
 		me.setPrefHeight(40.0);
@@ -197,7 +176,7 @@ public class MenuView extends Application {
 		Scene scene = new Scene(menu);
 		// Titre
 		primaryStage.setTitle("Stratego - Menu principal");
-		// Réglage de Scene
+		// Reglage de Scene
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 		scene.getStylesheets().add("file:assets/styles/menu.css");
@@ -205,7 +184,7 @@ public class MenuView extends Application {
 		// Afficher Scene
 		primaryStage.show();
 
-		// Permet d'afficher les éléments graphiques
+		// Permet d'afficher les elements graphiques
 		draw(primaryStage);
 	}
 

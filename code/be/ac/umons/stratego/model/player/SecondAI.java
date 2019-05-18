@@ -13,10 +13,10 @@ public class SecondAI extends Player {
 	 * <h1>SecondAI</h1>
 	 * 
 	 * <p>
-	 * Classe permettant de représenter la deuxième intelligence artificielle, on
-	 * cherche d'abord à fixer la position des deux drapeaux (allié et ennemi). Si
-	 * l'écart de score est de plus de 5, alors on ramène les pions les plus proches
-	 * vers le drapeau pour défendre, dans le cas contraire, on envoie les pions
+	 * Classe permettant de representer la deuxieme intelligence artificielle, on
+	 * cherche d'abord à fixer la position des deux drapeaux (allie et ennemi). Si
+	 * l'ecart de score est de plus de 5, alors on ramene les pions les plus proches
+	 * vers le drapeau pour defendre, dans le cas contraire, on envoie les pions
 	 * vers le drapeau ennemi.
 	 * </p>
 	 */
@@ -35,7 +35,7 @@ public class SecondAI extends Player {
 		
 		// Choix du drapeau vers le quel se diriger:
 
-		// Si l'écart entre les deux joueurs est de 5. Alors on cherchera à rabattre les
+		// Si l'ecart entre les deux joueurs est de 5. Alors on cherchera à rabattre les
 		// pions vers son drapeau.
 		if (game.getScore(1) - game.getScore(2) > 5) {
 			for (Pawn pawn : game.getAI().getAlivePawns()) {
