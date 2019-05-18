@@ -11,8 +11,8 @@ import be.ac.umons.stratego.model.pawn.Pawn;
  * <p>
  * Classe permettant de modeliser un carre (une case de la grille), chaque carre
  * a la possiblite de contenir un UNIQUE pion (instance de Pawn) - Les pions se
- * deplacent UNIQUEMENT à travers les carres. Un carre est accessible s'il n'est
- * pas restreint (e.g lac). Son accessiblite est geree à l'aide d'un attribut
+ * deplacent UNIQUEMENT a travers les carres. Un carre est accessible s'il n'est
+ * pas restreint (e.g lac). Son accessiblite est geree a l'aide d'un attribut
  * booleen nomme access.
  * </p>
  * 

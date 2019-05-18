@@ -79,7 +79,7 @@ public class Pawn implements Serializable {
 
 	/**
 	 * Methode permettant de verifier si un pion est d'un rang specifique. On
-	 * pourrait utiliser une condition booleen uniquement à l'aide d'une condition
+	 * pourrait utiliser une condition booleen uniquement a l'aide d'une condition
 	 * de ce type: SI pion.getRank() == rank ALORS mais c'est plus concis de cette
 	 * maniere.
 	 */

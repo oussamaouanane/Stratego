@@ -52,7 +52,7 @@ public class GridController {
 	 * @param square Instance Square donc il faut surligner les mouvements possibles
 	 *               du pion le contenant.
 	 * @return Representation sous forme de couple de coordonnees l'ensemble des
-	 *         cases à surligner.
+	 *         cases a surligner.
 	 */
 
 	public ArrayList<Couple> SquareToHighlight(Square square) {

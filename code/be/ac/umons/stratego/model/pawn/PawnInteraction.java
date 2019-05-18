@@ -93,13 +93,13 @@ public class PawnInteraction extends Couple {
 		}
 
 		else
-			// Jamais le cas, sert surtout à mieux contrôler les erreurs JUnit.
+			// Jamais le cas, sert surtout a mieux contrôler les erreurs JUnit.
 			return -2;
 	}
 
 	/**
 	 * Methode qui permet d'effectuer les actions qui decoulent du duel, afin
-	 * d'evaluer le resultat du duel, on fait appel à evaluateFighting(). Il existe
+	 * d'evaluer le resultat du duel, on fait appel a evaluateFighting(). Il existe
 	 * trois cas possibles:
 	 * 
 	 * evaluateFighting() = 1 - pawnA prend la place de pawnB cf. Square.java
@@ -157,7 +157,7 @@ public class PawnInteraction extends Couple {
 
 	/**
 	 * Methode permettant de creer une liste dynamique representant les differents
-	 * mouvements legaux qu'un pion (à partir d'une instance Square) peut effectuer
+	 * mouvements legaux qu'un pion (a partir d'une instance Square) peut effectuer
 	 * 
 	 * @return Une ArrayList permettant de representer les cases dans lesquelles le
 	 *         pion peut aller.

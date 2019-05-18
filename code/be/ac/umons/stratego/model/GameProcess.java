@@ -13,7 +13,7 @@ import be.ac.umons.stratego.model.state.GameStateManager;
  * 
  * <p>
  * Classe permettant de modeliser le deroulement d'une partie, elle contient
- * plusieurs methodes visant à decrire l'etat actuelle de la partie en cours.
+ * plusieurs methodes visant a decrire l'etat actuelle de la partie en cours.
  * </p>
  * 
  * @author O.S
@@ -32,7 +32,7 @@ public class GameProcess implements Serializable {
 
 	/**
 	 * Methode permettant de verifier la victoire d'un des deux joueurs. Une partie
-	 * est gagnee si et seulement si l'etat du jeu repond à un de ces criteres:
+	 * est gagnee si et seulement si l'etat du jeu repond a un de ces criteres:
 	 * 
 	 * - Le joueur perdant n'a plus de drapeau. - Le joueur gagnant a encercle son
 	 * drapeau de bombes et le joueur perdant n'a plus de demineurs. - Le joueur
@@ -70,7 +70,7 @@ public class GameProcess implements Serializable {
 	}
 
 	/**
-	 * Methode permettant de mettre fin à la partie en changeant le GameState à
+	 * Methode permettant de mettre fin a la partie en changeant le GameState a
 	 * ENDGAMESTATE.
 	 * 
 	 * @see GameState
@@ -83,7 +83,7 @@ public class GameProcess implements Serializable {
 	}
 
 	/**
-	 * Methode permettant de representer une manche, elle sert uniquement à changer
+	 * Methode permettant de representer une manche, elle sert uniquement a changer
 	 * de tour et non sa gestion.
 	 */
 

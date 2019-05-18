@@ -11,8 +11,8 @@ import be.ac.umons.stratego.model.pawn.PawnInteraction;
  * 
  * <p>
  * Classe permettant de representer une grille de 100 instances de Square. Elle
- * possede plusieurs methodes visant à deplacer les pions, sa representation
- * formelle est un tableau à 2 dimensions (matrice carre)
+ * possede plusieurs methodes visant a deplacer les pions, sa representation
+ * formelle est un tableau a 2 dimensions (matrice carre)
  * </p>
  * 
  * REPRESENTATION:
@@ -71,7 +71,7 @@ public class Grid implements Serializable {
 	}
 
 	/**
-	 * Methode permettant de deplacer un pion d'une instance de Square depart à une
+	 * Methode permettant de deplacer un pion d'une instance de Square depart a une
 	 * instance de Square final.
 	 *
 	 * @param initialDestination Instance de Square de depart

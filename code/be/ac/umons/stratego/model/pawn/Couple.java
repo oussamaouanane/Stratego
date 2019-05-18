@@ -43,7 +43,7 @@ public class Couple implements Serializable {
 	}
 	
 	// Constructeur pour couple d'Integer + direction
-	// la direction va de 0 à 3 et suit la direction horaire. 
+	// la direction va de 0 a 3 et suit la direction horaire. 
 	public Couple(int x, int y, int direction) {
 		
 		this.x = x;

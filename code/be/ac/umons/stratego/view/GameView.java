@@ -74,7 +74,7 @@ public class GameView {
 	}
 
 	/**
-	 * Constructeur à utiliser en cas de chargement de sauvegarde.
+	 * Constructeur a utiliser en cas de chargement de sauvegarde.
 	 * 
 	 * @param game Instance GameProcess de la partie sauvegardee.
 	 */
@@ -228,7 +228,7 @@ public class GameView {
 	}
 
 	/**
-	 * Methode permettant de generer la liste des pions à placer pour l'intelligence
+	 * Methode permettant de generer la liste des pions a placer pour l'intelligence
 	 * artificielle et creer les pions necessaires.
 	 */
 
@@ -277,7 +277,7 @@ public class GameView {
 	 * Meme chose que createPawn mais pour les pions de placement.
 	 * 
 	 * @param rank   Rang du pion.
-	 * @param player Joueur à qui appartient le pion.
+	 * @param player Joueur a qui appartient le pion.
 	 * @return ImageView Une image qui represente le pion.
 	 * 
 	 * @see GridController#createPawn(int, int)
@@ -313,7 +313,7 @@ public class GameView {
 		handleMovement(newPawn, getSquare(sq));
 		game.getUser().addPawn(newPawn);
 
-		// Permet de mettre à jour la liste des pions
+		// Permet de mettre a jour la liste des pions
 		PAWNS_COMPOSITION[pawn.getRank()]--;
 		setupPawns();
 
@@ -352,7 +352,7 @@ public class GameView {
 
 	/**
 	 * Methode permettant de verifier si le placement des pions est termine.
-	 * Traverse la liste des pions restants à placer et verifie si il y en a encore.
+	 * Traverse la liste des pions restants a placer et verifie si il y en a encore.
 	 * 
 	 * @return Booleen qui indique si le placement est termine ou pas.
 	 */
@@ -430,7 +430,7 @@ public class GameView {
 	 * Methode permettant de creer un pion sous forme visuelle.
 	 * 
 	 * @param rank   Rang du pion.
-	 * @param player Joueur à qui appartient le pion.
+	 * @param player Joueur a qui appartient le pion.
 	 * @return PawnView Un pion sous la forme d'une illustration.
 	 */
 
@@ -552,7 +552,7 @@ public class GameView {
 		Square initialSquare = couple.getSquareA();
 		Square destinationSquare = couple.getSquareB();
 
-		// On suppose que notre methode a dejà verifie qu'il n'y a pas de pion allie à
+		// On suppose que notre methode a deja verifie qu'il n'y a pas de pion allie a
 		// cette position, donc qu'il s'agit forcement d'un pion ennemi.
 		if (destinationSquare.getPawn() != null)
 			gridController.doFighting(initialSquare, destinationSquare);
@@ -642,20 +642,20 @@ public class GameView {
 		 */
 
 		// Met pawnChosen seulement si il n'y a pas de pawnChosen. S'il y en a un alors
-		// on est dans un deplacement en cours ou alors on s'apprete à changer de pion!
+		// on est dans un deplacement en cours ou alors on s'apprete a changer de pion!
 		else if ((pawnChosen == null) && (rightPlayerCondition) && (game.getTurn() == 1)) {
 			pawnChosen = pawn;
 			setHighlight(getSquare(pawnChosen.getSquare()));
 		}
 
-		// Gestion lorsqu'on a dejà clique sur un pion et qu'on change de pion
+		// Gestion lorsqu'on a deja clique sur un pion et qu'on change de pion
 		else if ((pawnChosen != null && pawnChosen.getPlayer() == 1) && (rightPlayerCondition)) {
 			resetHighlight();
 			setHighlight(getSquare(pawn.getSquare()));
 			pawnChosen = pawn;
 		}
 
-		// Gestion lorsqu'on a dejà clique sur un pion et qu'on clique sur un pion
+		// Gestion lorsqu'on a deja clique sur un pion et qu'on clique sur un pion
 		// adverse, ici un combat!
 		else if ((pawnChosen != null) && (pawn.getPlayer() == 2) && (game.getTurn() == 1)
 				&& (new PawnInteraction(getSquare(pawnChosen.getSquare()), getSquare(pawn.getSquare()), game.getGrid())
@@ -723,7 +723,7 @@ public class GameView {
 	}
 
 	/**
-	 * Methode permettant de retourner l'instance SquareView à l'aide de
+	 * Methode permettant de retourner l'instance SquareView a l'aide de
 	 * coordonnees.
 	 * 
 	 * @param row    Represente la rangee

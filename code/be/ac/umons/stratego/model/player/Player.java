@@ -15,7 +15,7 @@ import be.ac.umons.stratego.model.pawn.PawnInteraction;
  * <p>
  * Classe permettant de modeliser un joueur, il existe au plus deux joueurs lors
  * d'une partie. Chaque joueur possede un set de 40 pions. La classe possede des
- * methodes liees à la gestion d'une partie et de son organisation. On y
+ * methodes liees a la gestion d'une partie et de son organisation. On y
  * retrouvera donc des methodes qui verifient l'etat actuelle de la partie pour
  * l'instance du joueur donnee.
  * </p>
@@ -127,7 +127,7 @@ public class Player implements Serializable {
 		// Verifie que le drapeau n'est pas capture
 		if (!hasFlag())
 			return false;
-		// Gestion des murs à l'aide des methodes creees dans PawnInteraction
+		// Gestion des murs a l'aide des methodes creees dans PawnInteraction
 		// @see PawnInteraction
 		else {
 			// Coordonnees du drapeau sous la forme d'un couple (x, y)
@@ -139,7 +139,7 @@ public class Player implements Serializable {
 			Couple[] possibleMovements = { new Couple(0, 1), new Couple(1, 0), new Couple(0, -1), new Couple(-1, 0) };
 			// Utilisation de la methode possibleMovements afin d'obtenir les instances
 			// Square autour du drapeau et verifier les pions qu'elles contiennent, ici on
-			// cherche à voir si tous les pions sont des bombes
+			// cherche a voir si tous les pions sont des bombes
 
 			Couple atIndex = possibleMovements[index];
 			// for (int i : flagCoord.availableMovement()) {
@@ -199,7 +199,7 @@ public class Player implements Serializable {
 
 	/**
 	 * Methode permettant de verifier le joueur a gagne la partie. Une partie est
-	 * gagnee si et seulement si l'etat du jeu repond à un de ces criteres:
+	 * gagnee si et seulement si l'etat du jeu repond a un de ces criteres:
 	 * 
 	 * - Le joueur adverse (p2) n'a plus de drapeau. - Le joueur a encercle son
 	 * drapeau de bombes et le joueur adverse (p2) n'a plus de demineurs. - TODO Le
@@ -215,7 +215,7 @@ public class Player implements Serializable {
 	}
 	
 	/**
-	 * Permet de mettre à jour le score du joueur.
+	 * Permet de mettre a jour le score du joueur.
 	 */
 	
 	public void updateScore() {

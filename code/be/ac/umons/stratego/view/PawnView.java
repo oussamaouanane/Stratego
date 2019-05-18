@@ -14,7 +14,7 @@ import javafx.scene.image.ImageView;
 
 public class PawnView extends ImageView {
 
-	// Caracteristiques du pion, à la maniere de Pawn
+	// Caracteristiques du pion, a la maniere de Pawn
 	private int rank;
 	private int player;
 	private boolean visible;
@@ -29,7 +29,7 @@ public class PawnView extends ImageView {
 	/**
 	 * Constructeur permettant de representer un pion
 	 * @param rank rang du pion
-	 * @param player joueur à qui il appartient
+	 * @param player joueur a qui il appartient
 	 * 
 	 * @see Player
 	 */
