@@ -49,7 +49,7 @@ public class Player implements Serializable {
 	/**
 	 * Constructeur permettant de creer le joueur humain.
 	 * 
-	 * @param grid La grille où la partie se deroule.
+	 * @param grid La grille ou la partie se deroule.
 	 */
 
 	public Player(Grid grid) {
@@ -203,8 +203,8 @@ public class Player implements Serializable {
 	 * 
 	 * - Le joueur adverse (p2) n'a plus de drapeau. - Le joueur a encercle son
 	 * drapeau de bombes et le joueur adverse (p2) n'a plus de demineurs. - TODO Le
-	 * joueur adverse (p2) est dans une situation où il ne peut plus bouger. - Le
-	 * joueur adverse (p2) est dans une situation où toutes ses pieces sont
+	 * joueur adverse (p2) est dans une situation ou il ne peut plus bouger. - Le
+	 * joueur adverse (p2) est dans une situation ou toutes ses pieces sont
 	 * strictements plus faibles que celles du joueur.
 	 * 
 	 * @return Booleen qui indique si le joueur a gagne ou pas.

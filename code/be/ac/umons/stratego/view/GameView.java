@@ -177,7 +177,7 @@ public class GameView {
 
 	/**
 	 * Methode permettant de mettre en place le placement des pions, creation des
-	 * icônes de pions.
+	 * icones de pions.
 	 */
 
 	public void setupPawns() {
@@ -300,7 +300,7 @@ public class GameView {
 	 * une case SquareView, ne fonctionne que pendant la phase de placement de
 	 * pions.
 	 * 
-	 * @param sq           La case où on veut placer pawnToCreate
+	 * @param sq           La case ou on veut placer pawnToCreate
 	 * @param pawnToCreate Le pion qu'il faut creer dans sq
 	 */
 
@@ -447,10 +447,10 @@ public class GameView {
 	}
 	
 	/**
-	 * Methode permettant de surligner les SquareView où les mouvements sont legaux
+	 * Methode permettant de surligner les SquareView ou les mouvements sont legaux
 	 * autour du pion.
 	 * 
-	 * @param square est l'instance Square où le pion est stocke.
+	 * @param square est l'instance Square ou le pion est stocke.
 	 */
 
 	public void setHighlight(Square square) {
@@ -482,7 +482,7 @@ public class GameView {
 	 * Methode pour appliquer un deplacement d'un Pawn vers un Square.
 	 * 
 	 * @param pawn   Pion qu'on veut deplacer.
-	 * @param square Case où on veut deplacer pawn.
+	 * @param square Case ou on veut deplacer pawn.
 	 */
 
 	public void handleMovement(Pawn pawn, Square square) {
@@ -499,7 +499,7 @@ public class GameView {
 	 * Methode pour appliquer un deplacement d'un PawnView vers un SquareView.
 	 * 
 	 * @param pawn   Pion qu'on veut deplacer.
-	 * @param square Case où on veut deplacer pawn.
+	 * @param square Case ou on veut deplacer pawn.
 	 */
 
 	public void handleMovementGUI(PawnView pawn, SquareView square) {
@@ -688,7 +688,7 @@ public class GameView {
 		// Recupere la source du pion
 		SquareView sq = (SquareView) e.getSource(); // Pendant le placement des pions
 		if (pawnChosenSettingUp != null)
-			// Dans le cas où le placement des pions est toujours en cours.
+			// Dans le cas ou le placement des pions est toujours en cours.
 			if (!checkSettingUpFinish() && (sq.getRow() < 4)) {
 				movePawnSettingUp(sq);
 			}

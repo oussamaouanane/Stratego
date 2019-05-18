@@ -68,11 +68,11 @@ public class PawnInteraction extends Couple {
 
 	/**
 	 * Methode qui permet d'evaluer le vainqueur d'un duel entre pawnA (pion qui
-	 * attaque) et pawnB (pion que se fait attaquer) où pawnA et pawnB sont deux
+	 * attaque) et pawnB (pion que se fait attaquer) ou pawnA et pawnB sont deux
 	 * instances de Pawn. Cette methode sera appelee dans doFighting().
 	 * 
-	 * @return 1 Dans le cas où pawnA est plus fort que pawnB sinon 0 dans le cas
-	 *         d'un duel nul entre pawnA et pawnB sinon -1 dans le cas où pawnA est
+	 * @return 1 Dans le cas ou pawnA est plus fort que pawnB sinon 0 dans le cas
+	 *         d'un duel nul entre pawnA et pawnB sinon -1 dans le cas ou pawnA est
 	 *         plus faible
 	 * 
 	 * @see PawnInteractions#doFighting()
@@ -93,7 +93,7 @@ public class PawnInteraction extends Couple {
 		}
 
 		else
-			// Jamais le cas, sert surtout a mieux contrôler les erreurs JUnit.
+			// Jamais le cas, sert surtout a mieux controler les erreurs JUnit.
 			return -2;
 	}
 

@@ -14,7 +14,7 @@ import be.ac.umons.stratego.model.pawn.PawnInteraction;
  * 
  * <p> Classe permettant de representer la premiere intelligence artificielle, elle
  * navigue dans la liste des pions vivants, et des qu'un pion pouvant se
- * deplacer au moins d'une case est trouve, il est aussitôt selectionne. On
+ * deplacer au moins d'une case est trouve, il est aussitot selectionne. On
  * genere un nombre entre 0 <= taille de la liste de ses mouvements et on prend
  * le n-ieme deplacement de la liste. </p>
  */
@@ -33,7 +33,7 @@ public class FirstAI extends Player {
 		Pawn pawn = null;
 		
 		
-		// Partie où on selectionne un pion.
+		// Partie ou on selectionne un pion.
 		
 		int size = 0;
 		for (Pawn c : game.getAI().getAlivePawns()) {
@@ -47,7 +47,7 @@ public class FirstAI extends Player {
 			}
 		}
 		
-		// Partie où on genere un nombre compris entre 1 <= nombre <= size-1 (car le dernier element est exclus)
+		// Partie ou on genere un nombre compris entre 1 <= nombre <= size-1 (car le dernier element est exclus)
 
 		int random = ThreadLocalRandom.current().nextInt(0, size);
 		PawnInteraction movement = new PawnInteraction(pawn.getSquare().getRow(), pawn.getSquare().getColumn(),

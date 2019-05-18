@@ -36,8 +36,8 @@ public class GameProcess implements Serializable {
 	 * 
 	 * - Le joueur perdant n'a plus de drapeau. - Le joueur gagnant a encercle son
 	 * drapeau de bombes et le joueur perdant n'a plus de demineurs. - Le joueur
-	 * perdant est dans une situation où il ne peut plus bouger. - Le joueur perdant
-	 * est dans une situation où toutes ses pieces sont strictements plus faibles
+	 * perdant est dans une situation ou il ne peut plus bouger. - Le joueur perdant
+	 * est dans une situation ou toutes ses pieces sont strictements plus faibles
 	 * que celles du joueur gagnant
 	 * 
 	 * @return
