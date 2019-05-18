@@ -20,7 +20,8 @@ public class SecondAI extends Player {
 	 * vers le drapeau ennemi.
 	 * </p>
 	 */
-
+	
+	private static final long serialVersionUID = 4275672829736663379L;
 	private GameProcess game;
 
 	public SecondAI(Grid grid, GameProcess game) {
@@ -63,7 +64,7 @@ public class SecondAI extends Player {
 		int ratio = 9;
 		// Calcul du ratio, le pion le plus proche du drapeau
 		for (Pawn pawn : game.getAI().getAlivePawns()) {
-			if (!pawn.isPawnA(11)) {
+			if (!pawn.isPawnA(11) && !pawn.isPawnA(1)) {
 				PawnInteraction couple = new PawnInteraction(pawn.getSquare().getRow(), pawn.getSquare().getColumn(),
 						game.getGrid());
 				int rowDistance = Math.abs(pawn.getSquare().getRow() - flagSquare.getRow());
@@ -94,8 +95,8 @@ public class SecondAI extends Player {
 			}
 		}
 
-		Square destinationSquare = game.getGrid().getSquare(initialSquare.getRow() + selectedCouple.getX(),
-				initialSquare.getColumn() + selectedCouple.getY());
+		Square destinationSquare = game.getGrid().getSquare(selectedCouple.getX(),
+				selectedCouple.getY());
 
 		return new Couple(initialSquare, destinationSquare);
 

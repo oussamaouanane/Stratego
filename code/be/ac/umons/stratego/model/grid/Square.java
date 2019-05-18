@@ -33,28 +33,40 @@ public class Square implements Serializable {
 	public static int[] flagB = new int[2];
 
 	/**
-	 * Constructeur par defaut permettant de definir une instance de Square qui est
-	 * composee d'une rangee, une colonne, une instance Pion (ou null), et un acces.
+	 * Constructeur par defaut.
+	 * 
+	 * @param row    Rangee dans grid
+	 * @param column Colonne dans grid
+	 * @param pawn   Une instance de Pawn
+	 * @param access Acces
+	 * 
+	 * @see Grid
+	 * @see Pawn
+	 */
+	
+	public Square(int row, int column, Pawn pawn, boolean access) {
+
+		this.row = row;
+		this.column = column;
+		setPawn(pawn);
+		this.access = access;
+	}
+	
+	/**
+	 * Constructeur pour les JUnit
 	 * 
 	 * @param row    Rangee dans Grid
 	 * @param column Colonne dans Grid
-	 * @param pawn   Une instance de pions ou null.
+	 * @param pawn   Une instance de Pawn ou null.
 	 * @param access Acces
 	 * 
 	 * @see Grid
 	 * @see Pawn
 	 * 
 	 */
+	
 	public Square(Pawn pawn, boolean access) {
 
-		setPawn(pawn);
-		this.access = access;
-	}
-
-	public Square(int row, int column, Pawn pawn, boolean access) {
-
-		this.row = row;
-		this.column = column;
 		setPawn(pawn);
 		this.access = access;
 	}
@@ -63,9 +75,8 @@ public class Square implements Serializable {
 		return false;
 	}
 
-	/**
-	 * Quelques accesseurs (getters) et mutateurs (setters)
-	 */
+	// Quelques accesseurs et mutateurs
+
 	public int getRow() {
 		return row;
 	}
@@ -84,13 +95,13 @@ public class Square implements Serializable {
 
 	public void setPawn(Pawn pawn) {
 		this.pawn = pawn;
-	
+
 	}
 
 	public void setAccess(boolean access) {
 		this.access = access;
 	}
-	
+
 	public void setRow(int row) {
 		this.row = row;
 	}

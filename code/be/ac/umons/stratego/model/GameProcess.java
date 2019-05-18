@@ -1,8 +1,10 @@
 package be.ac.umons.stratego.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import be.ac.umons.stratego.model.grid.Grid;
+import be.ac.umons.stratego.model.pawn.Pawn;
 import be.ac.umons.stratego.model.player.Player;
 import be.ac.umons.stratego.model.player.PlayerAI;
 import be.ac.umons.stratego.model.state.GameState;
@@ -68,6 +70,13 @@ public class GameProcess implements Serializable {
 	public boolean checkWin() {
 		return user.checkWin(ai) || ai.checkWin(user);
 	}
+	
+	public int winner() {
+		if (user.checkWin(ai))
+			return 1;
+		else
+			return 2;
+	}
 
 	/**
 	 * Methode permettant de mettre fin a la partie en changeant le GameState a
@@ -118,6 +127,13 @@ public class GameProcess implements Serializable {
 			user.updateScore();
 		else
 			ai.updateScore();
+	}
+	
+	public ArrayList<Pawn> getAlivePawn(int player) {
+		if (player == 1)
+			return getUser().getAlivePawns();
+		else
+			return getAI().getAlivePawns();
 	}
 	
 	// Quelques accesseurs (getters) et mutateurs (setters)

@@ -5,12 +5,14 @@ import java.util.Collections;
 
 import be.ac.umons.stratego.controller.GridController;
 import be.ac.umons.stratego.model.GameProcess;
-//import be.ac.umons.stratego.model.SaveLoad;
 import be.ac.umons.stratego.model.grid.Square;
 import be.ac.umons.stratego.model.pawn.Couple;
 import be.ac.umons.stratego.model.pawn.Pawn;
 import be.ac.umons.stratego.model.pawn.PawnInteraction;
 import be.ac.umons.stratego.model.state.GameState;
+import be.ac.umons.stratego.view.SquareView;
+import be.ac.umons.stratego.view.PawnView;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -32,6 +35,8 @@ import javafx.stage.Stage;
  */
 
 public class GameView {
+
+	private Stage primaryStage;
 
 	private SquareView[][] square = new SquareView[10][10];
 	private Pane grid = new Pane();
@@ -48,10 +53,13 @@ public class GameView {
 	private GridController gridController;
 
 	private boolean settingUpAIFinished = false;
+	// Score
+	Label userScoreDisplay;
+	Label aiScoreDisplay;
 
 	public GameView(int ai) {
 
-		Stage primaryStage = new Stage();
+		primaryStage = new Stage();
 		// Scene
 		Scene scene = new Scene(inGame, 1000, 600);
 		// Titre
@@ -81,7 +89,7 @@ public class GameView {
 
 	public GameView(GameProcess game) {
 
-		Stage primaryStage = new Stage();
+		primaryStage = new Stage();
 		// Scene
 		Scene scene = new Scene(inGame, 1000, 600);
 		// Titre
@@ -125,7 +133,7 @@ public class GameView {
 		// Bouton: Sauvegarder la partie
 		Button save = new Button("Sauvegarder");
 		save.setOnAction(e -> {
-			//SaveLoad.save(game);
+			// SaveLoad.save(game);
 		});
 
 		save.setTextFill(Color.WHITE);
@@ -182,8 +190,6 @@ public class GameView {
 
 	public void setupPawns() {
 
-		settingUpAI();
-
 		setup.setPrefSize(400, 610);
 		setup.setTranslateX(900 - 290);
 
@@ -225,6 +231,7 @@ public class GameView {
 			x -= 300;
 
 		}
+
 	}
 
 	/**
@@ -334,7 +341,7 @@ public class GameView {
 		// Permet d'incrementer de un le compteur du pion
 		PAWNS_COMPOSITION[source.getRank()]++;
 		// Recuperation du carre du pion
-		SquareView square = source.getSquare();
+		SquareView square = source.getSquareView();
 		// Creation du pion
 		PawnView pawn = createPawn(pawnChosenSettingUp.getRank(), pawnChosenSettingUp.getPlayer());
 		// Coordonnees du pion
@@ -382,16 +389,16 @@ public class GameView {
 		showingScore();
 		game.endSettingUp();
 	}
-	
+
 	// XXX On est plus dans le placement des pions.
-	
+
 	/**
 	 * Methode permettant d'afficher le score une fois le placement de pions
 	 * termine.
 	 * 
 	 * @see GameView#endSettingUp
 	 */
-	
+
 	public void showingScore() {
 
 		int userScore = game.getScore(1);
@@ -403,7 +410,7 @@ public class GameView {
 		title.setFont(new Font("Lucida Console", 24.0));
 		title.setTextFill(Color.web("#DDDDDD"));
 
-		Label userScoreDisplay = new Label(Integer.toString(userScore));
+		userScoreDisplay = new Label(Integer.toString(userScore));
 		userScoreDisplay.setFont(new Font("Arial Bold", 70.0));
 		userScoreDisplay.setTextFill(Color.web("#4969A0"));
 		userScoreDisplay.setTranslateX(130);
@@ -415,7 +422,7 @@ public class GameView {
 		dash.setTranslateY(200);
 		dash.setTextFill(Color.web("#DDDDDD"));
 
-		Label aiScoreDisplay = new Label(Integer.toString(aiScore));
+		aiScoreDisplay = new Label(Integer.toString(aiScore));
 		aiScoreDisplay.setFont(new Font("Arial Bold", 70.0));
 		aiScoreDisplay.setTextFill(Color.web("#A94749"));
 		aiScoreDisplay.setTranslateX(230);
@@ -424,8 +431,61 @@ public class GameView {
 		setup.getChildren().addAll(title, userScoreDisplay, dash, aiScoreDisplay);
 	}
 
-	// XXX Methodes liees aux pions.
+	/**
+	 * Méthode permettant de mettre à jour le score de la partie
+	 */
+
+	public void updateScore() {
+
+		userScoreDisplay.setText(Integer.toString(game.getScore(1)));
+		aiScoreDisplay.setText(Integer.toString(game.getScore(2)));
+	}
+
+	// XXX La partie est termine
 	
+	public void checkFinish() {
+
+		if (game.checkWin())
+			endGame(game.winner());
+	}
+
+	public void endGame(int winner) {
+
+		Image bg = null;
+
+		if (winner == 1) {
+			bg = new Image("file:assets/styles/victoire.png");
+		} else {
+			bg = new Image("file:assets/styles/defaite.png");
+		}
+		ImageView bgView = new ImageView(bg);
+		bgView.setFitHeight(165);
+		bgView.setFitWidth(465);
+
+		Group endGame = new Group(bgView);
+		// Scene
+		Scene secondScene = new Scene(endGame, 450, 150);
+		// Stage
+		Stage stage = new Stage();
+		stage.setScene(secondScene);
+		// Title
+		stage.setTitle("Fin de la partie");
+		// Size
+
+		stage.centerOnScreen();
+
+		stage.initModality(Modality.WINDOW_MODAL);
+		stage.setOnCloseRequest(e -> primaryStage.close());
+		stage.initOwner(primaryStage);
+		stage.show();
+		// Settings + importing CSS
+		secondScene.getStylesheets().add("file:assets/styles/menu.css");
+		stage.setResizable(false);
+
+	}
+
+	// XXX Methodes liees aux pions.
+
 	/**
 	 * Methode permettant de creer un pion sous forme visuelle.
 	 * 
@@ -445,7 +505,7 @@ public class GameView {
 		inGame.getChildren().add(pawn);
 		return pawn;
 	}
-	
+
 	/**
 	 * Methode permettant de surligner les SquareView ou les mouvements sont legaux
 	 * autour du pion.
@@ -477,7 +537,7 @@ public class GameView {
 			highlightSquareView.clear();
 		}
 	}
-	
+
 	/**
 	 * Methode pour appliquer un deplacement d'un Pawn vers un Square.
 	 * 
@@ -505,36 +565,37 @@ public class GameView {
 	public void handleMovementGUI(PawnView pawn, SquareView square) {
 
 		// Reinitialisation
-		if (pawn.getSquare() != null)
-			pawn.getSquare().setPawnView(null);
+		if (pawn.getSquareView() != null)
+			pawn.getSquareView().setPawnView(null);
 
 		square.setPawnView(pawn);
-		pawn.setSquare(square);
+		pawn.setSquareView(square);
 		pawn.setX(square.getX());
 		pawn.setY(square.getY());
 	}
 
-	
 	// XXX Methodes liees aux IA
-	
+
 	/**
 	 * Methode permettant de reveler un pion.
+	 * 
 	 * @param pawn Pion qu'on veut reveler.
 	 */
 
-	public void setAiPawnVisible(PawnView pawn) {
+	public void setAIPawnVisible(PawnView pawn) {
 		pawn.setVisible();
 	}
 
 	/**
 	 * Methode permettant de masquer un pion.
+	 * 
 	 * @param pawn Pion qu'on veut masquer.
 	 */
 
-	public void setAiPawnHidden(PawnView pawn) {
+	public void setAIPawnHidden(PawnView pawn) {
 		pawn.setHidden();
 	}
-	
+
 	/**
 	 * Methode permettant de gerer le tour de l'intelligence artificielle. On y gere
 	 * le mouvement et les combats.
@@ -544,9 +605,8 @@ public class GameView {
 
 	public void AIturn() {
 
-		if (opponentPawnChosen != null) {
-			setAiPawnHidden(opponentPawnChosen);
-		}
+		if (opponentPawnChosen != null)
+			setAIPawnHidden(opponentPawnChosen);
 
 		Couple couple = game.getAI().getNextMove();
 		Square initialSquare = couple.getSquareA();
@@ -554,18 +614,21 @@ public class GameView {
 
 		// On suppose que notre methode a deja verifie qu'il n'y a pas de pion allie a
 		// cette position, donc qu'il s'agit forcement d'un pion ennemi.
-		if (destinationSquare.getPawn() != null)
+		if (destinationSquare.getPawn() != null) {
+			opponentPawnChosen = getSquareView(initialSquare).getPawnView();
+			setAIPawnVisible(opponentPawnChosen);
 			gridController.doFighting(initialSquare, destinationSquare);
-		else {
+		} else {
 			handleMovementGUI(getSquareView(initialSquare).getPawnView(), getSquareView(destinationSquare));
 			handleMovement(initialSquare.getPawn(), destinationSquare);
 		}
 
+		updateScore();
 		turnPlayed();
 	}
-	
+
 	// XXX Methodes liees au GameProcess
-	
+
 	/**
 	 * Methode permettant d'indiquer qu'un tour a ete joue.
 	 * 
@@ -575,7 +638,7 @@ public class GameView {
 	public void turnPlayed() {
 		game.play();
 	}
-	
+
 	/**
 	 * Methode permettant de retourner l'etat actuel de la partie en cours.
 	 * 
@@ -585,9 +648,9 @@ public class GameView {
 	public GameState getState() {
 		return game.getGameStateManager().getState();
 	}
-	
-	// XXX evenements souris
-	
+
+	// XXX Evenements souris
+
 	/**
 	 * Ensemble de methodes qui permettent de gerer les evenements lies au clics de
 	 * souris. Verifier la documentation de MouseEvent pour avoir plus
@@ -621,9 +684,9 @@ public class GameView {
 
 	private void PawnEvent(MouseEvent e) {
 
-		if (opponentPawnChosen != null) {
-			setAiPawnHidden(opponentPawnChosen);
-		}
+		// Permet de masquer le dernier pion cache
+		if (opponentPawnChosen != null)
+			setAIPawnHidden(opponentPawnChosen);
 
 		PawnView pawn = (PawnView) e.getSource();
 
@@ -645,27 +708,29 @@ public class GameView {
 		// on est dans un deplacement en cours ou alors on s'apprete a changer de pion!
 		else if ((pawnChosen == null) && (rightPlayerCondition) && (game.getTurn() == 1)) {
 			pawnChosen = pawn;
-			setHighlight(getSquare(pawnChosen.getSquare()));
+			setHighlight(getSquare(pawnChosen.getSquareView()));
 		}
 
 		// Gestion lorsqu'on a deja clique sur un pion et qu'on change de pion
 		else if ((pawnChosen != null && pawnChosen.getPlayer() == 1) && (rightPlayerCondition)) {
 			resetHighlight();
-			setHighlight(getSquare(pawn.getSquare()));
+			setHighlight(getSquare(pawn.getSquareView()));
 			pawnChosen = pawn;
 		}
 
 		// Gestion lorsqu'on a deja clique sur un pion et qu'on clique sur un pion
 		// adverse, ici un combat!
 		else if ((pawnChosen != null) && (pawn.getPlayer() == 2) && (game.getTurn() == 1)
-				&& (new PawnInteraction(getSquare(pawnChosen.getSquare()), getSquare(pawn.getSquare()), game.getGrid())
-						.isMovePossible())) {
+				&& (new PawnInteraction(getSquare(pawnChosen.getSquareView()), getSquare(pawn.getSquareView()),
+						game.getGrid()).isMovePossible())) {
 
-			gridController.doFighting(getSquare(pawnChosen.getSquare()), getSquare(pawn.getSquare()));
 			opponentPawnChosen = pawn;
-			setAiPawnVisible(opponentPawnChosen);
+			setAIPawnVisible(opponentPawnChosen);
+			gridController.doFighting(getSquare(pawnChosen.getSquareView()), getSquare(pawn.getSquareView()));
 			turnPlayed();
 			AIturn();
+			resetHighlight();
+			updateScore();
 		}
 
 	}
@@ -681,10 +746,6 @@ public class GameView {
 
 	private void SquareEvent(MouseEvent e) {
 
-		if (opponentPawnChosen != null) {
-			setAiPawnHidden(opponentPawnChosen);
-		}
-
 		// Recupere la source du pion
 		SquareView sq = (SquareView) e.getSource(); // Pendant le placement des pions
 		if (pawnChosenSettingUp != null)
@@ -697,9 +758,9 @@ public class GameView {
 		 * ON SUPPOSE LE PLACEMENT DES PIONS TERMINE A PARTIR D'ICI.
 		 */
 
-		if (pawnChosen != null && gridController.isMovePossible(getSquare(pawnChosen.getSquare()), getSquare(sq))) {
+		if (pawnChosen != null && gridController.isMovePossible(getSquare(pawnChosen.getSquareView()), getSquare(sq))) {
 			// Fixe les coordonnees de la case au pion.
-			Pawn pawn = getSquare(pawnChosen.getSquare()).getPawn();
+			Pawn pawn = getSquare(pawnChosen.getSquareView()).getPawn();
 			handleMovementGUI(pawnChosen, sq);
 			handleMovement(pawn, getSquare(sq));
 			resetHighlight();
@@ -708,9 +769,9 @@ public class GameView {
 			AIturn();
 		}
 	}
-	
+
 	// XXX Methodes pour acceder aux cases logiques et graphiques
-	
+
 	/**
 	 * Methode permettant de retourner une instance de Square.
 	 * 
@@ -741,5 +802,10 @@ public class GameView {
 
 	public GameProcess getGameProcess() {
 		return game;
+	}
+
+	// XXX Accesseurs et mutateurs
+	public Pane getInGamePane() {
+		return inGame;
 	}
 }

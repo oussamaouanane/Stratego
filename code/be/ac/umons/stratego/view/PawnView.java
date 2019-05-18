@@ -79,11 +79,11 @@ public class PawnView extends ImageView {
 		return rank;
 	}
 
-	public SquareView getSquare() {
+	public SquareView getSquareView() {
 		return square;
 	}
 
-	public void setSquare(SquareView square) {
+	public void setSquareView(SquareView square) {
 		this.square = square;
 	}
 

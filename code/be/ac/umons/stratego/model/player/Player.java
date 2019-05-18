@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import be.ac.umons.stratego.model.pawn.Couple;
 import be.ac.umons.stratego.model.grid.Grid;
-import be.ac.umons.stratego.model.grid.Square;
 import be.ac.umons.stratego.model.pawn.Pawn;
 import be.ac.umons.stratego.model.pawn.PawnInteraction;
 
@@ -25,7 +24,7 @@ import be.ac.umons.stratego.model.pawn.PawnInteraction;
 public class Player implements Serializable {
 
 	private static final long serialVersionUID = 5843168112852480170L;
-	
+
 	/**
 	 * Variables d'instances permettant de verifier si une partie est terminee.
 	 * Ensemble de booleens. hasFlag: le joueur a un drapeau. flagSurrounded: le
@@ -36,7 +35,7 @@ public class Player implements Serializable {
 	private int playerId;
 	private int flagX;
 	private int flagY;
-	
+
 	private boolean hasFlag;
 	private boolean flagSurrounded;
 	private boolean hasMinersLeft;
@@ -55,10 +54,10 @@ public class Player implements Serializable {
 	public Player(Grid grid) {
 		initializeVariable();
 		this.grid = grid;
-		
+
 		playerId = 1;
 	}
-	
+
 	public void initializePawns() {
 		for (int i = 0; i < 40; i++) {
 			for (int c : Pawn.PAWNS_COMPOSITION)
@@ -67,20 +66,21 @@ public class Player implements Serializable {
 	}
 
 	public void initializeVariable() {
-		hasFlag = hasMinersLeft = flagSurrounded = true;
+		hasFlag = hasMinersLeft = true;
+		flagSurrounded = false;
 	}
+	
+	/**
+	 * Methode permettant de rechercher la position du drapeau.
+	 */
 
 	public void flagPosition() {
-		switch (playerId) {
-
-		case 1:
-			flagX = Square.flagA[0];
-			flagY = Square.flagA[1];
-			break;
-		case 2:
-			flagX = Square.flagB[0];
-			flagY = Square.flagB[1];
-			break;
+		
+		for (Pawn p : alivePawns) {
+			if (p.isPawnA(11)) {
+				flagX = p.getSquare().getRow();
+				flagY = p.getSquare().getColumn();
+			}
 		}
 	}
 
@@ -100,10 +100,8 @@ public class Player implements Serializable {
 			boolean pawnAFlag = pawn.isPawnA(11);
 			if (!alivePawns.contains(pawnAFlag)) {
 				hasFlag = false;
+				return false;
 			}
-
-			// if grid.getSquare(flagX, flagY).getPawn == null
-			// hasFlag = False;
 		}
 		// Retourne vrai ou faux en fonction de si le joueur a encore le drapeau.
 		return hasFlag;
@@ -117,41 +115,24 @@ public class Player implements Serializable {
 	 * @return Booleen qui indique si le drapeau du joueur est entoure de bombes ou
 	 *         non.
 	 */
-	
+
 	// TODO FIXER CETTE METHODE.
 
 	public boolean isFlagSurrounded() {
-
-		int index = 0;
-
+		
 		// Verifie que le drapeau n'est pas capture
 		if (!hasFlag())
 			return false;
-		// Gestion des murs a l'aide des methodes creees dans PawnInteraction
-		// @see PawnInteraction
-		else {
-			// Coordonnees du drapeau sous la forme d'un couple (x, y)
-			// @see PawnInteraction, Couple
-			PawnInteraction flagCoord = new PawnInteraction(flagX, flagY, grid);
-			// Creation des differentes positions dont il faut analyser le contenu, e.g. (0,
-			// 1) est un mouvement verticale d'une unite vers le haut. On agit sur la grille
-			// comme un repere cartesien.
-			Couple[] possibleMovements = { new Couple(0, 1), new Couple(1, 0), new Couple(0, -1), new Couple(-1, 0) };
-			// Utilisation de la methode possibleMovements afin d'obtenir les instances
-			// Square autour du drapeau et verifier les pions qu'elles contiennent, ici on
-			// cherche a voir si tous les pions sont des bombes
 
-			Couple atIndex = possibleMovements[index];
-			// for (int i : flagCoord.availableMovement()) {
-			// Si l'instance Square n'est pas un mur donc est accessible, on regarde si le
-			// pion contenu n'est pas une bombe, dans ce cas le drapeau n'est pas entoure de
-			// bombes. i == 1 car on avait dit que si le mouvement etait possible, on
-			// retournait 1 dans la methode availableMovement().
+		flagPosition();
+		PawnInteraction flagCoord = new PawnInteraction(flagX, flagY, grid);
 
-			// @see PawnInteraction#availableMovement()
-			// if (i == 1 && !grid.getSquare(atIndex.getX(),
-			// atIndex.getY()).getPawn().isPawnA(10))
-			flagSurrounded = false;
+		for (Couple i : flagCoord.availableMovement()) {
+
+			if (!grid.getSquare(flagX + i.getX(), flagY + i.getY()).getPawn().isPawnA(10))
+				flagSurrounded = false;
+			else
+				flagSurrounded = true;
 		}
 		return flagSurrounded;
 	}
@@ -213,11 +194,11 @@ public class Player implements Serializable {
 	public boolean checkWin(Player p2) {
 		return (!p2.hasFlag()) || (isFlagSurrounded() && !p2.hasMinersLeft()) || (p2.hasWeakerPawns(this));
 	}
-	
+
 	/**
 	 * Permet de mettre a jour le score du joueur.
 	 */
-	
+
 	public void updateScore() {
 		score++;
 	}
@@ -227,18 +208,17 @@ public class Player implements Serializable {
 	public ArrayList<Pawn> getAlivePawns() {
 		return alivePawns;
 	}
-	
+
 	public void addPawn(Pawn pawn) {
 		alivePawns.add(pawn);
 	}
-	
+
 	public Grid getGrid() {
 		return grid;
 	}
-	
+
 	public int getScore() {
 		return score;
 	}
-	
-}
 
+}

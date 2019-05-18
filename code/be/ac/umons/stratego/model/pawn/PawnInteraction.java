@@ -172,8 +172,8 @@ public class PawnInteraction extends Couple {
 			Couple[] availableMovement = { new Couple(1, 0), new Couple(0, 1), new Couple(-1, 0), new Couple(0, -1) };
 			for (Couple c : availableMovement) {
 				Square initialSquare = getSquare(getX(), getY());
-				Square finalSquare = getSquare(getX() + c.getX(), getY() + c.getY());
-				if (stayInBoard(finalSquare.getRow(), finalSquare.getColumn())) {
+				if (stayInBoard(getX() + c.getX(), getY() + c.getY())) {
+					Square finalSquare = getSquare(getX() + c.getX(), getY() + c.getY());
 					if (new PawnInteraction(initialSquare, finalSquare, grid).isMovePossible())
 						evaluation.add(new Couple(getX() + c.getX(), getY() + c.getY()));
 				}
@@ -246,7 +246,6 @@ public class PawnInteraction extends Couple {
 		int range = getSquareA().getPawn().getRange();
 		int differenceRow = getSquareB().getRow() - getSquareA().getRow();
 		int differenceColumn = getSquareB().getColumn() - getSquareA().getColumn();
-
 		// Gestion tentative diagonale et gestion portee (l'un implique l'autre),
 		// verifie si le mouvement reste dans la grille et si la destination est
 		// accessible.
@@ -256,9 +255,8 @@ public class PawnInteraction extends Couple {
 				|| (!stayInBoard(getSquareB().getRow(), getSquareB().getColumn())) || (!getSquareB().getAccess())
 				|| (getSquareB().getPawn() != null
 						&& getSquareB().getPawn().getPlayer() == getSquareA().getPawn().getPlayer()))
-
 			return false;
-		
+
 		return true;
 	}
 
@@ -284,7 +282,7 @@ public class PawnInteraction extends Couple {
 			}
 			return true;
 		}
-		
+
 		else if ((Math.abs(differenceColumn) > 0) && (getSquareB().getColumn() > getSquareA().getColumn())) {
 			for (int i = getSquareA().getRow(); i < getSquareB().getRow(); i++) {
 				if ((getSquare(getSquareA().getRow(), i).getAccess() != true)

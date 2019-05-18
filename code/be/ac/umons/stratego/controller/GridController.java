@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import be.ac.umons.stratego.model.GameProcess;
 import be.ac.umons.stratego.model.grid.Square;
 import be.ac.umons.stratego.model.pawn.Couple;
+import be.ac.umons.stratego.model.pawn.Pawn;
 import be.ac.umons.stratego.model.pawn.PawnInteraction;
 import be.ac.umons.stratego.view.GameView;
 import be.ac.umons.stratego.view.PawnView;
+import be.ac.umons.stratego.view.SquareView;
 
 /**
  * <h1>GridController</h1>
@@ -40,7 +42,7 @@ public class GridController {
 	public boolean isMovePossible(Square initialSquare, Square destinationSquare) {
 
 		PawnInteraction squareCouple = new PawnInteraction(initialSquare, destinationSquare, game.getGrid());
-		if (initialSquare.getPawn().getRank() == 1) 
+		if (initialSquare.getPawn().getRank() == 1)
 			return squareCouple.isMovePossible() && squareCouple.isMovePossibleScout();
 		return squareCouple.isMovePossible();
 	}
@@ -82,39 +84,75 @@ public class GridController {
 	public void doFighting(Square initialDestination, Square finalDestination) {
 
 		PawnInteraction couple = new PawnInteraction(initialDestination, finalDestination, game.getGrid());
-		couple.doFighting();
+		
+		
 		switch (couple.evaluateFighting()) {
 		// Pion dans case initial perd
 		case -1:
-			// On supprime le pion de initialSquare
+			// Retire le pion des pions vivants du joueur perdant.
+			Pawn loserPawn = initialDestination.getPawn();
+			game.getAlivePawn(loserPawn.getPlayer()).remove(loserPawn);
+			
+			// Retire l'image du pion dans la grille graphique.
 			removePawnView(initialDestination);
+
+			// Enlever le pion perdant dans la partie graphique.
+			getSquareView(initialDestination).getPawnView().setSquareView(null);
+			getSquareView(initialDestination).setPawnView(null);
+
 			game.setScore(finalDestination.getPawn().getPlayer());
 			break;
-		// Egalite, les deux pions se font supprimer
+
+		// Personne gagne, egalite
 		case 0:
+			// Partie logique
+			game.getAlivePawn(initialDestination.getPawn().getPlayer()).add(initialDestination.getPawn());
+			game.getAlivePawn(finalDestination.getPawn().getPlayer()).add(finalDestination.getPawn());
+			
+			// Partie graphique
 			removePawnView(initialDestination);
 			removePawnView(finalDestination);
+
+			getSquareView(initialDestination).getPawnView().setSquareView(null);
+			getSquareView(initialDestination).setPawnView(null);
+			getSquareView(finalDestination).getPawnView().setSquareView(null);
+			getSquareView(finalDestination).setPawnView(null);
+
+			game.setScore(1);
+			game.setScore(2);
 			break;
+
 		// Pion dans case initial gagne
 		case 1:
-			// On supprime le pion dans destination
+			// Retire le pion des pions vivants du joueur perdant.
+			game.getAlivePawn(finalDestination.getPawn().getPlayer()).remove(finalDestination.getPawn());
+			// Retire l'image du pion dans la grille graphique
 			removePawnView(finalDestination);
-			// On met le pion de initial dans final
-			setPawnView(gameView.getSquareView(initialDestination).getPawnView(), finalDestination);
-			game.setScore(finalDestination.getPawn().getPlayer());
+
+			// Mettre le pion dans la case gagnante dans la partie graphique.
+			PawnView winnerPawnView = getSquareView(initialDestination).getPawnView();
+			getSquareView(finalDestination).setPawnView(winnerPawnView);
+			winnerPawnView.setSquareView(getSquareView(finalDestination));
+
+			// Fixe les coordonnes (x,y)
+			winnerPawnView.setX(winnerPawnView.getSquareView().getX());
+			winnerPawnView.setY(winnerPawnView.getSquareView().getY());
+
+			// Reinitialise la case de depart.
+			getSquareView(initialDestination).setPawnView(null);
+
+			game.setScore(initialDestination.getPawn().getPlayer());
 			break;
 		}
-	}
-	
-	public void setPawnView(PawnView pawn, Square square) {
-		pawn.setSquare(gameView.getSquareView(square));
-		gameView.getSquareView(square);
-		pawn.setX(gameView.getSquareView(square).getX());
-		pawn.setY(gameView.getSquareView(square).getY());
+		couple.doFighting();
 	}
 
 	public void removePawnView(Square square) {
-		//gameView.getInGame().getChildren().remove(gameView.getSquareView(square).getPawnView());
+		gameView.getInGamePane().getChildren().remove(gameView.getSquareView(square).getPawnView());
+	}
+
+	public SquareView getSquareView(Square square) {
+		return gameView.getSquareView(square);
 	}
 
 }

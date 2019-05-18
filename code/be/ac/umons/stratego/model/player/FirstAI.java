@@ -1,5 +1,7 @@
 package be.ac.umons.stratego.model.player;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 import be.ac.umons.stratego.model.GameProcess;
@@ -12,11 +14,13 @@ import be.ac.umons.stratego.model.pawn.PawnInteraction;
 /**
  * <h1>FirstAI</h1>
  * 
- * <p> Classe permettant de representer la premiere intelligence artificielle, elle
+ * <p>
+ * Classe permettant de representer la premiere intelligence artificielle, elle
  * navigue dans la liste des pions vivants, et des qu'un pion pouvant se
  * deplacer au moins d'une case est trouve, il est aussitot selectionne. On
  * genere un nombre entre 0 <= taille de la liste de ses mouvements et on prend
- * le n-ieme deplacement de la liste. </p>
+ * le n-ieme deplacement de la liste.
+ * </p>
  */
 
 public class FirstAI extends Player {
@@ -30,35 +34,32 @@ public class FirstAI extends Player {
 	}
 
 	public Couple getNextMove() {
+
 		Pawn pawn = null;
-		
-		
 		// Partie ou on selectionne un pion.
-		
 		int size = 0;
-		for (Pawn c : game.getAI().getAlivePawns()) {
-			if (!new PawnInteraction(9 - c.getSquare().getRow(), c.getSquare().getColumn(), getGrid())
-					.availableMovement().isEmpty())
-			size = new PawnInteraction(9 - c.getSquare().getRow(), c.getSquare().getColumn(), getGrid())
-					.availableMovement().size();
-			if (size > 0) {
-				pawn = c;
-				break;
+
+		ArrayList<Pawn> alivePawns = game.getAI().getAlivePawns();
+		Collections.shuffle(alivePawns);
+
+		for (Pawn p : alivePawns) {
+			if ((p.getRange() == 1)
+					&& !(new PawnInteraction(p.getSquare().getRow(), p.getSquare().getColumn(), getGrid())
+							.availableMovement().isEmpty())) {
+				size = new PawnInteraction(p.getSquare().getRow(), p.getSquare().getColumn(), getGrid())
+						.availableMovement().size();
+				pawn = p;
 			}
 		}
-		
-		// Partie ou on genere un nombre compris entre 1 <= nombre <= size-1 (car le dernier element est exclus)
 
-		int random = ThreadLocalRandom.current().nextInt(0, size);
-		PawnInteraction movement = new PawnInteraction(pawn.getSquare().getRow(), pawn.getSquare().getColumn(),
-				getGrid());
-		Couple coord = movement.availableMovement().get(random);
+		int random = ThreadLocalRandom.current().nextInt(size);
+		Couple move = new PawnInteraction(pawn.getSquare().getRow(), pawn.getSquare().getColumn(), getGrid())
+				.availableMovement().get(random);
+		
 		Square initialSquare = pawn.getSquare();
-		Square destinationSquare = getGrid().getSquare(initialSquare.getRow() + coord.getX(),
-				initialSquare.getColumn() + coord.getY());
+		Square destinationSquare = getGrid().getSquare(move.getX(), move.getY());
 
 		return new Couple(initialSquare, destinationSquare);
-
+		
 	}
-
 }
