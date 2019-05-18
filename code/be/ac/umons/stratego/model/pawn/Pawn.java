@@ -9,8 +9,7 @@ import be.ac.umons.stratego.model.grid.Square;
  * 
  * <p>
  * Classe permettant de modeliser un pion. Un pion possede plusieurs attributs
- * qui permettent de le definir: - Un ID unique 0 <= ID <= 80 (Pas sûr de
- * l'implementer) - un rang <i>c.f arrayRanks</i> - un joueur - un etat, vivant
+ * qui permettent de le definir: - Un rang <i>c.f arrayRanks</i> - un joueur - un etat, vivant
  * ou mort - une visibilite - une portee.
  * </p>
  * 

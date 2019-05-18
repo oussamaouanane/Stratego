@@ -1,5 +1,5 @@
 /**
- * Package contenant toutes les classes necessaires au fonctionnement des états
+ * Package contenant toutes les classes necessaires au fonctionnement des etats
  * dans la partie logique.
  */
 

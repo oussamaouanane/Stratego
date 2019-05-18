@@ -10,7 +10,7 @@ import be.ac.umons.stratego.model.pawn.Couple;
  * <h1>PlayerAI</h1>
  * 
  * <p>
- * Classe permettant de représenter une intelligence artificielle.
+ * Classe permettant de representer une intelligence artificielle.
  * </p>
  * 
  * @see FirstAI
