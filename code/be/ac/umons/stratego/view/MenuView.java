@@ -1,5 +1,9 @@
 package be.ac.umons.stratego.view;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import be.ac.umons.stratego.SaveLoad;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -88,7 +92,20 @@ public class MenuView extends Application {
 
 		save.setId("loadButton");
 
-		save.setOnAction(e -> savePopup(primaryStage));
+		save.setOnAction(e -> {
+			try {
+				new GameView(SaveLoad.read());
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 
 		menu.getChildren().add(save);
 
@@ -106,10 +123,6 @@ public class MenuView extends Application {
 		leave.setOnAction(e -> Platform.exit());
 
 		menu.getChildren().add(leave);
-	}
-
-	public void savePopup(Stage primaryStage) {
-		
 	}
 
 	public void chooseOpponentWindow(Stage primaryStage) {

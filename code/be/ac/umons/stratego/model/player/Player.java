@@ -69,19 +69,33 @@ public class Player implements Serializable {
 		hasFlag = hasMinersLeft = true;
 		flagSurrounded = false;
 	}
-	
+
 	/**
 	 * Methode permettant de rechercher la position du drapeau.
 	 */
 
 	public void flagPosition() {
-		
+
 		for (Pawn p : alivePawns) {
 			if (p.isPawnA(11)) {
 				flagX = p.getSquare().getRow();
 				flagY = p.getSquare().getColumn();
 			}
 		}
+	}
+
+	/**
+	 * Methode permettant de verifier si les pions du joueur sont bloques.
+	 * 
+	 * @return Booleen qui indique si le joueur peut encore bouger ses pions.
+	 */
+	
+	public boolean canMovePawn() {
+		for (Pawn c: alivePawns) {
+			if (!new PawnInteraction(c.getSquare().getRow(), c.getSquare().getColumn(), grid).availableMovement().isEmpty())
+				return false;
+		}
+		return true;
 	}
 
 	/**
@@ -116,10 +130,8 @@ public class Player implements Serializable {
 	 *         non.
 	 */
 
-	// TODO FIXER CETTE METHODE.
-
 	public boolean isFlagSurrounded() {
-		
+
 		// Verifie que le drapeau n'est pas capture
 		if (!hasFlag())
 			return false;
@@ -128,16 +140,14 @@ public class Player implements Serializable {
 		PawnInteraction flagCoord = new PawnInteraction(flagX, flagY, grid);
 
 		for (Couple i : flagCoord.availableMovement()) {
-
-			if (!grid.getSquare(flagX + i.getX(), flagY + i.getY()).getPawn().isPawnA(10))
-				flagSurrounded = false;
-			else
+			if (!grid.getSquare(flagX + i.getX(), flagY + i.getY()).getPawn().isPawnA(10)) {
 				flagSurrounded = true;
+				return false;
+			}
 		}
-		return flagSurrounded;
+		flagSurrounded = true;
+		return true;
 	}
-
-	// }
 
 	/**
 	 * Methode permettant de verifier si tous les demineurs du joueur n'ont pas
@@ -160,22 +170,6 @@ public class Player implements Serializable {
 		}
 		// Retourne vrai ou faux en fonction de si le joueur a au moins un demineur.
 		return hasMinersLeft;
-
-	}
-
-	public boolean hasWeakerPawns(Player p2) {
-		PawnInteraction couple;
-		// Parcourt la liste des deux joueurs pour voir si le joueur 1 a des pieces
-		// moins puissantes que ceux du joueur 2.
-		for (Pawn oppPawn : p2.alivePawns) { // oppPawn = ennemi
-			for (Pawn pawn : alivePawns) {
-				couple = new PawnInteraction(pawn.getSquare(), oppPawn.getSquare(), grid);
-				int fight = couple.evaluateFighting();
-				if (fight >= 0)
-					return false;
-			}
-		}
-		return true;
 	}
 
 	/**
@@ -183,16 +177,14 @@ public class Player implements Serializable {
 	 * gagnee si et seulement si l'etat du jeu repond a un de ces criteres:
 	 * 
 	 * - Le joueur adverse (p2) n'a plus de drapeau. - Le joueur a encercle son
-	 * drapeau de bombes et le joueur adverse (p2) n'a plus de demineurs. - TODO Le
-	 * joueur adverse (p2) est dans une situation ou il ne peut plus bouger. - Le
-	 * joueur adverse (p2) est dans une situation ou toutes ses pieces sont
-	 * strictements plus faibles que celles du joueur.
+	 * drapeau de bombes et le joueur adverse (p2) n'a plus de demineurs. - Le
+	 * joueur adverse (p2) est dans une situation ou il ne peut plus bouger.
 	 * 
 	 * @return Booleen qui indique si le joueur a gagne ou pas.
 	 */
 
 	public boolean checkWin(Player p2) {
-		return (!p2.hasFlag());//|| (isFlagSurrounded() && !p2.hasMinersLeft()) || (p2.hasWeakerPawns(this));
+		return (!p2.hasFlag() || (isFlagSurrounded() && !p2.hasMinersLeft()) || !p2.canMovePawn());
 	}
 
 	/**

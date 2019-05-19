@@ -1,5 +1,8 @@
 package be.ac.umons.stratego.model.player;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import be.ac.umons.stratego.model.GameProcess;
 import be.ac.umons.stratego.model.grid.Grid;
 import be.ac.umons.stratego.model.grid.Square;
@@ -20,9 +23,10 @@ public class SecondAI extends Player {
 	 * vers le drapeau ennemi.
 	 * </p>
 	 */
-	
-	private static final long serialVersionUID = 4275672829736663379L;
+
+	private static final long serialVersionUID = 5541423007596275754L;
 	private GameProcess game;
+	private Square lastInitialSquare = null;
 
 	public SecondAI(Grid grid, GameProcess game) {
 		super(grid);
@@ -31,26 +35,24 @@ public class SecondAI extends Player {
 
 	public Couple getNextMove() {
 
-		Pawn flag;
+		// Choix du drapeau vers lequel se diriger.
+		Pawn flag = null;
 		Square flagSquare = null;
-		
-		// Choix du drapeau vers le quel se diriger:
 
-		// Si l'ecart entre les deux joueurs est de 5. Alors on cherchera a rabattre les
-		// pions vers son drapeau.
+		// Si l'ecart entre les deux joueurs est > 5, alors on cherche a rabattre les
+		// pions vers le drapeau de l'ai car le joueur 1 prend l'avantage.
 		if (game.getScore(1) - game.getScore(2) > 5) {
-			for (Pawn pawn : game.getAI().getAlivePawns()) {
+			for (Pawn pawn : game.getAlivePawn(2)) {
 				if (pawn.isPawnA(11)) {
 					flag = pawn;
 					flagSquare = flag.getSquare();
 				}
 			}
 		}
-		
+
 		// Sinon vers leur drapeau.
-
 		else {
-			for (Pawn pawn : game.getUser().getAlivePawns()) {
+			for (Pawn pawn : game.getAlivePawn(1)) {
 				if (pawn.isPawnA(11)) {
 					flag = pawn;
 					flagSquare = flag.getSquare();
@@ -58,46 +60,77 @@ public class SecondAI extends Player {
 			}
 		}
 
-		// CETTE PARTIE SERT A CHERCHER LA CASE DE DEPART, QUEL PION DE QUEL CASE ON VA
-		// CHOISIR
+		// On cherche le point de depart
+		ArrayList<Pawn> alivePawns = game.getAlivePawn(2);
+		Collections.shuffle(alivePawns);
+
 		Pawn selectedPawn = null;
+		// Ratio (maximale)
 		int ratio = 9;
-		// Calcul du ratio, le pion le plus proche du drapeau
-		for (Pawn pawn : game.getAI().getAlivePawns()) {
-			if (!pawn.isPawnA(11) && !pawn.isPawnA(1)) {
-				PawnInteraction couple = new PawnInteraction(pawn.getSquare().getRow(), pawn.getSquare().getColumn(),
-						game.getGrid());
-				int rowDistance = Math.abs(pawn.getSquare().getRow() - flagSquare.getRow());
-				int columnDistance = Math.abs(pawn.getSquare().getColumn() - flagSquare.getColumn());
+		// Calcul du ratio le plus proche du drapeau
+		for (Pawn pawn : alivePawns) {
+			Square pawnSquare = pawn.getSquare();
+			if ((pawn.getRange() == 1)
+					&& (!(new PawnInteraction(pawnSquare.getRow(), pawnSquare.getColumn(), game.getGrid()))
+							.availableMovement().isEmpty())) {
+				// Distance entre la case du pion et le drapeau
+				int rowDistance = Math.abs(pawnSquare.getRow() - flagSquare.getRow());
+				int columnDistance = Math.abs(pawnSquare.getColumn() - flagSquare.getColumn());
+				// Ratio du mouvement
 				int tempRatio = 0;
-				if (columnDistance != 0)
+
+				if ((columnDistance != 0) && (rowDistance != 0))
 					tempRatio = rowDistance / columnDistance;
-				if ((tempRatio < ratio) && !(rowDistance == 0 || columnDistance == 0)
-						&& (!(couple.availableMovement().isEmpty()) && couple.availableMovement().size() > 0)) {
+				else
+					tempRatio = 2;
+
+				if ((tempRatio < ratio))
 					ratio = tempRatio;
-					selectedPawn = pawn;
-				}
+				selectedPawn = pawn;
 			}
 		}
 
-		// CETTE PARTIE SERT A CHERCHER LA CASE OU VA ALLER LE PION
-		Couple selectedCouple = null;
-		ratio = 9;
 		Square initialSquare = selectedPawn.getSquare();
+
+		// On cherche le point d'arrivee
+		Couple selectedCouple = null;
+		// Ratio (maximale)
+		ratio = 9;
+		// Calcul du ratio le plus proche du drapeau
 		PawnInteraction couple = new PawnInteraction(initialSquare.getRow(), initialSquare.getColumn(), game.getGrid());
 		for (Couple c : couple.availableMovement()) {
-			int rowDistance = Math.abs(initialSquare.getRow() + c.getX() - flagSquare.getRow());
-			int columnDistance = Math.abs(initialSquare.getColumn() + c.getY() - flagSquare.getColumn());
-			int tempRatio = rowDistance / columnDistance;
-			if ((tempRatio < ratio) && !(rowDistance == 0 || columnDistance == 0)) {
-				ratio = tempRatio;
-				selectedCouple = couple;
+			// Distance entre la case de depart + mouvement et le drapeau
+			int rowDistance = Math.abs(c.getX() - flagSquare.getRow());
+			int columnDistance = Math.abs(c.getY() - flagSquare.getColumn());
+			int tempRatio = 0;
+
+			if ((columnDistance != 0) && (rowDistance != 0))
+				tempRatio = rowDistance / columnDistance;
+			else
+				tempRatio = 2;
+
+			if ((tempRatio < ratio)) {
+				// Ne pas revenir en arriere
+				if ((lastInitialSquare != null)
+						&& ((lastInitialSquare.getRow() != c.getX()) && (lastInitialSquare.getColumn() != c.getY()))) {
+					ratio = tempRatio;
+					selectedCouple = c;
+				// Premier mouvement
+				} else if (lastInitialSquare == null) {
+					ratio = tempRatio;
+					selectedCouple = c;
+				// Reviens en arriere si pas autre choix
+				} else if ((lastInitialSquare != null)
+						&& ((lastInitialSquare.getRow() == c.getX()) && (lastInitialSquare.getColumn() == c.getY()))
+						&& couple.availableMovement().size() == 1) {
+					ratio = tempRatio;
+					selectedCouple = c;
+				}
 			}
 		}
 
-		Square destinationSquare = game.getGrid().getSquare(selectedCouple.getX(),
-				selectedCouple.getY());
-
+		Square destinationSquare = game.getGrid().getSquare(selectedCouple.getX(), selectedCouple.getY());
+		lastInitialSquare = initialSquare;
 		return new Couple(initialSquare, destinationSquare);
 
 	}

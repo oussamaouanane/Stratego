@@ -1,8 +1,11 @@
 package be.ac.umons.stratego.view;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import be.ac.umons.stratego.SaveLoad;
 import be.ac.umons.stratego.controller.GridController;
 import be.ac.umons.stratego.model.GameProcess;
 import be.ac.umons.stratego.model.grid.Square;
@@ -56,6 +59,8 @@ public class GameView {
 	// Score
 	Label userScoreDisplay;
 	Label aiScoreDisplay;
+	
+	private Button save;
 
 	public GameView(int ai) {
 
@@ -103,13 +108,15 @@ public class GameView {
 		primaryStage.setResizable(false);
 		// Permet de creer tous les elements graphiques
 		draw(primaryStage);
-		// Affiche le score
-		showingScore();
-		// Permet de creer une instance de GameProcess
+		// Permet de charger l'instance de GameProcess
 		this.game = game;
 		// Permet de creer une instance de GridController
 		gridController = new GridController(this, game);
+		// Permet de mettre en place
+		loadData();
 	}
+
+	// XXX Representation graphique des elements de base
 
 	public void draw(Stage stage) {
 
@@ -131,9 +138,17 @@ public class GameView {
 		createGrid();
 
 		// Bouton: Sauvegarder la partie
-		Button save = new Button("Sauvegarder");
+		save = new Button("Sauvegarder");
 		save.setOnAction(e -> {
-			// SaveLoad.save(game);
+			try {
+				SaveLoad.write(game);
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 
 		save.setTextFill(Color.WHITE);
@@ -141,6 +156,7 @@ public class GameView {
 		save.setTranslateY(540.0);
 		save.setPrefHeight(40.0);
 		save.setPrefWidth(160.0);
+		save.setVisible(false);
 
 		save.setId("loadButton");
 		inGame.getChildren().add(save);
@@ -177,6 +193,32 @@ public class GameView {
 				square[i][j].setOnMousePressed(e -> SquareEvent(e));
 
 				grid.getChildren().add(square[i][j]);
+			}
+		}
+	}
+
+	// XXX Sauvegarde
+
+	/**
+	 * Methode permettant de charger la sauvegarde et mettre en place les elements.
+	 */
+
+	public void loadData() {
+		// Fenetre de scores
+		setup.setPrefSize(400, 610);
+		setup.setTranslateX(900 - 290);
+		grid.getChildren().add(setup);
+		showingScore();
+		
+		for (int i = 0; i < PAWNS_COMPOSITION.length;i++)
+			PAWNS_COMPOSITION[i] = 0;
+		// Affichage des pions
+		for (int i = 9; i >= 0; i--) {
+			for (int j = 0; j < 10; j++) {
+				if (getSquare(getSquareView(9-i, j)).getPawn() != null) {
+					PawnView pawn = createPawn(getSquare(getSquareView(9-i, j)).getPawn().getRank(), getSquare(getSquareView(9-i, j)).getPawn().getPlayer());
+					handleMovementGUI(pawn, square[i][j]);
+				}
 			}
 		}
 	}
@@ -388,6 +430,7 @@ public class GameView {
 		setup.getChildren().clear();
 		showingScore();
 		game.endSettingUp();
+		save.setVisible(true);
 	}
 
 	// XXX On est plus dans le placement des pions.
@@ -439,17 +482,19 @@ public class GameView {
 
 		userScoreDisplay.setText(Integer.toString(game.getScore(1)));
 		aiScoreDisplay.setText(Integer.toString(game.getScore(2)));
+
+		if (game.getScore(1) > 9)
+			userScoreDisplay.setTranslateX(90);
 	}
 
 	// XXX La partie est termine
-	
+
 	public boolean checkFinish() {
 
 		if (game.checkWin()) {
-			System.out.println("ta gagné mdr");
 			return true;
 		}
-			//endGame(game.winner());
+		// endGame(game.winner());
 		return false;
 	}
 
@@ -608,7 +653,7 @@ public class GameView {
 	 */
 
 	public void AIturn() {
-		
+
 		if (opponentPawnChosen != null)
 			setAIPawnHidden(opponentPawnChosen);
 
@@ -689,12 +734,13 @@ public class GameView {
 	 */
 
 	private void PawnEvent(MouseEvent e) {
-
+		
 		// Permet de masquer le dernier pion cache
 		if (opponentPawnChosen != null)
 			setAIPawnHidden(opponentPawnChosen);
 
 		PawnView pawn = (PawnView) e.getSource();
+
 
 		// Condition pour qu'un pion soit manipulable.
 		boolean rightPlayerCondition = (pawn.getPlayer() == 1) && (game.getTurn() == 1)
