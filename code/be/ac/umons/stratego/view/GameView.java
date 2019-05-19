@@ -443,10 +443,14 @@ public class GameView {
 
 	// XXX La partie est termine
 	
-	public void checkFinish() {
+	public boolean checkFinish() {
 
-		if (game.checkWin())
-			endGame(game.winner());
+		if (game.checkWin()) {
+			System.out.println("ta gagné mdr");
+			return true;
+		}
+			//endGame(game.winner());
+		return false;
 	}
 
 	public void endGame(int winner) {
@@ -604,7 +608,7 @@ public class GameView {
 	 */
 
 	public void AIturn() {
-
+		
 		if (opponentPawnChosen != null)
 			setAIPawnHidden(opponentPawnChosen);
 
@@ -625,6 +629,8 @@ public class GameView {
 
 		updateScore();
 		turnPlayed();
+		checkFinish();
+
 	}
 
 	// XXX Methodes liees au GameProcess
@@ -727,9 +733,10 @@ public class GameView {
 			opponentPawnChosen = pawn;
 			setAIPawnVisible(opponentPawnChosen);
 			gridController.doFighting(getSquare(pawnChosen.getSquareView()), getSquare(pawn.getSquareView()));
+			checkFinish();
+			resetHighlight();
 			turnPlayed();
 			AIturn();
-			resetHighlight();
 			updateScore();
 		}
 

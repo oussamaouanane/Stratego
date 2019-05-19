@@ -168,7 +168,7 @@ public class PawnInteraction extends Couple {
 		ArrayList<Couple> evaluation = new ArrayList<Couple>();
 
 		// Dans ce cas on agit sur un pion de portee 1.
-		if (getSquare(getX(), getY()).getPawn().getRange() == 1) {
+		if (getSquare(getX(), getY()).getPawn().getRange() >= 1) {
 			Couple[] availableMovement = { new Couple(1, 0), new Couple(0, 1), new Couple(-1, 0), new Couple(0, -1) };
 			for (Couple c : availableMovement) {
 				Square initialSquare = getSquare(getX(), getY());
@@ -265,42 +265,51 @@ public class PawnInteraction extends Couple {
 		int differenceRow = getSquareB().getRow() - getSquareA().getRow();
 		int differenceColumn = getSquareB().getColumn() - getSquareA().getColumn();
 
-		if ((Math.abs(differenceRow) > 0) && (getSquareB().getRow() > getSquareA().getRow())) {
-			for (int i = getSquareA().getRow(); i < getSquareB().getRow(); i++) {
-				if ((getSquare(i, getSquareA().getColumn()).getAccess() != true)
-						|| (getSquare(i, getSquareA().getColumn()).getPawn().getPlayer() == 1))
-					return false;
+		boolean opponentSeen = false;
+
+		// Gestion mouvement vertical
+		if (differenceColumn == 0) {
+			int direction = (getSquareA().getRow() < getSquareB().getRow()) ? 1 : -1;
+			if (new PawnInteraction(getSquareA(), getSquareB(), grid).isMovePossible()) {
+				for (int i = getSquareA().getRow(); i != getSquareB().getRow(); i += direction) {
+					if (new PawnInteraction(0, 0, grid).stayInBoard(getSquareA().getRow() + i,
+							getSquareA().getColumn())) {
+					if (!(new PawnInteraction(getSquareA(),
+							getSquare(getSquareA().getRow() + i, getSquareA().getColumn()), grid).isMovePossible())
+							|| opponentSeen == true)
+
+						return false;
+					if (getSquare(getSquareA().getRow() + i, getSquareA().getColumn()).getPawn().getPlayer() == 2)
+						opponentSeen = true;
+				}
 			}
-			return true;
+		}
 		}
 
-		else if ((Math.abs(differenceRow) > 0) && (getSquareB().getRow() < getSquareA().getRow())) {
-			for (int i = getSquareA().getColumn(); i > getSquareB().getColumn(); i--) {
-				if ((getSquare(i, getSquareA().getColumn()).getAccess() != true)
-						|| (getSquare(i, getSquareA().getColumn()).getPawn().getPlayer() == 1))
-					return false;
+		// Gestion mouvement horizontal
+		else if (differenceRow == 0) {
+			int direction = (getSquareA().getColumn() < getSquareB().getColumn()) ? 1 : -1;
+			if (new PawnInteraction(getSquareA(), getSquareB(), grid).isMovePossible()) {
+				for (int i = getSquareA().getColumn(); i != getSquareB().getColumn(); i += direction) {
+					if (new PawnInteraction(0, 0, grid).stayInBoard(getSquareA().getRow(),
+							getSquareA().getColumn() + i)) {
+						if (!(new PawnInteraction(getSquareA(),
+								getSquare(getSquareA().getRow(), getSquareA().getColumn() + i), grid).isMovePossible())
+								|| opponentSeen == true)
+							return false;
+
+						if (getSquare(getSquareA().getRow(), getSquareA().getColumn() + i).getPawn().getPlayer() == 2)
+							opponentSeen = true;
+					}
+				}
 			}
-			return true;
 		}
 
-		else if ((Math.abs(differenceColumn) > 0) && (getSquareB().getColumn() > getSquareA().getColumn())) {
-			for (int i = getSquareA().getRow(); i < getSquareB().getRow(); i++) {
-				if ((getSquare(getSquareA().getRow(), i).getAccess() != true)
-						|| (getSquare(getSquareA().getRow(), i).getPawn().getPlayer() == 1))
-					return false;
-			}
-			return true;
-		}
+		else
+			return false;
 
-		else if ((Math.abs(differenceColumn) > 0) && (getSquareB().getColumn() < getSquareA().getColumn())) {
-			for (int i = getSquareA().getRow(); i > getSquareB().getRow(); i--) {
-				if ((getSquare(getSquareA().getRow(), i).getAccess() != true)
-						|| (getSquare(getSquareA().getRow(), i).getPawn().getPlayer() == 1))
-					return false;
-			}
-			return true;
-		}
 		return true;
+
 	}
 
 }

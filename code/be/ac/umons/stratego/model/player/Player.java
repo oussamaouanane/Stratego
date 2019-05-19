@@ -192,7 +192,7 @@ public class Player implements Serializable {
 	 */
 
 	public boolean checkWin(Player p2) {
-		return (!p2.hasFlag()) || (isFlagSurrounded() && !p2.hasMinersLeft()) || (p2.hasWeakerPawns(this));
+		return (!p2.hasFlag());//|| (isFlagSurrounded() && !p2.hasMinersLeft()) || (p2.hasWeakerPawns(this));
 	}
 
 	/**

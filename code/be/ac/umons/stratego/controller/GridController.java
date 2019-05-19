@@ -43,7 +43,7 @@ public class GridController {
 
 		PawnInteraction squareCouple = new PawnInteraction(initialSquare, destinationSquare, game.getGrid());
 		if (initialSquare.getPawn().getRank() == 1)
-			return squareCouple.isMovePossible() && squareCouple.isMovePossibleScout();
+			return squareCouple.isMovePossibleScout();
 		return squareCouple.isMovePossible();
 	}
 
@@ -106,8 +106,8 @@ public class GridController {
 		// Personne gagne, egalite
 		case 0:
 			// Partie logique
-			game.getAlivePawn(initialDestination.getPawn().getPlayer()).add(initialDestination.getPawn());
-			game.getAlivePawn(finalDestination.getPawn().getPlayer()).add(finalDestination.getPawn());
+			game.getAlivePawn(initialDestination.getPawn().getPlayer()).remove(initialDestination.getPawn());
+			game.getAlivePawn(finalDestination.getPawn().getPlayer()).remove(finalDestination.getPawn());
 			
 			// Partie graphique
 			removePawnView(initialDestination);
