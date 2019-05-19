@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="Projet d'informatique 2018-2018: Stratego">
 	<!-- la fonction clean -->
 	<target name="clean">
@@ -8,7 +9,7 @@
 	<!-- la fonction build -->
 	<target name="build">
 		<mkdir dir="build"/>
-		<javac srcdir="code" destdir="build" classpath="lib/junit-4.13-beta-2.jar:lib/hamcrest-core-1.3.jar:lib/jfxrt.jar" includeantruntime="false" />
+		<javac srcdir="code" destdir="build" classpath="lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:lib/jfxrt.jar" includeantruntime="false" />
 		
 	</target>
 	
@@ -20,11 +21,10 @@
 		<junit printsummary ="yes" showoutput="yes" fork="true">
 			<test name="be.ac.umons.stratego.test.PawnInteractionTest"/>
 			<classpath>
-				<pathelement path="lib/junit-4.13-beta-2.jar"/>
+				<pathelement path="lib/junit-4.12.jar"/>
 				<pathelement path="lib/hamcrest-core-1.3.jar"/>
 				<pathelement path="build"/>
 			</classpath>
-			<formatter type="xml" />
 			<batchtest todir="build/junit">
 				<fileset dir ="code" includes="**/*Test.java">
 					</fileset>
@@ -37,7 +37,7 @@
 			<javadoc destdir="javadoc" use="true" sourcepath="code" access="public" additionalparam="-Xdoclint:none">
 				
 				<classpath>
-					<pathelement path ="lib/junit-4.13-beta-2.jar"/>
+					<pathelement path ="lib/junit-4.12.jar"/>
 					<pathelement path ="lib/hamcrest-core-1.3.jar"/>
 				</classpath>
 			</javadoc>
@@ -47,5 +47,3 @@
 		<jar destfile="Stratego.jar" basedir="build"/>
 	</target>
 </project>
-
-

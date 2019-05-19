@@ -36,10 +36,6 @@ public class Player implements Serializable {
 	private int flagX;
 	private int flagY;
 
-	private boolean hasFlag;
-	private boolean flagSurrounded;
-	private boolean hasMinersLeft;
-
 	private ArrayList<Pawn> alivePawns = new ArrayList<Pawn>();
 
 	private int score = 0;
@@ -52,9 +48,7 @@ public class Player implements Serializable {
 	 */
 
 	public Player(Grid grid) {
-		initializeVariable();
 		this.grid = grid;
-
 		playerId = 1;
 	}
 
@@ -63,11 +57,6 @@ public class Player implements Serializable {
 			for (int c : Pawn.PAWNS_COMPOSITION)
 				alivePawns.add(new Pawn(c, playerId));
 		}
-	}
-
-	public void initializeVariable() {
-		hasFlag = hasMinersLeft = true;
-		flagSurrounded = false;
 	}
 
 	/**
@@ -89,13 +78,14 @@ public class Player implements Serializable {
 	 * 
 	 * @return Booleen qui indique si le joueur peut encore bouger ses pions.
 	 */
-	
+
 	public boolean canMovePawn() {
-		for (Pawn c: alivePawns) {
-			if (!new PawnInteraction(c.getSquare().getRow(), c.getSquare().getColumn(), grid).availableMovement().isEmpty())
-				return false;
+		for (Pawn c : alivePawns) {
+			if ((new PawnInteraction(c.getSquare().getRow(), c.getSquare().getColumn(), grid).availableMovement() != null) && (!new PawnInteraction(c.getSquare().getRow(), c.getSquare().getColumn(), grid).availableMovement()
+					.isEmpty()))
+				return true;
 		}
-		return true;
+		return false;
 	}
 
 	/**
@@ -106,19 +96,15 @@ public class Player implements Serializable {
 	 * @return Booleen qui indique si le drapeau du joueur a ete saisi ou non.
 	 */
 
-	@SuppressWarnings("unlikely-arg-type")
 	public boolean hasFlag() {
 		// Parcourt la liste des pions encore vivants pour voir si elle contient encore
 		// le drapeau.
 		for (Pawn pawn : alivePawns) {
-			boolean pawnAFlag = pawn.isPawnA(11);
-			if (!alivePawns.contains(pawnAFlag)) {
-				hasFlag = false;
-				return false;
+			if (pawn.isPawnA(11)) {
+				return true;
 			}
 		}
-		// Retourne vrai ou faux en fonction de si le joueur a encore le drapeau.
-		return hasFlag;
+		return false;
 
 	}
 
@@ -137,15 +123,16 @@ public class Player implements Serializable {
 			return false;
 
 		flagPosition();
-		PawnInteraction flagCoord = new PawnInteraction(flagX, flagY, grid);
+		Couple[] possibleMovements = { new Couple(1, 0), new Couple(0, 1), new Couple(-1, 0), new Couple(0, -1) };
 
-		for (Couple i : flagCoord.availableMovement()) {
-			if (!grid.getSquare(flagX + i.getX(), flagY + i.getY()).getPawn().isPawnA(10)) {
-				flagSurrounded = true;
-				return false;
+		for (Couple i : possibleMovements) {
+			if (PawnInteraction.stayInBoard(flagX + i.getX(), flagY + i.getY())) {
+				if ((grid.getSquare(flagX + i.getX(), flagY + i.getY()).getPawn() != null)
+						&& (!grid.getSquare(flagX + i.getX(), flagY + i.getY()).getPawn().isPawnA(10))) {
+					return false;
+				}
 			}
 		}
-		flagSurrounded = true;
 		return true;
 	}
 
@@ -157,19 +144,14 @@ public class Player implements Serializable {
 	 * @return Booleen qui indique si les demineurs du joueur ont ete saisis ou non.
 	 */
 
-	@SuppressWarnings("unlikely-arg-type")
 	public boolean hasMinersLeft() {
 		// Parcourt la liste des pions encore vivants pour voir si elle contient au
 		// moins un demineur.
 		for (Pawn pawn : alivePawns) {
-			boolean pawnAMiner = pawn.isPawnA(2);
-			if (!alivePawns.contains(pawnAMiner)) {
-				hasMinersLeft = false;
-				break;
-			}
+			if (pawn.isPawnA(2))
+				return true;
 		}
-		// Retourne vrai ou faux en fonction de si le joueur a au moins un demineur.
-		return hasMinersLeft;
+		return true;
 	}
 
 	/**
@@ -184,7 +166,8 @@ public class Player implements Serializable {
 	 */
 
 	public boolean checkWin(Player p2) {
-		return (!p2.hasFlag() || (isFlagSurrounded() && !p2.hasMinersLeft()) || !p2.canMovePawn());
+		return ((!p2.hasFlag())) || (isFlagSurrounded() && !p2.hasMinersLeft())
+		 || (!p2.canMovePawn());
 	}
 
 	/**
@@ -199,6 +182,11 @@ public class Player implements Serializable {
 
 	public ArrayList<Pawn> getAlivePawns() {
 		return alivePawns;
+	}
+
+	// Pour junit
+	public void setAlivePawns(ArrayList<Pawn> pawn) {
+		alivePawns = pawn;
 	}
 
 	public void addPawn(Pawn pawn) {

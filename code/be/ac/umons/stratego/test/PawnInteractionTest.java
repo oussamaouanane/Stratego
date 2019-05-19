@@ -23,6 +23,7 @@ public class PawnInteractionTest {
 	private Pawn pawnD = new Pawn(1, 1);
 	private Pawn pawnE = new Pawn(2, 1);
 	private Pawn pawnF = new Pawn(10, 1);
+	private Pawn pawnZ = new Pawn(2, 2);
 
 	private Square squareA = new Square(pawnA, true);
 	private Square squareB = new Square(pawnB, true);
@@ -31,6 +32,7 @@ public class PawnInteractionTest {
 	private Square squareE = new Square(pawnE, true);
 	private Square squareF = new Square(pawnF, true);
 	private Square squareG = new Square(null, false);
+	private Square squareZ = new Square(pawnZ, true);
 
 	@Test
 	public void testEvaluateFighting() {
@@ -77,6 +79,38 @@ public class PawnInteractionTest {
 		PawnInteraction thirdFight = new PawnInteraction(squareC, squareA, grid);
 		thirdFight.doFighting();
 		assertTrue("Le pion au rang 0 n'a pas gagne le combat.", (squareC.getPawn() == null) && (squareA.getPawn() == null));
+	}
+	
+	@Test
+	public void testIsMovePossible() {
+		// Ici un mouvement pas legal car meme equipe
+		squareA.setRow(8);
+		squareA.setColumn(2);
+		squareB.setRow(9);
+		squareB.setColumn(2);
+		
+		PawnInteraction firstMovement = new PawnInteraction(squareA, squareB, grid);
+		assertTrue("Le mouvement n'est pas valable.", !firstMovement.isMovePossible());
+		
+		// Ici un mouvement legal	
+		squareZ.setRow(9);
+		squareZ.setColumn(2);
+		PawnInteraction secondMovement = new PawnInteraction(squareA, squareZ, grid);
+		assertTrue("Le mouvement n'est pas valable.", secondMovement.isMovePossible());
+		
+		// Ici un mouvement pas legal car la case n'est pas accessible.
+		squareG.setRow(5);
+		squareG.setColumn(6);
+		PawnInteraction thirdMovement = new PawnInteraction(squareA, squareG, grid);
+		assertTrue("Le mouvement n'est pas valable.", !thirdMovement.isMovePossible());
+		
+		// Ici un mouvement legal car tentative diagonale
+		squareB.setRow(9);
+		squareB.setColumn(3);
+		
+		PawnInteraction fourthMovement = new PawnInteraction(squareA, squareB, grid);
+		assertTrue("Le mouvement n'est pas valable.", !fourthMovement.isMovePossible());
+		
 	}
 
 

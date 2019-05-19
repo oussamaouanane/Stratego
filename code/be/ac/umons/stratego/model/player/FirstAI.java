@@ -43,9 +43,9 @@ public class FirstAI extends Player {
 		Collections.shuffle(alivePawns);
 
 		for (Pawn p : alivePawns) {
-			if ((p.getRange() == 1)
-					&& !(new PawnInteraction(p.getSquare().getRow(), p.getSquare().getColumn(), getGrid())
-							.availableMovement().isEmpty())) {
+			PawnInteraction couple = new PawnInteraction(p.getSquare().getRow(), p.getSquare().getColumn(), getGrid());
+			if ((p.getRange() >= 1) && ((couple.availableMovement() != null)
+					&& (!couple.availableMovement().isEmpty()))) {
 				size = new PawnInteraction(p.getSquare().getRow(), p.getSquare().getColumn(), getGrid())
 						.availableMovement().size();
 				pawn = p;
@@ -55,11 +55,11 @@ public class FirstAI extends Player {
 		int random = ThreadLocalRandom.current().nextInt(size);
 		Couple move = new PawnInteraction(pawn.getSquare().getRow(), pawn.getSquare().getColumn(), getGrid())
 				.availableMovement().get(random);
-		
+
 		Square initialSquare = pawn.getSquare();
 		Square destinationSquare = getGrid().getSquare(move.getX(), move.getY());
 
 		return new Couple(initialSquare, destinationSquare);
-		
+
 	}
 }

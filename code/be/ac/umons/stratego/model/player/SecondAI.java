@@ -2,6 +2,7 @@ package be.ac.umons.stratego.model.player;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.ThreadLocalRandom;
 
 import be.ac.umons.stratego.model.GameProcess;
 import be.ac.umons.stratego.model.grid.Grid;
@@ -70,9 +71,9 @@ public class SecondAI extends Player {
 		// Calcul du ratio le plus proche du drapeau
 		for (Pawn pawn : alivePawns) {
 			Square pawnSquare = pawn.getSquare();
-			if ((pawn.getRange() == 1)
-					&& (!(new PawnInteraction(pawnSquare.getRow(), pawnSquare.getColumn(), game.getGrid()))
-							.availableMovement().isEmpty())) {
+			PawnInteraction couple = new PawnInteraction(pawnSquare.getRow(), pawnSquare.getColumn(), game.getGrid());
+			if ((pawn.getRange() > 0)
+					&& ((couple.availableMovement() != null) && (!couple.availableMovement().isEmpty()))) {
 				// Distance entre la case du pion et le drapeau
 				int rowDistance = Math.abs(pawnSquare.getRow() - flagSquare.getRow());
 				int columnDistance = Math.abs(pawnSquare.getColumn() - flagSquare.getColumn());
@@ -88,6 +89,7 @@ public class SecondAI extends Player {
 					ratio = tempRatio;
 				selectedPawn = pawn;
 			}
+
 		}
 
 		Square initialSquare = selectedPawn.getSquare();
@@ -115,11 +117,11 @@ public class SecondAI extends Player {
 						&& ((lastInitialSquare.getRow() != c.getX()) && (lastInitialSquare.getColumn() != c.getY()))) {
 					ratio = tempRatio;
 					selectedCouple = c;
-				// Premier mouvement
+					// Premier mouvement
 				} else if (lastInitialSquare == null) {
 					ratio = tempRatio;
 					selectedCouple = c;
-				// Reviens en arriere si pas autre choix
+					// Reviens en arriere si pas autre choix
 				} else if ((lastInitialSquare != null)
 						&& ((lastInitialSquare.getRow() == c.getX()) && (lastInitialSquare.getColumn() == c.getY()))
 						&& couple.availableMovement().size() == 1) {
@@ -129,10 +131,29 @@ public class SecondAI extends Player {
 			}
 		}
 
-		Square destinationSquare = game.getGrid().getSquare(selectedCouple.getX(), selectedCouple.getY());
+		Square destinationSquare;
+		if (selectedCouple != null)
+			destinationSquare = game.getGrid().getSquare(selectedCouple.getX(), selectedCouple.getY());
+
+		else
+			destinationSquare = randomMovement(initialSquare);
+
 		lastInitialSquare = initialSquare;
 		return new Couple(initialSquare, destinationSquare);
 
+	}
+
+	private Square randomMovement(Square initialSquare) {
+
+		int size = new PawnInteraction(initialSquare.getRow(), initialSquare.getColumn(), getGrid()).availableMovement()
+				.size();
+		int random = ThreadLocalRandom.current().nextInt(size);
+		Couple move = new PawnInteraction(initialSquare.getRow(), initialSquare.getColumn(), getGrid())
+				.availableMovement().get(random);
+
+		Square destinationSquare = getGrid().getSquare(move.getX(), move.getY());
+
+		return destinationSquare;
 	}
 
 }

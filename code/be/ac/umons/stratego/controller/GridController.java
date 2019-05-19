@@ -42,9 +42,10 @@ public class GridController {
 	public boolean isMovePossible(Square initialSquare, Square destinationSquare) {
 
 		PawnInteraction squareCouple = new PawnInteraction(initialSquare, destinationSquare, game.getGrid());
-		if (initialSquare.getPawn().getRank() == 1)
+		if (initialSquare.getPawn().getRange() == 9)
 			return squareCouple.isMovePossibleScout();
-		return squareCouple.isMovePossible();
+		else
+			return squareCouple.isMovePossible();
 	}
 
 	/**

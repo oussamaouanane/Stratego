@@ -168,7 +168,6 @@ public class MenuView extends Application {
 		chooseOpponent.setResizable(false);
 
 		// Actions
-
 		me.setOnAction(e -> chooseOpponent(1, chooseOpponent));
 		he.setOnAction(e -> chooseOpponent(2, chooseOpponent));
 

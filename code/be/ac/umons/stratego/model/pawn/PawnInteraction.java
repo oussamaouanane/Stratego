@@ -150,7 +150,7 @@ public class PawnInteraction extends Couple {
 	 * @see Grid
 	 */
 
-	public boolean stayInBoard(int row, int column) {
+	public static boolean stayInBoard(int row, int column) {
 
 		return (((row >= 0) && (row < 10)) && ((column >= 0) && (column < 10)));
 	}
@@ -168,7 +168,7 @@ public class PawnInteraction extends Couple {
 		ArrayList<Couple> evaluation = new ArrayList<Couple>();
 
 		// Dans ce cas on agit sur un pion de portee 1.
-		if (getSquare(getX(), getY()).getPawn().getRange() >= 1) {
+		if ((getSquare(getX(), getY()).getPawn() != null) && (getSquare(getX(), getY()).getPawn().getRange() == 1)) {
 			Couple[] availableMovement = { new Couple(1, 0), new Couple(0, 1), new Couple(-1, 0), new Couple(0, -1) };
 			for (Couple c : availableMovement) {
 				Square initialSquare = getSquare(getX(), getY());
@@ -182,7 +182,7 @@ public class PawnInteraction extends Couple {
 		}
 		// Dans ce cas on agit sur le pion eclaireur qui a une portee illimitee tant
 		// qu'il ne saute pas de pion.
-		else {
+		else if ((getSquare(getX(), getY()).getPawn() != null) && (getSquare(getX(), getY()).getPawn().getRange() == 9)) {
 
 			boolean[] pawnSeen = { false, false, false, false };
 			int counter = 0;
@@ -193,35 +193,38 @@ public class PawnInteraction extends Couple {
 
 				while (pawnSeen[counter] == false) {
 					Square initialSquare = getSquare(getX(), getY());
-					Square destinationSquare = getSquare(getX() + c.getX(), getY() + c.getY());
+					Square destinationSquare;
+					if (PawnInteraction.stayInBoard(getX() + c.getX(), getY() + c.getY())) {
+						destinationSquare = getSquare(getX() + c.getX(), getY() + c.getY());
 
-					if (new PawnInteraction(initialSquare, destinationSquare, grid).isMovePossible()) {
-						evaluation.add(new Couple(destinationSquare.getRow(), destinationSquare.getColumn()));
-						int direction = c.getDirection();
+						if (new PawnInteraction(initialSquare, destinationSquare, grid).isMovePossible()) {
+							evaluation.add(new Couple(destinationSquare.getRow(), destinationSquare.getColumn()));
+							int direction = c.getDirection();
 
-						switch (direction) {
-						case 0:
-							c = new Couple(c.getX() + 1, 0, 0);
-							break;
-						case 1:
-							c = new Couple(0, c.getY() + 1, 1);
-							break;
-						case 2:
-							c = new Couple(c.getX() + -1, 0, 2);
-							break;
-						case 3:
-							c = new Couple(0, c.getY() + 1, 3);
-							break;
+							switch (direction) {
+							case 0:
+								c = new Couple(c.getX() + 1, 0, 0);
+								break;
+							case 1:
+								c = new Couple(0, c.getY() + 1, 1);
+								break;
+							case 2:
+								c = new Couple(c.getX() + -1, 0, 2);
+								break;
+							case 3:
+								c = new Couple(0, c.getY() + 1, 3);
+								break;
 
+							}
+
+							if (destinationSquare.getPawn() != null)
+								pawnSeen[counter] = true;
 						}
 
-						if (destinationSquare.getPawn() != null)
+						else
 							pawnSeen[counter] = true;
-					}
-
-					else
-						pawnSeen[counter] = true;
-
+					} else
+						break;
 				}
 				counter++;
 			}
@@ -262,54 +265,14 @@ public class PawnInteraction extends Couple {
 
 	public boolean isMovePossibleScout() {
 
-		int differenceRow = getSquareB().getRow() - getSquareA().getRow();
-		int differenceColumn = getSquareB().getColumn() - getSquareA().getColumn();
-
-		boolean opponentSeen = false;
-
-		// Gestion mouvement vertical
-		if (differenceColumn == 0) {
-			int direction = (getSquareA().getRow() < getSquareB().getRow()) ? 1 : -1;
-			if (new PawnInteraction(getSquareA(), getSquareB(), grid).isMovePossible()) {
-				for (int i = getSquareA().getRow(); i != getSquareB().getRow(); i += direction) {
-					if (new PawnInteraction(0, 0, grid).stayInBoard(getSquareA().getRow() + i,
-							getSquareA().getColumn())) {
-					if (!(new PawnInteraction(getSquareA(),
-							getSquare(getSquareA().getRow() + i, getSquareA().getColumn()), grid).isMovePossible())
-							|| opponentSeen == true)
-
-						return false;
-					if (getSquare(getSquareA().getRow() + i, getSquareA().getColumn()).getPawn().getPlayer() == 2)
-						opponentSeen = true;
-				}
-			}
+		Couple destination = new Couple(getSquareB().getRow(), getSquareB().getColumn());
+		ArrayList<Couple> availableMove = new PawnInteraction(getSquareA().getRow(), getSquareA().getColumn(), grid)
+				.availableMovement();
+		for (Couple c : availableMove) {
+			if ((c.getX() == destination.getX()) && (c.getY() == destination.getY()))
+				return true;
 		}
-		}
-
-		// Gestion mouvement horizontal
-		else if (differenceRow == 0) {
-			int direction = (getSquareA().getColumn() < getSquareB().getColumn()) ? 1 : -1;
-			if (new PawnInteraction(getSquareA(), getSquareB(), grid).isMovePossible()) {
-				for (int i = getSquareA().getColumn(); i != getSquareB().getColumn(); i += direction) {
-					if (new PawnInteraction(0, 0, grid).stayInBoard(getSquareA().getRow(),
-							getSquareA().getColumn() + i)) {
-						if (!(new PawnInteraction(getSquareA(),
-								getSquare(getSquareA().getRow(), getSquareA().getColumn() + i), grid).isMovePossible())
-								|| opponentSeen == true)
-							return false;
-
-						if (getSquare(getSquareA().getRow(), getSquareA().getColumn() + i).getPawn().getPlayer() == 2)
-							opponentSeen = true;
-					}
-				}
-			}
-		}
-
-		else
-			return false;
-
-		return true;
-
+		return false;
 	}
 
 }

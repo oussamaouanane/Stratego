@@ -11,7 +11,6 @@ import be.ac.umons.stratego.model.GameProcess;
 import be.ac.umons.stratego.model.grid.Square;
 import be.ac.umons.stratego.model.pawn.Couple;
 import be.ac.umons.stratego.model.pawn.Pawn;
-import be.ac.umons.stratego.model.pawn.PawnInteraction;
 import be.ac.umons.stratego.model.state.GameState;
 import be.ac.umons.stratego.view.SquareView;
 import be.ac.umons.stratego.view.PawnView;
@@ -59,7 +58,7 @@ public class GameView {
 	// Score
 	Label userScoreDisplay;
 	Label aiScoreDisplay;
-	
+
 	private Button save;
 
 	public GameView(int ai) {
@@ -209,14 +208,15 @@ public class GameView {
 		setup.setTranslateX(900 - 290);
 		grid.getChildren().add(setup);
 		showingScore();
-		
-		for (int i = 0; i < PAWNS_COMPOSITION.length;i++)
+
+		for (int i = 0; i < PAWNS_COMPOSITION.length; i++)
 			PAWNS_COMPOSITION[i] = 0;
 		// Affichage des pions
 		for (int i = 9; i >= 0; i--) {
 			for (int j = 0; j < 10; j++) {
-				if (getSquare(getSquareView(9-i, j)).getPawn() != null) {
-					PawnView pawn = createPawn(getSquare(getSquareView(9-i, j)).getPawn().getRank(), getSquare(getSquareView(9-i, j)).getPawn().getPlayer());
+				if (getSquare(getSquareView(9 - i, j)).getPawn() != null) {
+					PawnView pawn = createPawn(getSquare(getSquareView(9 - i, j)).getPawn().getRank(),
+							getSquare(getSquareView(9 - i, j)).getPawn().getPlayer());
 					handleMovementGUI(pawn, square[i][j]);
 				}
 			}
@@ -389,8 +389,7 @@ public class GameView {
 		// Coordonnees du pion
 		handleMovementGUI(pawn, square);
 		Pawn pawnModel = new Pawn(pawn.getRank(), pawn.getPlayer());
-		getSquare(square).setPawn(pawnModel);
-
+		handleMovement(pawnModel, getSquare(square));
 		inGame.getChildren().remove(source);
 		PAWNS_COMPOSITION[pawnChosenSettingUp.getRank()]--;
 
@@ -475,7 +474,7 @@ public class GameView {
 	}
 
 	/**
-	 * Méthode permettant de mettre à jour le score de la partie
+	 * Methode permettant de mettre a jour le score de la partie
 	 */
 
 	public void updateScore() {
@@ -492,9 +491,10 @@ public class GameView {
 	public boolean checkFinish() {
 
 		if (game.checkWin()) {
+			endGame(game.winner());
+			game.endGame();
 			return true;
 		}
-		// endGame(game.winner());
 		return false;
 	}
 
@@ -654,9 +654,6 @@ public class GameView {
 
 	public void AIturn() {
 
-		if (opponentPawnChosen != null)
-			setAIPawnHidden(opponentPawnChosen);
-
 		Couple couple = game.getAI().getNextMove();
 		Square initialSquare = couple.getSquareA();
 		Square destinationSquare = couple.getSquareB();
@@ -734,13 +731,12 @@ public class GameView {
 	 */
 
 	private void PawnEvent(MouseEvent e) {
-		
+
 		// Permet de masquer le dernier pion cache
 		if (opponentPawnChosen != null)
 			setAIPawnHidden(opponentPawnChosen);
 
 		PawnView pawn = (PawnView) e.getSource();
-
 
 		// Condition pour qu'un pion soit manipulable.
 		boolean rightPlayerCondition = (pawn.getPlayer() == 1) && (game.getTurn() == 1)
@@ -773,19 +769,18 @@ public class GameView {
 		// Gestion lorsqu'on a deja clique sur un pion et qu'on clique sur un pion
 		// adverse, ici un combat!
 		else if ((pawnChosen != null) && (pawn.getPlayer() == 2) && (game.getTurn() == 1)
-				&& (new PawnInteraction(getSquare(pawnChosen.getSquareView()), getSquare(pawn.getSquareView()),
-						game.getGrid()).isMovePossible())) {
+				&& (gridController.isMovePossible(getSquare(pawnChosen.getSquareView()), getSquare(pawn.getSquareView())))){
 
 			opponentPawnChosen = pawn;
 			setAIPawnVisible(opponentPawnChosen);
 			gridController.doFighting(getSquare(pawnChosen.getSquareView()), getSquare(pawn.getSquareView()));
-			checkFinish();
 			resetHighlight();
 			turnPlayed();
-			AIturn();
 			updateScore();
+			if (!checkFinish())
+				AIturn();
+			pawnChosen = null;
 		}
-
 	}
 
 	/**
@@ -800,12 +795,14 @@ public class GameView {
 	private void SquareEvent(MouseEvent e) {
 
 		// Recupere la source du pion
-		SquareView sq = (SquareView) e.getSource(); // Pendant le placement des pions
+		SquareView sq = (SquareView) e.getSource(); 
+		// Pendant le placement des pions
 		if (pawnChosenSettingUp != null)
 			// Dans le cas ou le placement des pions est toujours en cours.
-			if (!checkSettingUpFinish() && (sq.getRow() < 4)) {
+			if (!checkSettingUpFinish() && (sq.getRow() < 4) && (sq.getPawnView() == null)) {
 				movePawnSettingUp(sq);
 			}
+		
 
 		/**
 		 * ON SUPPOSE LE PLACEMENT DES PIONS TERMINE A PARTIR D'ICI.
@@ -815,6 +812,7 @@ public class GameView {
 			// Fixe les coordonnees de la case au pion.
 			Pawn pawn = getSquare(pawnChosen.getSquareView()).getPawn();
 			handleMovementGUI(pawnChosen, sq);
+			System.out.println(pawn.getSquare().getColumn());
 			handleMovement(pawn, getSquare(sq));
 			resetHighlight();
 			pawnChosen = null;
