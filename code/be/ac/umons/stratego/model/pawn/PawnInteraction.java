@@ -132,6 +132,7 @@ public class PawnInteraction extends Couple {
 				break;
 			case -1:
 				// pawnA < pawnB
+				getSquareA().getPawn().setSquare(null);
 				getSquareA().removePawn();
 				break;
 			}
