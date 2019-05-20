@@ -65,7 +65,7 @@ public class GameView {
 
 		primaryStage = new Stage();
 		// Scene
-		Scene scene = new Scene(inGame, 1000, 600);
+		Scene scene = new Scene(inGame, 1000, 610);
 		// Titre
 		primaryStage.setTitle("Stratego");
 		// Reglage de Scene
@@ -95,7 +95,7 @@ public class GameView {
 
 		primaryStage = new Stage();
 		// Scene
-		Scene scene = new Scene(inGame, 1000, 600);
+		Scene scene = new Scene(inGame, 1000, 610);
 		// Titre
 		primaryStage.setTitle("Stratego");
 		// Reglage de Scene
@@ -655,6 +655,9 @@ public class GameView {
 	public void AIturn() {
 
 		Couple couple = game.getAI().getNextMove();
+		// Au cas ou on a un deplacement nul
+		while (couple.getSquareA() == couple.getSquareB())
+			couple = game.getAI().getNextMove();
 		Square initialSquare = couple.getSquareA();
 		Square destinationSquare = couple.getSquareB();
 
@@ -812,7 +815,6 @@ public class GameView {
 			// Fixe les coordonnees de la case au pion.
 			Pawn pawn = getSquare(pawnChosen.getSquareView()).getPawn();
 			handleMovementGUI(pawnChosen, sq);
-			System.out.println(pawn.getSquare().getColumn());
 			handleMovement(pawn, getSquare(sq));
 			resetHighlight();
 			pawnChosen = null;

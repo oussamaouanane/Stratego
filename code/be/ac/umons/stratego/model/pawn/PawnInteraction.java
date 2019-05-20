@@ -120,6 +120,7 @@ public class PawnInteraction extends Couple {
 				// pawnA > PawnB
 				getSquareB().setPawn(getSquareA().getPawn());
 				getSquareB().getPawn().setSquare(getSquareB());
+				getSquareA().getPawn().setSquare(null);
 				getSquareA().removePawn();
 				break;
 			case 0:
@@ -131,7 +132,6 @@ public class PawnInteraction extends Couple {
 				break;
 			case -1:
 				// pawnA < pawnB
-				getSquareA().getPawn().setSquare(null);
 				getSquareA().removePawn();
 				break;
 			}

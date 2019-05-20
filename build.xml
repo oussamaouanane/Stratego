@@ -44,6 +44,11 @@
 		</target>
 	
 	<target name="jar" depends="build">
-		<jar destfile="Stratego.jar" basedir="build"/>
+		<jar destfile="Stratego.jar" basedir="build">
+		<zipfileset dir="lib" includes="*.jar"/>
+			<manifest>
+				<attribute name="Main-Class" value="be.ac.umons.stratego.StrategoApp"/>
+			</manifest>
+		</jar>
 	</target>
 </project>
