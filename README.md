@@ -15,11 +15,12 @@ git clone https://github.com/oussamaouanane/Stratego.git
 ```
 
 ## Requirements
-Java
 
-OpenJFX
-
-Ant
+| Name | Link | 
+| :------------- | :----------: |
+| Java | https://www.java.com/fr/download/   | 
+| OpenJFX | https://gluonhq.com/products/javafx/ |
+| Ant | https://ant.apache.org/bindownload.cgi |
 
 ## Usage
 
@@ -34,6 +35,6 @@ ant run
 ```
 
 ## License
-Feel free to use the source code if you need something.
+Feel free to use the source code if you need anything.
 
 [MIT](https://choosealicense.com/licenses/mit/)
