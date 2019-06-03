@@ -24,7 +24,8 @@ git clone https://github.com/oussamaouanane/Stratego.git
 
 ## Usage
 
-The project was finalized in Arch Linux so if you run it with Windows, you have to change the height of the GameProcess Window to 600px.
+The project was finalized in Arch Linux so if you run it with Windows, you have to change the height of the GameView
+Window to 600px.
 
 ```bash
 # Building
