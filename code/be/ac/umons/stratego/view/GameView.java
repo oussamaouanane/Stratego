@@ -208,6 +208,8 @@ public class GameView {
 		setup.setTranslateX(900 - 290);
 		grid.getChildren().add(setup);
 		showingScore();
+		
+		settingUpAIFinished = true;
 
 		for (int i = 0; i < PAWNS_COMPOSITION.length; i++)
 			PAWNS_COMPOSITION[i] = 0;
