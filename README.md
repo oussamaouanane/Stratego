@@ -2,7 +2,7 @@
 
 This Java project is based on the [Stratego](https://en.wikipedia.org/wiki/Stratego) turn-based game, it is a strategy board game for two players on a board of 10×10 squares. Each player controls 40 pieces representing individual officer ranks in an army. The pieces have Napoleonic insignia. The objective of the game is to find and capture the opponent's Flag, or to capture so many enemy pieces that the opponent cannot make any further moves.
 
-The game was made for the [Computer Science Project](http://applications.umons.ac.be/web/en/pde/2018-2019/aa/S-INFO-605.htm) course at University of Mons. The project is not totally finished so you may have errors. The save/load system doesn't work well.
+The game was made for the [Computer Science Project](http://applications.umons.ac.be/web/en/pde/2018-2019/aa/S-INFO-605.htm) course at University of Mons. The project has currently two knows errors, you may have a NullPointerException during the game or you may not being able to move your pawn to the desired location.
 ## Screenshot
 
 ![menu](../master/screenshot/menu.png)
